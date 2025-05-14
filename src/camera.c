@@ -18,6 +18,9 @@ void camera(char *line, t_map *rt, t_camera cam)
     vec = split_and_check(split[2], ',', 3, rt->space);
     set_vec3(vec3, &cam.pos);
     set_vec3(vec, &cam.orientation);
+    free_split(split);
+    free_split(vec3);
+    free_split(vec);
     cam.fov = ft_atoi(split[3]);
     if (validate_camera(line, cam))
         rt->obj[rt->nbr]->cam = cam;

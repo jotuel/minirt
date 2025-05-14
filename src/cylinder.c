@@ -23,6 +23,10 @@ void cylinder(char *line, t_map *rt, t_cylinder cy)
     set_colors(colors, &cy.color);
     cy.diameter = ft_atof(split[3]);
     cy.height = ft_atof(split[4]);
+    free_split(split);
+    free_split(vec3);
+    free_split(vec);
+    free_split(colors);
     if (validate_cylinder(line, cy))
         rt->obj[rt->nbr++]->cylinder = cy;
     else

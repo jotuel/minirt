@@ -16,6 +16,8 @@ void ambient(char *line, t_map *rt, t_ambient amb)
     amb.range = ft_atof(split[1]);
     colors = split_and_check(split[2], ',', 3, rt->space);
     set_colors(colors, &amb.color);
+    free_split(split);
+    free_split(colors);
     if (validate_ambiance(line, amb))
         rt->obj[rt->nbr++]->ambiance = amb;
     else

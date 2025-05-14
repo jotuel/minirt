@@ -21,6 +21,10 @@ void plane(char *line, t_map *rt, t_plane pl)
     set_vec3(vec3, &pl.pos);
     set_vec3(vec, &pl.orientation);
     set_colors(colors, &pl.color);
+    free_split(split);
+    free_split(vec3);
+    free_split(vec);
+    free_split(colors);
     if (validate_plane(line, pl))
         rt->obj[rt->nbr++]->plane = pl;
     else

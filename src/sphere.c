@@ -19,6 +19,9 @@ void sphere(char *line, t_map *rt, t_sphere sp)
     set_vec3(vec3, &sp.pos);
     set_colors(colors, &sp.color);
     sp.diameter = ft_atof(split[2]);
+    free_split(split);
+    free_split(vec3);
+    free_split(colors);
     if (validate_sphere(line, sp))
         rt->obj[rt->nbr++]->sphere = sp;
     else

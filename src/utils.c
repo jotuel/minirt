@@ -1,5 +1,15 @@
 #include "../include/minirt.h"
 
+void free_split(char **split)
+{
+	int i;
+
+	i = 0;
+	while(split[i])
+		free(split[i++]);
+	free(split);
+}
+
 void set_colors(char **colors, t_color *color)
 {
     set_red(color, ft_atoi(colors[0]));
