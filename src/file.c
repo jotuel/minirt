@@ -62,15 +62,14 @@ t_map parse_file(char *filename, t_map minirt)
 {
     if (!filename || !check_filetype(filename))
     {
-        ft_printf("Error");
+        ft_putendl_fd("Not a valid file", 2);
         return (minirt);
     }
     minirt = file_parser(filename, minirt, 0, NULL);
     if (!minirt.space)
     {
-        ft_printf("Error");
+        perror("malloc");
         return (minirt);
     }
-    // TODO: pa
     return (minirt);
 }

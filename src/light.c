@@ -2,7 +2,8 @@
 
 bool validate_light(char *line, t_light light)
 {
-    (void)line;
+    if (!validate_line(line))
+        return (false);
     (void)light;
     return (true);
 }

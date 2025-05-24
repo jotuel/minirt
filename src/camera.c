@@ -2,7 +2,8 @@
 
 bool validate_camera(char *line, t_camera cam)
 {
-    (void)line;
+    if (!validate_line(line))
+        return (false);
     (void)cam;
     return (true);
 }

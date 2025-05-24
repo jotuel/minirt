@@ -1,6 +1,7 @@
 #ifndef DECLARE_H
 # define DECLARE_H
 # include "types.h"
+# include <stdbool.h>
 
 void ft_error(void *mem);
 char **split_and_check(char *input, char by, int fields, void *mem);
@@ -19,6 +20,10 @@ void plane(char *line, t_map *rt, t_plane pl);
 void sphere(char *line, t_map *rt, t_sphere sp);
 void light(char *line, t_map *rt, t_light light);
 t_map parse_file(char *filename, t_map minirt);
+bool validate_line(char *line);
+bool validate_orientation(t_vec3 orien);
+
+
 
 
 #endif

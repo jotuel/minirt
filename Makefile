@@ -7,7 +7,7 @@ HEADERS	= -Iinclude -IMLX42/include/MLX42
 CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -flto $(HEADERS)
 MLX	= MLX42
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
-SRC = minirt.c file.c ambient.c light.c camera.c cylinder.c sphere.c plane.c
+SRC = minirt.c file.c ambient.c light.c camera.c cylinder.c sphere.c plane.c set.c
 SRC := $(addprefix src/, $(SRC))
 OBJ := $(SRC:%.c=%.o)
 MAKE = make -C

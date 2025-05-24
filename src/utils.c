@@ -1,5 +1,27 @@
 #include "../include/minirt.h"
 
+bool validate_orientation(t_vec3 orien)
+{
+    if (orien.x > 1. || orien.x < 0.)
+        return (false);
+    else if (orien.y > 1. || orien.y < 0.)
+        return (false);
+    else if (orien.z > 1. || orien.z < 0.)
+        return (false);
+    return (true);
+}
+
+bool validate_line(char *line)
+{
+    char *res;
+
+    res = ft_strtrim(line, "ACLsplcy0123456789.,\t");
+    if (res[0] == '\n')
+        return (free(res), true);
+    else
+        return (free(res), false);
+}
+
 void set_colors(char **colors, t_color *color)
 {
     set_red(color, ft_atoi(colors[0]));

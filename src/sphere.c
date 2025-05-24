@@ -2,7 +2,8 @@
 
 bool validate_sphere(char *line, t_sphere sp)
 {
-    (void)line;
+    if (!validate_line(line))
+        return (false);
     (void)sp;
     return (true);
 }

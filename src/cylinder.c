@@ -2,7 +2,8 @@
 
 bool validate_cylinder(char *line, t_cylinder cy)
 {
-    (void)line;
+    if (!validate_line(line))
+        return (false);
     (void)cy;
     return (true);
 }
