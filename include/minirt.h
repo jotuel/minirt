@@ -5,5 +5,6 @@
 # include "../libft/libft.h"
 # include "declare.h"
 # include <fcntl.h>
+# include <math.h>
 
 #endif
