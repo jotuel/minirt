@@ -20,7 +20,7 @@ void light(char *line, t_map *rt, t_light light)
     colors = split_and_check(split[3], ',', 3, rt->space);
     set_vec3(vec3, &light.pos);
     set_colors(colors, &light.color);
-    light.range = ft_atof(split[2]);
+    light.intensity = ft_atof(split[2]);
     free_split(split);
     free_split(vec3);
     free_split(colors);

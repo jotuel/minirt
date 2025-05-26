@@ -1,56 +1,22 @@
 #include "../include/minirt.h"
 
-void pixel(void *ptr)
+void	test(void *ptr)
 {
-    static int a;
+    mlx_image_t *image;
+	unsigned int x;
+	unsigned int y;
 
-    ft_memset(ptr, a, 400);
-    a++;
-}
-
-void pixel1(void *ptr)
-{
-    static uint8_t a;
-
-    ft_memset(ptr, a, 400);
-    a++;
-}
-
-void pixel2(void *ptr)
-{
-    static uint8_t a;
-
-    ft_memset(ptr, a, 400);
-    a++;
-}
-
-void pixel3(void *ptr)
-{
-    static uint8_t a;
-
-    ft_memset(ptr, a, 400);
-    a++;
-}
-
-
-void	test(int width, int height)
-{
-	int x;
-	int y;
-
+	image = ptr;
 	x = 0;
 	y = 0;
-	while (y < height)
+	while (y < image->height)
 	{
-		while (x < width)
+		while (x < image->width)
 		{
-			float r = (float)x / (width-1);
-			float g =	(float)y / (height-1);
-			float b = 0.0;
+			float r = (float)x / (image->width-1);
+			float g = (float)y / (image->height-1);
 
-			int ir = (int)(255.999 * r);
-			int ig = (int)(255.999 * g);
-			int ib = (int)(255.999 * b);
+			mlx_put_pixel(image, x, y, ((int)(255.999 * r) << 24 ) + ((int)(255.999 * g) << 16) + 255);
 			x++;
 		}
 		y++;
@@ -60,7 +26,15 @@ void	test(int width, int height)
 
 int main()
 {
-	test(400, 200);
+    mlx_image_t *image;
+    mlx_t *mlx;
+
+    mlx = mlx_init(400, 200, "Testing...", false);
+    image = mlx_new_image(mlx, 400, 200);
+	mlx_image_to_window(mlx, image, 400, 200);
+	mlx_loop_hook(mlx, test, image);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
 }
 
 // int main(int argc, char **argv)

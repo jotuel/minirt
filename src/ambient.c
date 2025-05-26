@@ -14,7 +14,7 @@ void ambient(char *line, t_map *rt, t_ambient amb)
     char **colors;
 
     split = split_and_check(line, '\t', 4, rt->space);
-    amb.range = ft_atof(split[1]);
+    amb.intensity = ft_atof(split[1]);
     colors = split_and_check(split[2], ',', 3, rt->space);
     set_colors(colors, &amb.color);
     free_split(split);
