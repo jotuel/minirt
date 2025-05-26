@@ -8,6 +8,7 @@ bool validate_light(char *line, t_light light)
     return (true);
 }
 
+// L -40.0,50.0,0.0 0.6 10,0,255
 void light(char *line, t_map *rt, t_light light)
 {
     char **split;

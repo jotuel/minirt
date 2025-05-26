@@ -7,6 +7,7 @@ static bool validate_ambiance(char *line, t_ambient amb)
     return (true);
 }
 
+// A 0.2 255,255,255 example of ambient lighting
 void ambient(char *line, t_map *rt, t_ambient amb)
 {
     char **split;
