@@ -31,7 +31,7 @@ int main()
 
     mlx = mlx_init(400, 200, "Testing...", false);
     image = mlx_new_image(mlx, 400, 200);
-	mlx_image_to_window(mlx, image, 400, 200);
+	mlx_image_to_window(mlx, image, 0, 0);
 	mlx_loop_hook(mlx, test, image);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
