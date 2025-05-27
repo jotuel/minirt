@@ -27,5 +27,5 @@ void sphere(char *line, t_map *rt, t_sphere sp)
         rt->obj[rt->nbr++]->sphere = sp;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = SPHERE;
+    rt->obj[rt->nbr]->type = SPHERE;
 }

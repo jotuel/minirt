@@ -30,5 +30,5 @@ void plane(char *line, t_map *rt, t_plane pl)
         rt->obj[rt->nbr++]->plane = pl;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = PLANE;
+    rt->obj[rt->nbr]->type = PLANE;
 }

@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -O3 -g2 -ffast-math -flto $(HEADERS)
 MLX	= MLX42
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
 SRC = minirt.c file.c ambient.c light.c camera.c cylinder.c sphere.c plane.c set.c \
-	vector.c vector3.c vector_math.c color.c utils.c error.c
+	vector.c vector3.c vector_math.c color.c utils.c error.c math.c
 HEADER := $(addprefix include/, $(HEADER))
 SRC := $(addprefix src/, $(SRC))
 OBJ := $(SRC:%.c=%.o)

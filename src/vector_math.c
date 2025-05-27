@@ -10,6 +10,14 @@ float vec3_length(t_vec3 vec)
 	return (sqrtf(vec3_dot(vec, vec)));
 }
 
+t_vec3	vec3_divide(t_vec3 vec, float scale)
+{
+	vec.x /= scale;
+	vec.y /= scale;
+	vec.z /= scale;
+	return (vec);
+}
+
 t_vec3 vec3_scale(t_vec3 vec, float scale)
 {
 	vec.x *= scale;

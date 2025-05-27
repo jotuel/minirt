@@ -23,5 +23,5 @@ void ambient(char *line, t_map *rt, t_ambient amb)
         rt->obj[rt->nbr++]->ambiance = amb;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = AMBIENT;
+    rt->obj[rt->nbr]->type = AMBIENT;
 }

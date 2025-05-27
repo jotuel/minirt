@@ -28,5 +28,5 @@ void light(char *line, t_map *rt, t_light light)
         rt->obj[rt->nbr++]->light = light;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = LIGHT;
+    rt->obj[rt->nbr]->type = LIGHT;
 }

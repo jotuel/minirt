@@ -32,5 +32,5 @@ void cylinder(char *line, t_map *rt, t_cylinder cy)
         rt->obj[rt->nbr++]->cylinder = cy;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = CYLINDER;
+    rt->obj[rt->nbr]->type = CYLINDER;
 }

@@ -23,8 +23,7 @@ typedef enum e_mat
 }					t_mat;
 */
 
-// emilia: "type" would be better name
-typedef enum e_shape
+typedef enum e_type
 {
     NONE,
     AMBIENT,
@@ -33,7 +32,7 @@ typedef enum e_shape
 	CYLINDER,
 	LIGHT,
 	CAMERA,
-}					t_shape;
+}					t_type;
 
 typedef struct s_vec3
 {
@@ -94,16 +93,28 @@ typedef struct s_sphere
 	t_color			color;
 }					t_sphere;
 
-/// @param fov = field of view
+/// @param fov								= field of view
+/// @param vup								= view up
+/// @param u, @param v, @param w			= Camera frame basis vectors
+/// @param pixel_delta_u @param pixel_detal_v = gaps between pixels
 typedef struct s_camera
 {
-	t_vec3			pos;
-	t_vec3			orientation;
+	t_vec3			lookfrom;
+	t_vec3			lookat;
 	uint_fast8_t    fov;
+	t_vec3			vup;
+	t_vec3			pixel00_pos;
+	t_vec3			u;
+	t_vec3			v;
+	t_vec3			w;
+	t_vec3			pixel_delta_u;
+	t_vec3			pixel_delta_v;
+	int				width;
+	int				height;
+	int				samplesperpixel;
+	float			aspectratio;
 }					t_camera;
 
-//emilia: range = intensity of the light.
-// range is confusing in this subject, because it indicates the falloff of the light
 typedef struct s_lightsource
 {
 	t_vec3			pos;
@@ -126,7 +137,7 @@ typedef struct s_obj
 	t_plane			plane;
 	t_sphere		sphere;
 	t_cylinder		cylinder;
-	t_shape			shape;
+	t_type			type;
 	t_camera		cam;
 	t_light			light;
 }					t_obj;
@@ -141,10 +152,6 @@ typedef struct s_map
 	size_t          size;
 	size_t          capacity;
 	void			*space;
-	int				width;
-	int				height;
-	int				samplesperpixel;
-	float			aspectratio;
 }					t_map;
 
 #endif
