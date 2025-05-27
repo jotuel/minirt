@@ -3,12 +3,16 @@ CC = cc
 TARGET_REPO = https://github.com/codam-coding-college/MLX42.git
 INCLUDE_DIRS = libft
 INCLUDE = Makefile
+HEADER = declare.h minirt.h types.h
 HEADERS	= -Iinclude -IMLX42/include/MLX42
-CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -flto $(HEADERS)
+CFLAGS = -Wall -Wextra -Werror -g2 $(HEADERS)
 MLX	= MLX42
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
-SRC = minirt.c file.c ambient.c light.c camera.c cylinder.c sphere.c plane.c
-SRC := $(addprefix src/, $(SRC))
+SRC = minirt.c error.c color.c
+PARSE = file.c utils.c ambient.c light.c camera.c cylinder.c sphere.c plane.c
+MATH = math.c vector.c vector3.c vector_math.c vector3_math.c
+HEADER := $(addprefix include/, $(HEADER))
+SRC := $(addprefix src/, $(SRC)) $(addprefix src/parser/, $(PARSE)) $(addprefix src/math/, $(MATH))
 OBJ := $(SRC:%.c=%.o)
 MAKE = make -C
 NAME = minirt
@@ -28,7 +32,6 @@ $(MLX):
 
 clean:
 	$(MAKE) libft clean
-	$(MAKE) $(MLX)/build clean
 	rm -f $(OBJ)
 fclean: clean
 	$(MAKE) libft fclean

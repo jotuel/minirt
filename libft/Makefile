@@ -66,7 +66,7 @@ BONUS_OBJS := $(BONUS_SRCS:%.c=%.o)
 SUPP_OBJS := $(SUPP_SRCS:%.c=%.o)
 OBJS_ALL := $(OBJS) $(BONUS_OBJS) $(SUPP_OBJS)
 INC_DIR = .
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g2
 CPPFLAGS = -I$(INC_DIR)
 NAME = libft.a
 AR = ar rcs $(NAME)
