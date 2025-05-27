@@ -2,8 +2,7 @@
 
 bool validate_camera(char *line, t_camera cam)
 {
-    if (!validate_line(line))
-        return (false);
+    (void)line;
     (void)cam;
     return (true);
 }
@@ -34,13 +33,13 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	t_vec3	viewport_u;
 	t_vec3	viewport_v;
 	t_vec3	viewport_upper_left;
-	
+
 	camera->aspectratio = (float)img->width/img->height;
 	camera->width = img->width;
 	camera->height = calculate_height(camera->width, camera->aspectratio);
 	camera->lookfrom = (t_vec3){0,0,0};
 	focal_length = vec3_length(vec3_subtract(camera->lookfrom, camera->lookat));
-	theta = degree_to_radians(camera->fov);
+	theta = to_radians(camera->fov);
 	h = tanf(theta/2);
 	viewport_height = 2 * h * focal_length;
 	viewport_width = viewport_height * camera->aspectratio;
@@ -49,8 +48,10 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	camera->u = vec3_divide(vec3_cross(camera->vup, camera->w),
 				vec3_length(vec3_cross(camera->vup, camera->w)));
 	camera->v = vec3_cross(camera->w, camera->u);
-	viewport_u = vec3_scale(camera->u, viewport_width);
-	viewport_v = vec3_scale(vec3_scale(camera->v, -1), viewport_height);
+	// viewport_u = vec3_scale(camera->u, viewport_width);
+	// viewport_v = vec3_scale(vec3_scale(camera->v, -1), viewport_height);
+	viewport_u = (t_vec3){2. * camera->aspectratio, 0, 0};
+	viewport_v = (t_vec3){0, -2., 0};
 	camera->pixel_delta_u = vec3_divide(viewport_u, camera->width);
 	camera->pixel_delta_v = vec3_divide(viewport_v, camera->height);
 	viewport_upper_left = vec3_subtract(vec3_subtract(vec3_subtract(camera->lookfrom,

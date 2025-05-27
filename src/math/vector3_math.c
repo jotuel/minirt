@@ -13,3 +13,11 @@ inline float linear_to_gamma(float linear)
         return (sqrt(linear));
     return (0);
 }
+
+t_vec3	vec3_divide(t_vec3 vec, float scale)
+{
+	vec.x /= scale;
+	vec.y /= scale;
+	vec.z /= scale;
+	return (vec);
+}

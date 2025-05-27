@@ -30,11 +30,11 @@ static bool parse_line(char *line, t_map *rt)
         return (false);
 }
 
-static t_map file_parser(char *name, t_map minirt, int fd, char *line)
+static void file_parser(char *name, t_map *minirt, int fd, char *line)
 {
     fd = open(name, O_RDONLY);
     if (-1 == fd)
-        return (minirt);
+        return ;
     line = ft_calloc(1, 1);
     while (line)
     {
@@ -44,32 +44,31 @@ static t_map file_parser(char *name, t_map minirt, int fd, char *line)
             line = get_next_line(fd);
             continue ;
         }
-        if (!parse_line(line, &minirt))
+        if (!parse_line(line, minirt))
         {
             free(line);
-            free(minirt.space);
-            minirt.space = NULL;
-            return (minirt);
+            free(minirt->space);
+            minirt->space = NULL;
+            return ;
         }
         free(line);
         line = get_next_line(fd);
     }
     close(fd);
-    return (minirt);
+    return ;
 }
 
-t_map parse_file(char *filename, t_map minirt)
+void parse_file(char *filename, t_map *minirt)
 {
     if (!filename || !check_filetype(filename))
     {
         ft_putendl_fd("Not a valid file", 2);
-        return (minirt);
+        return ;
     }
-    minirt = file_parser(filename, minirt, 0, NULL);
-    if (!minirt.space)
+    file_parser(filename, minirt, 0, NULL);
+    if (!minirt->space)
     {
         perror("malloc");
-        return (minirt);
+        return ;
     }
-    return (minirt);
 }

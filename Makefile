@@ -12,7 +12,7 @@ SRC = minirt.c error.c color.c
 PARSE = file.c utils.c ambient.c light.c camera.c cylinder.c sphere.c plane.c
 MATH = math.c vector.c vector3.c vector_math.c vector3_math.c
 HEADER := $(addprefix include/, $(HEADER))
-SRC := $(addprefix src/, $(SRC)) $(addprefix src/parser/, $(PARSE)) $(addprefix src/math/, $(MATH))
+SRC := $(addprefix src/, $(SRC)) $(addprefix src/, $(PARSE)) $(addprefix src/math/, $(MATH))
 OBJ := $(SRC:%.c=%.o)
 MAKE = make -C
 NAME = minirt

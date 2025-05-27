@@ -1,4 +1,5 @@
 #include "../include/minirt.h"
+#include <stdint.h>
 
 struct cam_and_img {
 	t_camera *cam;
@@ -16,9 +17,10 @@ void render(void *ptr)
 			t_vec3 ray_direction =  vec3_subtract(p_cen, (t_vec3){0,0,0});
 			t_ray ray = (t_ray){.origin = {0}, .dir = ray_direction};
 
-			t_vec3 unit_dir = vec3_scale(ray.dir, vec3_length(ray.dir));
+			t_vec3 unit_dir = vec3_divide(ray.dir, vec3_length(ray.dir));
 			float b = 0.5*(unit_dir.y + 1.0);
-			mlx_put_pixel(a->img, j, i, (1.0 - b) * ((255 << 24) + (255 << 16) + (255 << 8)) + b*((128 << 24) + (190 << 18) + (255 << 8)));
+			unit_dir = vec3_add(vec3_scale((t_vec3){1.0, 1.0, 1.0},(1.0-b)), vec3_scale((t_vec3){0.5,0.7,1.0}, b));
+			mlx_put_pixel(a->img, i, j, ((int)(unit_dir.x * 255) << 24) + ((int)(unit_dir.y * 255) << 16) + ((int)(unit_dir.z * 255) << 8) + 255);
 		}
 	}
 }
@@ -28,7 +30,7 @@ void render(void *ptr)
 int main(int argc, char **argv)
 {
 	struct cam_and_img a;
-	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}};
+	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 180};
 	mlx_t *mlx;
 	mlx_image_t *img;
 	// static t_map minirt;
@@ -41,8 +43,8 @@ int main(int argc, char **argv)
 	// parse_file(argv[1], &minirt);
 	// if (!minirt.space)
 	//     return (EXIT_FAILURE);
-	mlx = mlx_init(400, 200, "mlx", true);
-	img = mlx_new_image(mlx, 400, 200);
+	mlx = mlx_init(1200, 800, "mlx", true);
+	img = mlx_new_image(mlx, 1200, 800);
 	mlx_image_to_window(mlx, img, 0, 0);
 	initialize_camera(&camera, img);
 	a.cam = &camera;

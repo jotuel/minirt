@@ -2,8 +2,7 @@
 
 bool validate_plane(char *line, t_plane pl)
 {
-    if (!validate_line(line))
-        return (false);
+    (void)line;
     (void)pl;
     return (true);
 }
