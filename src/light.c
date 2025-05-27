@@ -2,11 +2,13 @@
 
 bool validate_light(char *line, t_light light)
 {
-    (void)line;
+    if (!validate_line(line))
+        return (false);
     (void)light;
     return (true);
 }
 
+// L -40.0,50.0,0.0 0.6 10,0,255
 void light(char *line, t_map *rt, t_light light)
 {
     char **split;
@@ -18,7 +20,7 @@ void light(char *line, t_map *rt, t_light light)
     colors = split_and_check(split[3], ',', 3, rt->space);
     set_vec3(vec3, &light.pos);
     set_colors(colors, &light.color);
-    light.range = ft_atof(split[2]);
+    light.intensity = ft_atof(split[2]);
     free_split(split);
     free_split(vec3);
     free_split(colors);
@@ -26,5 +28,5 @@ void light(char *line, t_map *rt, t_light light)
         rt->obj[rt->nbr++]->light = light;
     else
         ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = LIGHT;
+    rt->obj[rt->nbr]->type = LIGHT;
 }

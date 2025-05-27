@@ -17,7 +17,7 @@ OBJ := $(SRC:%.c=%.o)
 MAKE = make -C
 NAME = minirt
 
-all: $(NAME)
+all: $(NAME) $(SRC) $(HEADER)
 $(NAME): mlx libft/libft.a $(OBJ)
 	$(CC) $(CFLAGS) $(SRC) $(LIBS) -o $(NAME)
 %.o: %.c

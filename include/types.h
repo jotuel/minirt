@@ -4,7 +4,26 @@
 # include <stdint.h>
 # define MAX_OBJ 100
 
-typedef enum e_shape
+/*
+//emilia: maybe? These would be the base material types
+// these would use the t_material data, but would have default
+// settings, set by these categories.
+// Default would have option for textures/images and normals
+// metallic would have metal attributes
+// and glass glass
+// we can add more if wanted or create ready materials that players
+// can play with
+typedef enum e_mat
+{
+	DEFAULT,
+	METALLIC,
+	GLASS,
+	MAT1,
+	MAT2,
+}					t_mat;
+*/
+
+typedef enum e_type
 {
     NONE,
     AMBIENT,
@@ -13,7 +32,7 @@ typedef enum e_shape
 	CYLINDER,
 	LIGHT,
 	CAMERA,
-}					t_shape;
+}					t_type;
 
 typedef struct s_vec3
 {
@@ -31,10 +50,26 @@ typedef struct s_color
 
 typedef struct s_ambient
 {
-	float			range;
+	float			intensity;
 	t_color			color;
 }					t_ambient;
 
+/*
+// emilia: maybe something like this for material info?
+typedef struct s_material
+{
+	t_color			color;
+	float			roughness;
+	t_color			normal;
+	float			specularity; <-- maybe not needed, can be just defined as a set 0,5
+	float			metallic; ?? <- or its own separate struct? maybe not
+
+}					t_material;
+*/
+
+//emilia: for now, each object could have the t_color
+// but if we end up creating materials then I would change the
+// to_color to t_material and create a struct for that
 typedef struct s_plane
 {
 	t_vec3			pos;
@@ -58,19 +93,45 @@ typedef struct s_sphere
 	t_color			color;
 }					t_sphere;
 
+
+/// @param fov								= field of view
+/// @param vup								= view up
+/// @param u, @param v, @param w			= Camera frame basis vectors
+/// @param pixel_delta_u @param pixel_detal_v = gaps between pixels
 typedef struct s_camera
 {
-	t_vec3			pos;
-	t_vec3			orientation;
+	t_vec3			lookfrom;
+	t_vec3			lookat;
 	uint_fast8_t    fov;
+	t_vec3			vup;
+	t_vec3			pixel00_pos;
+	t_vec3			u;
+	t_vec3			v;
+	t_vec3			w;
+	t_vec3			pixel_delta_u;
+	t_vec3			pixel_delta_v;
+	int				width;
+	int				height;
+	int				samplesperpixel;
+	float			aspectratio;
 }					t_camera;
 
 typedef struct s_lightsource
 {
 	t_vec3			pos;
-	float			range;
+	float			intensity;
 	t_color			color;
 }					t_light;
+
+typedef t_vec3 t_point;
+/// @param point1 = origin
+/// @param point2 = direction
+typedef struct s_ray
+{
+	t_point			origin;
+	t_vec3			dir;
+}					t_ray;
+
 
 typedef struct s_obj
 {
@@ -78,11 +139,13 @@ typedef struct s_obj
 	t_plane			plane;
 	t_sphere		sphere;
 	t_cylinder		cylinder;
-	t_shape			shape;
+	t_type			type;
 	t_camera		cam;
 	t_light			light;
 }					t_obj;
 
+// what is size in this content?
+// float 19:8
 typedef struct s_map
 {
 	t_obj			*obj[MAX_OBJ];
