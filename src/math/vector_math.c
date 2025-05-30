@@ -26,7 +26,7 @@ inline t_vec3 vec3_scale(t_vec3 vec, float scale)
 inline t_vec3 vec3_cross(t_vec3 v, t_vec3 w)
 {
 	return ((t_vec3)
-		{.x = vec3_get_y(v) * vec3_get_z(w) - vec3_get_z(v) * vec3_get_y(w),
-		.y = vec3_get_z(v) * vec3_get_x(w) - vec3_get_z(v) * vec3_get_x(w),
-		.z = vec3_get_x(v) * vec3_get_y(w) - vec3_get_x(w) * vec3_get_y(v)});
+		{.x = v.y * w.z - v.z * w.y,
+		.y = v.z * w.x - v.x * w.z,
+		.z = v.x * w.y - v.x * w.y});
 }

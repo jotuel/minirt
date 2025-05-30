@@ -1,5 +1,21 @@
 #include "../include/minirt.h"
 
+bool intersect_plane(t_vec3 n, t_vec3 p0, t_vec3 l0, t_vec3 l)
+{
+	t_vec3 p0l0;
+	float t;
+	float denom;
+
+	denom = vec3_dot(n, l);
+	if (denom >  1e-6)
+		{
+			p0l0 = vec3_subtract(p0, l0);
+			t = vec3_dot(p0l0, n) / denom;
+			return (t >= 0);
+		}
+	return (false);
+}
+
 bool validate_plane(char *line, t_plane pl)
 {
     (void)line;
