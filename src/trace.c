@@ -134,7 +134,7 @@ t_intersection intersections(t_ray r)
 	float			tmin;
 
 	t = 0;
-	tmin = 0;
+	tmin = __FLT_MAX__;
 	type = NONE;
 	t = hit_sphere((t_point){-.25,-0.25,-2}, .3, r);
 	if (t > 0.0)
@@ -142,19 +142,19 @@ t_intersection intersections(t_ray r)
 		tmin = t;
 		type = SPHERE;
 	}
-	t = hit_sphere((t_point){0.25,0.25,-2}, .3, r);
-	if (t > 0.0)
-	{
-		tmin = t;
-		type = SPHERE;
-	}
-	t = hit_cylinder((t_cylinder){.diameter = 1, .pos = {0,2,-7},
-					.orientation = {0,0,1}, .height = 0.1, .max = 1.0,
-					.min = -1.0, .closed = true}, r);
-	if (t > 0.0)
+	t = hit_cylinder((t_cylinder){.diameter = 10, .pos = {0,1,-7},
+			.orientation = {0,0,1}, .height = 0.1, .max = 0.50,
+			.min = -0.50, .closed = true}, r);
+	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
 		type = CYLINDER;
+	}
+	t = hit_sphere((t_point){0,1,-6}, .6, r);
+	if (t > 0.0 && t < tmin)
+	{
+		tmin = t;
+		type = SPHERE;
 	}
 	t = color_plane(r);
 	if (t > 0.0 && t < tmin)
@@ -179,7 +179,7 @@ uint_fast32_t color_ray(t_ray r)
 	hit = intersections(r);
 	if (hit.type == SPHERE)
 	{
-		unit_dir = vec3_unit(vec3_subtract(at(r, hit.t), (t_vec3){0.25,0.25,-2}));
+		unit_dir = vec3_unit(vec3_subtract(at(r, hit.t), (t_vec3){0,1,-6}));
 		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3){1,1,1}), .5f);
 		return (get_color((t_color){unit_dir.x*255, unit_dir.y*255, unit_dir.z*255}));
 	}
