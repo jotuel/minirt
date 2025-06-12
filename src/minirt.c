@@ -14,7 +14,7 @@ void render(void *ptr)
 	for(unsigned int j = 0; j < a->img->height; j++) {
 		for(unsigned int i = 0; i < a->img->width; i++) {
 			t_vec3 p_cen = vec3_add(vec3_add(a->cam->pixel00_pos, vec3_scale(a->cam->pixel_delta_u, i)), vec3_scale(a->cam->pixel_delta_v, j));
-			t_vec3 ray_direction =  vec3_subtract(p_cen, (t_vec3){0,0,0});
+			t_vec3 ray_direction =  vec3_subtract(p_cen, (t_vec3){0,0,0}); //what is the point in here? we subtract 0,0,0 from p_cen always?
 			t_ray ray = (t_ray){.origin = {0, 0, 0}, .dir = ray_direction};
 			mlx_put_pixel(a->img, i, j, color_ray(ray));
 		}
@@ -39,8 +39,8 @@ int main(int argc, char **argv)
 	// parse_file(argv[1], &minirt);
 	// if (!minirt.space)
 	//     return (EXIT_FAILURE);
-	mlx = mlx_init(4200, 2100, "mlx", true);
-	img = mlx_new_image(mlx, 4200, 2100);
+	mlx = mlx_init(800, 600, "mlx", true);
+	img = mlx_new_image(mlx, 800, 600);
 	mlx_image_to_window(mlx, img, 0, 0);
 	initialize_camera(&camera, img);
 	a.cam = &camera;

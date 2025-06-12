@@ -9,7 +9,7 @@ void ft_error(void *mem);
 /* CASTING RAYS */
 float hit_sphere(t_point center, float radius, t_ray r);
 uint_fast32_t color_ray(t_ray r);
-bool intersect_plane(t_vec3 n, t_vec3 p0, t_vec3 l0, t_vec3 l);
+float intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
 
 /* SET & GET FUNCTIONS */
 float vec3_get_z(t_vec3 vec);
