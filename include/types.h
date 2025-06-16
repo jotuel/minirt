@@ -35,14 +35,6 @@ typedef enum e_type
 	CAMERA,
 }					t_type;
 
-// node struct inside the content of linkedlist
-typedef struct s_node
-{
-	int		data;
-	t_type	type;	
-
-}					t_node;
-
 typedef struct s_vec3
 {
 	float			x;
@@ -168,7 +160,18 @@ typedef struct s_intersection
 {
 	float			t;
 	t_type			type;
+	t_obj			*obj;
 }					t_intersection;
+
+// node struct inside the content of linkedlist
+typedef struct s_node
+{
+	int		data;
+	struct s_node	*next;
+	t_type	type;
+	t_obj	*obj;
+
+}					t_node;
 
 // what is size in this content?
 // float 19:8
@@ -180,6 +183,7 @@ typedef struct s_map
 	size_t          size;
 	size_t          capacity;
 	void			*space;
+	t_node			*nodes;
 }					t_map;
 
 #endif
