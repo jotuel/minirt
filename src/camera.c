@@ -25,6 +25,7 @@ int calculate_height(int width, float aspectratio)
 /// located to the scene relative to the camera coordinates
 void initialize_camera(t_camera *camera, mlx_image_t *img)
 {
+	static  t_vec3 vec3;
 	float	focal_length;
 	float	theta;
 	float	h;
@@ -34,10 +35,12 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	t_vec3	viewport_v;
 	t_vec3	viewport_upper_left;
 
+	vec3_add(vec3, (t_vec3){0.1,0.1,0.1});
 	camera->aspectratio = (float)img->width/img->height;
 	camera->width = img->width;
 	camera->height = img->height;
-	camera->lookfrom = (t_vec3){0,0,0};
+	camera->lookfrom = vec3;
+	vec3 = vec3_add(vec3, (t_vec3){0.1,0.1,0.1});
 	focal_length = vec3_length(vec3_subtract(camera->lookfrom, camera->lookat));
 	theta = to_radians(camera->fov / 2.);
 	h = tanf(theta/2);

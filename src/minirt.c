@@ -11,6 +11,7 @@ void render(void *ptr)
 	struct cam_and_img *a;
 
 	a = ptr;
+	initialize_camera(a->cam, a->img);
 	for(unsigned int j = 0; j < a->img->height; j++) {
 		for(unsigned int i = 0; i < a->img->width; i++) {
 			t_vec3 p_cen = vec3_add(vec3_add(a->cam->pixel00_pos, vec3_scale(a->cam->pixel_delta_u, i)), vec3_scale(a->cam->pixel_delta_v, j));
@@ -26,7 +27,7 @@ void render(void *ptr)
 int main(int argc, char **argv)
 {
 	struct cam_and_img a;
-	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 90};
+	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 180};
 	mlx_t *mlx;
 	mlx_image_t *img;
 	// static t_map minirt;
@@ -39,10 +40,9 @@ int main(int argc, char **argv)
 	// parse_file(argv[1], &minirt);
 	// if (!minirt.space)
 	//     return (EXIT_FAILURE);
-	mlx = mlx_init(4200, 2100, "mlx", true);
-	img = mlx_new_image(mlx, 4200, 2100);
+	mlx = mlx_init(4000, 2400, "mlx", true);
+	img = mlx_new_image(mlx, 4000, 2400);
 	mlx_image_to_window(mlx, img, 0, 0);
-	initialize_camera(&camera, img);
 	a.cam = &camera;
 	a.img = img;
 	mlx_loop_hook(mlx, render, &a);
