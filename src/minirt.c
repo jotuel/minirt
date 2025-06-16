@@ -40,8 +40,9 @@ int main(int argc, char **argv)
 	// parse_file(argv[1], &minirt);
 	// if (!minirt.space)
 	//     return (EXIT_FAILURE);
-	mlx = mlx_init(4000, 2400, "mlx", true);
-	img = mlx_new_image(mlx, 4000, 2400);
+
+	mlx = mlx_init(800, 600, "mlx", true);
+	img = mlx_new_image(mlx, 800, 600);
 	mlx_image_to_window(mlx, img, 0, 0);
 	a.cam = &camera;
 	a.img = img;

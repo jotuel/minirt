@@ -24,7 +24,7 @@ $(NAME): mlx libft/libft.a $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 $(LIBFT):
-	$(MAKE) libft all supp
+	$(MAKE) libft all supp bonus
 mlx: $(MLX)
 $(MLX):
 	git clone $(TARGET_REPO) $@

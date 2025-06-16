@@ -2,6 +2,7 @@
 # define TYPES_H
 # include <stddef.h>
 # include <stdint.h>
+# include <stdbool.h>
 # define MAX_OBJ 100
 
 /*
@@ -33,6 +34,14 @@ typedef enum e_type
 	LIGHT,
 	CAMERA,
 }					t_type;
+
+// node struct inside the content of linkedlist
+typedef struct s_node
+{
+	int		data;
+	t_type	type;	
+
+}					t_node;
 
 typedef struct s_vec3
 {
@@ -77,12 +86,21 @@ typedef struct s_plane
 	t_color			color;
 }					t_plane;
 
+/// @param pos 				= a point on the axis
+/// @param orientation		= axis direction
+/// @param diameter			= radius * 2
+/// @param height
+/// @param color
 typedef struct s_cylinder
 {
 	t_vec3			pos;
 	t_vec3			orientation;
 	float			diameter;
 	float			height;
+	float			min;
+	float			max;
+	bool			closed;
+	bool			cap;
 	t_color			color;
 }					t_cylinder;
 
@@ -132,7 +150,6 @@ typedef struct s_ray
 	t_vec3			dir;
 }					t_ray;
 
-
 typedef struct s_obj
 {
     t_ambient       ambiance;
@@ -143,6 +160,15 @@ typedef struct s_obj
 	t_camera		cam;
 	t_light			light;
 }					t_obj;
+
+// for tracking intersections, cast ray into the scene and get
+// handful of intersections that return the intersections value (t)
+// and object that was intersected
+typedef struct s_intersection
+{
+	float			t;
+	t_type			type;
+}					t_intersection;
 
 // what is size in this content?
 // float 19:8

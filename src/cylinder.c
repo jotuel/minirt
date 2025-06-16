@@ -1,5 +1,9 @@
 #include "../include/minirt.h"
 
+
+//create hit cylinder function
+
+
 bool validate_cylinder(char *line, t_cylinder cy)
 {
  	(void)line;
