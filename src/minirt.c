@@ -17,7 +17,7 @@ void render(void *ptr)
 		for(unsigned int i = 0; i < a->img->width; i++) {
 			t_vec3 p_cen = vec3_add(vec3_add(a->cam->pixel00_pos, vec3_scale(a->cam->pixel_delta_u, i)), vec3_scale(a->cam->pixel_delta_v, j));
 			t_vec3 ray_direction =  vec3_subtract(p_cen, (t_vec3){0,0,0});
-			t_ray ray = (t_ray){.origin = {0, 0, 0}, .dir = ray_direction};
+			t_ray ray = (t_ray){.origin = a->cam->lookfrom, .dir = ray_direction};
 			mlx_put_pixel(a->img, i, j, color_ray(ray, a->minirt->nodes));
 		}
 	}
@@ -48,7 +48,7 @@ void adding_info_to_nodes(t_map *minirt)
 		node->obj->cylinder.pos = (t_vec3){0,1,-7};
 		node->type = CYLINDER;
 		node->obj->cylinder.diameter = 10;
-		node->obj->cylinder.orientation = (t_vec3){0,0,1};
+		node->obj->cylinder.orientation = (t_vec3){0,0,-1};
 		node->obj->cylinder.height = 1.0;
 		node->obj->cylinder.max = node->obj->cylinder.height/2;
 		node->obj->cylinder.min = -node->obj->cylinder.height/2;
@@ -98,7 +98,7 @@ int create_nodes(t_map *minirt)
 int main(int argc, char **argv)
 {
 	struct cam_and_img a;
-	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 180};
+	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 90};
 	mlx_t *mlx;
 	mlx_image_t *img;
 	static t_map minirt;
@@ -113,8 +113,8 @@ int main(int argc, char **argv)
 	// 	return (EXIT_FAILURE);
 	create_nodes(&minirt);
 
-	mlx = mlx_init(800, 600, "mlx", true);
-	img = mlx_new_image(mlx, 800, 600);
+	mlx = mlx_init(4000, 2100, "mlx", true);
+	img = mlx_new_image(mlx, 4000, 2100);
 	mlx_image_to_window(mlx, img, 0, 0);
 	a.cam = &camera;
 	a.img = img;
