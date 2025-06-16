@@ -4,12 +4,13 @@
 #include "types.h"
 #include <stdbool.h>
 
-void ft_error(void *mem);
+void 			ft_error(void *mem);
 
 /* CASTING RAYS */
-float hit_sphere(t_point center, float radius, t_ray r);
-uint_fast32_t color_ray(t_ray r);
-float intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
+float 			hit_sphere(t_point center, float radius, t_ray r);
+uint_fast32_t	color_ray(t_ray r, t_node *nodes);
+float 			intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
+float			hit_cylinder(t_cylinder cy, t_ray r);
 
 /* SET & GET FUNCTIONS */
 float vec3_get_z(t_vec3 vec);
