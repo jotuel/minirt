@@ -166,10 +166,7 @@ uint_fast32_t color_ray(t_ray r, t_node *nodes)
 	float a;
 	t_vec3 unit_dir;
 	t_intersection hit;
-
-	// adding hittable obcts linkedlist/array with sphere types
-	// function calls
-	// color pixel from the closest hit ray
+	
 	hit = intersections(r, nodes);
 	if (hit.type == SPHERE)
 	{
