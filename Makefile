@@ -5,7 +5,7 @@ INCLUDE_DIRS = libft
 INCLUDE = Makefile
 HEADER = declare.h minirt.h types.h
 HEADERS	= -Iinclude -IMLX42/include/MLX42
-CFLAGS = -Wall -Wextra -Werror -g2 $(HEADERS)
+CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -flto -march=native $(HEADERS)
 MLX	= MLX42
 LIBFT = libft/libft.a
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
@@ -20,7 +20,7 @@ NAME = minirt
 
 all: $(NAME) $(SRC) $(HEADER)
 $(NAME): mlx libft/libft.a $(OBJ)
-	$(CC) $(CFLAGS) $(SRC) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 $(LIBFT):

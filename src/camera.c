@@ -25,6 +25,7 @@ int calculate_height(int width, float aspectratio)
 /// located to the scene relative to the camera coordinates
 void initialize_camera(t_camera *camera, mlx_image_t *img)
 {
+	static  t_vec3 vec3;
 	float	focal_length;
 	float	theta;
 	float	h;
@@ -37,7 +38,8 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	camera->aspectratio = (float)img->width/img->height;
 	camera->width = img->width;
 	camera->height = img->height;
-	camera->lookfrom = (t_vec3){0,0,0};
+	camera->lookfrom = vec3;
+	vec3 = vec3_add(vec3, (t_vec3){0.00,0.00,0.01});
 	focal_length = vec3_length(vec3_subtract(camera->lookfrom, camera->lookat));
 	theta = to_radians(camera->fov / 2.);
 	h = tanf(theta/2);
@@ -65,9 +67,9 @@ void camera(char *line, t_map *rt, t_camera cam)
     char **vec;
     char **vec3;
 
-    split = split_and_check(line, '\t', 4, rt->space);
-    vec3 = split_and_check(split[1], ',', 3, rt->space);
-    vec = split_and_check(split[2], ',', 3, rt->space);
+    split = split_and_check(line, '\t', 4, rt->nodes);
+    vec3 = split_and_check(split[1], ',', 3, rt->nodes);
+    vec = split_and_check(split[2], ',', 3, rt->nodes);
     set_vec3(vec3, &cam.lookfrom);
     set_vec3(vec, &cam.lookat);
     free_split(split);
@@ -77,6 +79,6 @@ void camera(char *line, t_map *rt, t_camera cam)
     if (validate_camera(line, cam))
         rt->obj[rt->nbr]->cam = cam;
     else
-        ft_error(rt->space);
+        ft_error(rt->nodes);
     rt->obj[rt->nbr]->type = CAMERA;
 }
