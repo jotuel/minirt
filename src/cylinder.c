@@ -8,15 +8,21 @@ typedef struct s_cyl
 	float	t1;
 }				t_cyl;
 
-bool	check_cap(t_ray r, float t)
+bool	check_cap(t_ray r, float t, t_cylinder cy)
 {
-	float	x;
-	float	z;
+	t_vec3 tmp;
+	float dist;
+	float phi;
 
-	x = r.origin.x + t * r.dir.x;
-	z = r.origin.z + t * r.dir.z;
-	//1 = diameter
-	return (((powf(x, 2) + powf(z, 2)) <= 1));
+	tmp = vec3_add(r.origin, vec3_scale(r.dir, t));
+	tmp.z = 0;
+	dist = vec3_dot(tmp, tmp);
+	if (dist <= powf(cy.diameter / 2, 2))
+		return false;
+	phi = atan2(tmp.y, tmp.x);
+	if (phi < 0)
+		return false;
+	return true;
 }
 
 //TODO: instead of returning t once, both need to be checked and returned
@@ -32,13 +38,13 @@ t_cyl	intersect_caps(t_cylinder cy, t_ray r)
 	cy.min = cy.pos.z + cy.min;
 	t = (cy.min - r.origin.z) / r.dir.z;
 	printf("%f\n", t);
-	if (check_cap(r, t))
+	if (check_cap(r, t, cy))
 	{
 		ct.t0 = t;
 		printf("cap 1\n");
 	}
 	t = (cy.max - r.origin.z) / r.dir.z;
-	if (check_cap(r, t))
+	if (check_cap(r, t, cy))
 	{
 		printf("cap 2\n");
 		ct.t1 = t;
@@ -72,7 +78,7 @@ t_cyl intersect_cylinder(t_cylinder cy, t_ray r)
 	return (xs);
 }
 
-// t is used to determine point p which then can be used to find the normal 
+// t is used to determine point p which then can be used to find the normal
 // using the formua's demonstrated in the following diagram. The vector |n| needs
 // to be normalized or else the shading wont work properly.
 float hit_cylinder(t_cylinder cy, t_ray r)
@@ -106,17 +112,17 @@ bool validate_cylinder(char *line, t_cylinder cy)
     return (true);
 }
 
-void cylinder(char *line, t_map *rt, t_cylinder cy)
+void cylinder(char *line, t_list *lst, t_cylinder cy)
 {
     char **split;
     char **vec3;
     char **vec;
     char **colors;
 
-    split = split_and_check(line, '\t', 6, rt->space);
-    vec3 = split_and_check(split[1], ',', 3, rt->space);
-    vec = split_and_check(split[2], ',', 3, rt->space);
-    colors = split_and_check(split[5], ',', 3, rt->space);
+    split = split_and_check(line, '\t', 6, lst);
+    vec3 = split_and_check(split[1], ',', 3, lst);
+    vec = split_and_check(split[2], ',', 3, lst);
+    colors = split_and_check(split[5], ',', 3, lst);
     set_vec3(vec3, &cy.pos);
     set_vec3(vec, &cy.orientation);
     set_colors(colors, &cy.color);
@@ -127,8 +133,7 @@ void cylinder(char *line, t_map *rt, t_cylinder cy)
     free_split(vec);
     free_split(colors);
     if (validate_cylinder(line, cy))
-        rt->obj[rt->nbr++]->cylinder = cy;
+    	ft_lstadd_back(&lst, ft_lstnew(&cy));
     else
-        ft_error(rt->space);
-    rt->obj[rt->nbr]->type = CYLINDER;
+        ft_error(lst);
 }

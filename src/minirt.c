@@ -52,7 +52,7 @@ void adding_info_to_nodes(t_map *minirt)
 		node->obj->cylinder.height = 1.0;
 		node->obj->cylinder.max = node->obj->cylinder.height/2;
 		node->obj->cylinder.min = -node->obj->cylinder.height/2;
-		node->obj->cylinder.closed = false;
+		node->obj->cylinder.closed = true;
 	}
 }
 
@@ -101,24 +101,16 @@ int main(int argc, char **argv)
 	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 90};
 	mlx_t *mlx;
 	mlx_image_t *img;
-	static t_map minirt;
+	t_list *lst;
 	(void)argv;
 	(void)argc;
-	// int instance;
 
-	// (void)argc;
-	minirt = (t_map){0};
-	// parse_file(argv[1], &minirt);
-	// if (!minirt.space)
-	// 	return (EXIT_FAILURE);
-	create_nodes(&minirt);
-
-	mlx = mlx_init(4000, 2100, "mlx", true);
-	img = mlx_new_image(mlx, 4000, 2100);
+	lst = parse_file(argv[1]);
+	mlx = mlx_init(2000, 1050, "mlx", true);
+	img = mlx_new_image(mlx, 2000, 1050);
 	mlx_image_to_window(mlx, img, 0, 0);
 	a.cam = &camera;
 	a.img = img;
-	a.minirt = &minirt;
 	mlx_loop_hook(mlx, render, &a);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

@@ -39,7 +39,7 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	camera->width = img->width;
 	camera->height = img->height;
 	camera->lookfrom = vec3;
-	vec3 = vec3_add(vec3, (t_vec3){0.00,0.00,0.01});
+	vec3 = vec3_add(vec3, (t_vec3){0.00,0.00,-0.01});
 	focal_length = vec3_length(vec3_subtract(camera->lookfrom, camera->lookat));
 	theta = to_radians(camera->fov / 2.);
 	h = tanf(theta/2);
@@ -61,15 +61,15 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
  *	cam  x, y, z  direction fov
  *
 */
-void camera(char *line, t_map *rt, t_camera cam)
+void camera(char *line, t_list *lst, t_camera cam)
 {
     char **split;
     char **vec;
     char **vec3;
 
-    split = split_and_check(line, '\t', 4, rt->nodes);
-    vec3 = split_and_check(split[1], ',', 3, rt->nodes);
-    vec = split_and_check(split[2], ',', 3, rt->nodes);
+    split = split_and_check(line, '\t', 4, lst);
+    vec3 = split_and_check(split[1], ',', 3, lst);
+    vec = split_and_check(split[2], ',', 3, lst);
     set_vec3(vec3, &cam.lookfrom);
     set_vec3(vec, &cam.lookat);
     free_split(split);
@@ -77,8 +77,7 @@ void camera(char *line, t_map *rt, t_camera cam)
     free_split(vec);
     cam.fov = ft_atoi(split[3]);
     if (validate_camera(line, cam))
-        rt->obj[rt->nbr]->cam = cam;
+    	ft_lstadd_front(&lst, ft_lstnew(&cam));
     else
-        ft_error(rt->nodes);
-    rt->obj[rt->nbr]->type = CAMERA;
+        ft_error(lst);
 }

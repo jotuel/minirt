@@ -3,7 +3,10 @@
 
 void ft_error(void *mem)
 {
+	t_list *lst;
+
+	lst = mem;
     perror("minirt");
-    free(mem);
+    ft_lstclear(&lst, free);
     exit(EXIT_FAILURE);
 }

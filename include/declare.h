@@ -1,6 +1,7 @@
 #ifndef DECLARE_H
 #define DECLARE_H
 #include "../MLX42/include/MLX42/MLX42.h"
+#include "../libft/libft.h"
 #include "types.h"
 #include <stdbool.h>
 
@@ -26,16 +27,16 @@ void set_green(t_color *color, uint8_t colour);
 void set_blue(t_color *color, uint8_t colour);
 uint_fast32_t get_color(t_color color);
 uint_fast32_t pixel_color(void);
-void ambient(char *line, t_map *rt, t_ambient amb);
-void camera(char *line, t_map *rt, t_camera cam);
+void ambient(char *line, t_list *lst, t_ambient amb);
+void camera(char *line, t_list *lst, t_camera cam);
 void initialize_camera(t_camera *camera, mlx_image_t *img);
-void cylinder(char *line, t_map *rt, t_cylinder cy);
-void plane(char *line, t_map *rt, t_plane pl);
-void sphere(char *line, t_map *rt, t_sphere sp);
-void light(char *line, t_map *rt, t_light light);
+void cylinder(char *line, t_list *lst, t_cylinder cy);
+void plane(char *line, t_list *lst, t_plane pl);
+void sphere(char *line, t_list *lst, t_sphere sp);
+void light(char *line, t_list *lst, t_light light);
 
 /* MAP PARSING */
-void parse_file(char *filename, t_map *minirt);
+t_list *parse_file(char *filename);
 char **split_and_check(char *input, char by, int fields, void *mem);
 void free_split(char **split);
 

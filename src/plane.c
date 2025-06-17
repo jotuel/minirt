@@ -4,6 +4,17 @@
 // {
 // 	return (vec3_add(r.origin, vec3_scale(r.dir, t)));
 // }
+//
+// should return t and not color
+float color_plane(t_ray r)
+{
+	float	t;
+
+	t = intersect_plane((t_vec3){0,0,-3.0}, (t_vec3){0,0,1}, r);
+	if (t > 0.0)
+		return (t);
+	return (0);
+}
 
 float intersect_plane(t_vec3 center, t_vec3 rot, t_ray r)
 {
@@ -29,17 +40,17 @@ bool validate_plane(char *line, t_plane pl)
     return (true);
 }
 
-void plane(char *line, t_map *rt, t_plane pl)
+void plane(char *line, t_list *lst, t_plane pl)
 {
     char **split;
     char **vec3;
     char **vec;
     char **colors;
 
-    split = split_and_check(line, '\t', 4, rt->space);
-    vec3 = split_and_check(split[1], ',', 3, rt->space);
-    vec = split_and_check(split[2], ',', 3, rt->space);
-    colors = split_and_check(split[3], ',', 3, rt->space);
+    split = split_and_check(line, '\t', 4, lst);
+    vec3 = split_and_check(split[1], ',', 3, lst);
+    vec = split_and_check(split[2], ',', 3, lst);
+    colors = split_and_check(split[3], ',', 3, lst);
     set_vec3(vec3, &pl.pos);
     set_vec3(vec, &pl.orientation);
     set_colors(colors, &pl.color);
@@ -48,8 +59,7 @@ void plane(char *line, t_map *rt, t_plane pl)
     free_split(vec);
     free_split(colors);
     if (validate_plane(line, pl))
-        rt->obj[rt->nbr++]->plane = pl;
+        ft_lstadd_front(&lst, ft_lstnew(&pl));
     else
-        ft_error(rt->space);
-    rt->obj[rt->nbr]->type = PLANE;
+        ft_error(lst);
 }
