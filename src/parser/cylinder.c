@@ -2,22 +2,22 @@
 
 bool validate_cylinder(char *line, t_cylinder cy)
 {
-    (void)line;
+ 	(void)line;
     (void)cy;
     return (true);
 }
 
-void cylinder(char *line, t_map *rt, t_cylinder cy)
+void cylinder(char *line, t_list *lst, t_cylinder cy)
 {
     char **split;
     char **vec3;
     char **vec;
     char **colors;
 
-    split = split_and_check(line, '\t', 6, rt->space);
-    vec3 = split_and_check(split[1], ',', 3, rt->space);
-    vec = split_and_check(split[2], ',', 3, rt->space);
-    colors = split_and_check(split[5], ',', 3, rt->space);
+    split = split_and_check(line, '\t', 6, lst);
+    vec3 = split_and_check(split[1], ',', 3, lst);
+    vec = split_and_check(split[2], ',', 3, lst);
+    colors = split_and_check(split[5], ',', 3, lst);
     set_vec3(vec3, &cy.pos);
     set_vec3(vec, &cy.orientation);
     set_colors(colors, &cy.color);
@@ -28,8 +28,7 @@ void cylinder(char *line, t_map *rt, t_cylinder cy)
     free_split(vec);
     free_split(colors);
     if (validate_cylinder(line, cy))
-        rt->obj[rt->nbr++]->cylinder = cy;
+    	ft_lstadd_back(&lst, ft_lstnew(&cy));
     else
-        ft_error(rt->space);
-    rt->obj[rt->nbr]->shape = CYLINDER;
+        ft_error(lst);
 }

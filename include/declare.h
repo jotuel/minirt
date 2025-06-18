@@ -10,6 +10,7 @@ void 			ft_error(void *mem);
 /* CASTING RAYS */
 float 			hit_sphere(t_point center, float radius, t_ray r);
 uint_fast32_t	color_ray(t_ray r, t_node *nodes);
+float			color_plane(t_ray r);
 float 			intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
 float			hit_cylinder(t_cylinder cy, t_ray r);
 
@@ -41,6 +42,7 @@ char **split_and_check(char *input, char by, int fields, void *mem);
 void free_split(char **split);
 
 /* MATH */
+t_point at(t_ray r, float t);
 float lerp(float s, float e, float f);
 uint_fast8_t color_lerp(float f);
 float to_degrees(float radians);

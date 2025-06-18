@@ -1,13 +1,5 @@
 #include "../include/minirt.h"
 
-bool validate_camera(char *line, t_camera cam)
-{
-    (void)line;
-    (void)cam;
-    return (true);
-}
-
-
 // what type should aspectratio be? its 19:8?
 // height will be calculated based on the width and the aspectratio
 // but height should never be less than 1
@@ -55,29 +47,4 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	viewport_upper_left = vec3_subtract(vec3_subtract(vec3_subtract(camera->lookfrom,
 				vec3_scale(camera->w, focal_length)), vec3_scale(viewport_u, 0.5)) , vec3_scale(viewport_v, 0.5));
 	camera->pixel00_pos = vec3_add(viewport_upper_left,vec3_scale(vec3_add(camera->pixel_delta_u, camera->pixel_delta_v), 0.5));
-}
-
-/*  C    -50,0,0   0,0,1    70 <- example of given camera coordinates
- *	cam  x, y, z  direction fov
- *
-*/
-void camera(char *line, t_list *lst, t_camera cam)
-{
-    char **split;
-    char **vec;
-    char **vec3;
-
-    split = split_and_check(line, '\t', 4, lst);
-    vec3 = split_and_check(split[1], ',', 3, lst);
-    vec = split_and_check(split[2], ',', 3, lst);
-    set_vec3(vec3, &cam.lookfrom);
-    set_vec3(vec, &cam.lookat);
-    free_split(split);
-    free_split(vec3);
-    free_split(vec);
-    cam.fov = ft_atoi(split[3]);
-    if (validate_camera(line, cam))
-    	ft_lstadd_front(&lst, ft_lstnew(&cam));
-    else
-        ft_error(lst);
 }

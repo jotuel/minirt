@@ -1,29 +1,22 @@
 #include "../include/minirt.h"
 
-bool validate_sphere(char *line, t_sphere sp)
+// intersect_sphere
+float  hit_sphere(t_point center, float radius, t_ray r)
 {
-    (void)line;
-    (void)sp;
-    return (true);
-}
+	t_vec3 oc;
+	float a;
+	float h;
+	float c;
+	float discrimant;
 
-void sphere(char *line, t_list *lst, t_sphere sp)
-{
-    char **split;
-    char **vec3;
-    char **colors;
-
-    split = split_and_check(line, '\t', 4, lst);
-    vec3 = split_and_check(split[1], ',', 3, lst);
-    colors = split_and_check(split[3], ',', 3, lst);
-    set_vec3(vec3, &sp.pos);
-    set_colors(colors, &sp.color);
-    sp.diameter = ft_atof(split[2]);
-    free_split(split);
-    free_split(vec3);
-    free_split(colors);
-    if (validate_sphere(line, sp))
-        ft_lstadd_front(&lst, ft_lstnew(&sp));
-    else
-        ft_error(lst);
+	oc = vec3_subtract(center, r.origin);
+	a = vec3_length(r.dir);
+	a *= a;
+	h = vec3_dot(r.dir, oc);
+	c = vec3_length(oc);
+	c = c * c - radius * radius;
+	discrimant =  h * h - a * c;
+	if (discrimant < 0)
+		return (-1.);
+	return ((h - sqrtf(discrimant)) / a);
 }
