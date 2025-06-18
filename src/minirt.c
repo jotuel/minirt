@@ -56,44 +56,23 @@ void adding_info_to_nodes(t_map *minirt)
 	}
 }
 
-int create_nodes(t_map *minirt)
-{
-	size_t	size;
-	t_node	*new_node;
-	t_node	*prev;
+// struct s {
+// 	t_list *sp;
+// 	t_list *cy;
+// 	t_list *l;
+// 	t_list *amb;
+// 	t_list *
+// }
 
-	// --- this part will be changed and the info will
-	// come from the parsing
-	minirt->obj[0] = ft_calloc(sizeof(t_obj), 1);
-	minirt->obj[0]->type = SPHERE;
-	minirt->obj[1] = ft_calloc(sizeof(t_obj), 1);
-	minirt->obj[1]->type = SPHERE;
-	minirt->obj[2] = ft_calloc(sizeof(t_obj), 1);
-	minirt->obj[2]->type = CYLINDER;
-	minirt->nbr = 3;
-	// remove above
+// int create_nodes(t_list *minirt)
+// {
 
-	prev = NULL;
-	size = 0;
-	while (size != minirt->nbr)
-	{
-		new_node = ft_calloc(sizeof(t_node), 1);
-		if (!new_node)
-			return (1);
-		new_node->data = size;
-		new_node->next = NULL;
-		new_node->type = minirt->obj[size]->type;
-		new_node->obj = minirt->obj[size];
-		if (prev)
-			prev->next = new_node;
-		else
-			minirt->nodes = new_node;
-		prev = new_node;
-		size++;
-	}
-	adding_info_to_nodes(minirt);
-	return (0);
-}
+// 	nodes = NULL;
+// 	nodes = ft_lstmap(minirt, );
+// 	minirt = minirt->next;
+// 	adding_info_to_nodes(minirt);
+// 	return (0);
+// }
 
 int main(int argc, char **argv)
 {
@@ -101,20 +80,21 @@ int main(int argc, char **argv)
 	t_camera camera = (t_camera){.lookat = {0,0,-1}, .vup = {0, 1, 0}, .fov  = 90};
 	mlx_t *mlx;
 	mlx_image_t *img;
-	static t_map minirt;
 	(void)argv;
-	(void)argc;
+	t_list *lst;
 
-	minirt = (t_map){0};
-	// parse_file(argv[1], &minirt);
-	create_nodes(&minirt);
+	if (argc != 2)
+		return 1;
+	lst = parse_file(argv[1]);
+	if(!lst)
+		return 1;
+//	create_nodes(lst);
 
 	mlx = mlx_init(2000, 1050, "mlx", true);
 	img = mlx_new_image(mlx, 2000, 1050);
 	mlx_image_to_window(mlx, img, 0, 0);
 	a.cam = &camera;
 	a.img = img;
-	a.minirt = &minirt;
 	mlx_loop_hook(mlx, render, &a);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

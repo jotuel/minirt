@@ -4,10 +4,10 @@ static bool check_filetype(char *filename)
 {
     char *ptr;
 
-    ptr = ft_strrchr(filename, '.');
+    ptr = ft_strchr(filename, '.');
     if (!ptr)
         return (false);
-    if (ft_strncmp(ptr, ".rt", 4))
+    if (!ft_strncmp(ptr, ".rt", 4))
         return (true);
     return (false);
 }
@@ -30,12 +30,8 @@ static bool parse_line(char *line, t_list *lst)
         return (false);
 }
 
-static t_list *file_parser(char *name, t_list *lst, int fd, char *line)
+static t_list *file_parser(t_list *lst, int fd, char *line)
 {
-    fd = open(name, O_RDONLY);
-    if (-1 == fd)
-        return NULL;
-    line = ft_calloc(1, 1);
     while (line)
     {
         if (!line[0])
@@ -60,6 +56,7 @@ static t_list *file_parser(char *name, t_list *lst, int fd, char *line)
 t_list *parse_file(char *filename)
 {
 	t_list *lst;
+	int		fd;
 
 	lst = NULL;
     if (!filename || !check_filetype(filename))
@@ -67,6 +64,9 @@ t_list *parse_file(char *filename)
         ft_putendl_fd("Not a valid file", 2);
         return NULL;
     }
-    lst = file_parser(filename, lst, 0, NULL);
+    fd = open(filename, O_RDONLY);
+    if (-1 == fd)
+        return NULL;
+    lst = file_parser(lst, fd, ft_calloc(1, 1));
     return (lst);
 }

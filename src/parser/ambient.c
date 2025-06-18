@@ -14,7 +14,7 @@ void ambient(char *line, t_list *lst, t_ambient amb)
     char **split;
     char **colors;
 
-    split = split_and_check(line, '\t', 4, lst);
+    split = split_and_check(line, '\t', 3, lst);
     amb.intensity = ft_atof(split[1]);
     colors = split_and_check(split[2], ',', 3, lst);
     set_colors(colors, &amb.color);
