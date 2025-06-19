@@ -7,7 +7,7 @@ bool validate_sphere(char *line, t_sphere sp)
     return (true);
 }
 
-void sphere(char *line, t_list *lst, t_sphere sp)
+t_list *sphere(char *line, t_list *lst, t_sphere sp)
 {
     char **split;
     char **vec3;
@@ -23,7 +23,8 @@ void sphere(char *line, t_list *lst, t_sphere sp)
     free_split(vec3);
     free_split(colors);
     if (validate_sphere(line, sp))
-        ft_lstadd_front(&lst, ft_lstnew(&sp));
+        return (ft_lstnew(&(t_obj){.sphere = sp, .type = SPHERE}));
     else
         ft_error(lst);
+    return (NULL);
 }

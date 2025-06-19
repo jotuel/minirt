@@ -12,20 +12,20 @@ static bool check_filetype(char *filename)
     return (false);
 }
 
-static bool parse_line(char *line, t_list *lst)
+static t_list *parse_line(char *line, t_list *lst)
 {
     if (ft_strchr(line, 'L'))
-        return (light(line, lst, (t_light){0}), true);
+        return (light(line, lst, (t_light){0}));
     else if (ft_strchr(line, 'C'))
-        return (camera(line, lst, (t_camera){0}), true);
+        return (camera(line, lst, (t_camera){0}));
     else if (ft_strchr(line, 'A'))
-        return (ambient(line, lst, (t_ambient){0}), true);
+        return (ambient(line, lst, (t_ambient){0}));
     else if (ft_strchr(line, 's'))
-        return (sphere(line, lst, (t_sphere){0}), true);
+        return (sphere(line, lst, (t_sphere){0}));
     else if (ft_strchr(line, 'c'))
-        return (cylinder(line, lst, (t_cylinder){0}), true);
+        return (cylinder(line, lst, (t_cylinder){0}));
     else if (ft_strchr(line, 'p'))
-        return (plane(line, lst, (t_plane){0}), true);
+        return (plane(line, lst, (t_plane){0}));
     else
         return (false);
 }
@@ -34,18 +34,8 @@ static t_list *file_parser(t_list *lst, int fd, char *line)
 {
     while (line)
     {
-        if (!line[0])
-        {
-            free(line);
-            line = get_next_line(fd);
-            continue ;
-        }
-        if (!parse_line(line, lst))
-        {
-            free(line);
-            ft_lstclear(&lst, free);
-            return NULL;
-        }
+        if (*line && line[0] != '\n')
+            ft_lstadd_front(&lst, parse_line(line, lst));
         free(line);
         line = get_next_line(fd);
     }

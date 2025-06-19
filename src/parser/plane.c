@@ -7,7 +7,7 @@ bool validate_plane(char *line, t_plane pl)
     return (true);
 }
 
-void plane(char *line, t_list *lst, t_plane pl)
+t_list *plane(char *line, t_list *lst, t_plane pl)
 {
     char **split;
     char **vec3;
@@ -26,7 +26,8 @@ void plane(char *line, t_list *lst, t_plane pl)
     free_split(vec);
     free_split(colors);
     if (validate_plane(line, pl))
-        ft_lstadd_front(&lst, ft_lstnew(&pl));
+        return (ft_lstnew(&(t_obj){.plane = pl, .type = PLANE}));
     else
         ft_error(lst);
+    return (NULL);
 }

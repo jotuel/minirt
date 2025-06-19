@@ -11,7 +11,7 @@ bool validate_camera(char *line, t_camera cam)
  *	cam  x, y, z  direction fov
  *
 */
-void camera(char *line, t_list *lst, t_camera cam)
+t_list *camera(char *line, t_list *lst, t_camera cam)
 {
     char **split;
     char **vec;
@@ -27,7 +27,8 @@ void camera(char *line, t_list *lst, t_camera cam)
     free_split(vec);
     cam.fov = ft_atoi(split[3]);
     if (validate_camera(line, cam))
-    	ft_lstadd_front(&lst, ft_lstnew(&cam));
+       	return (ft_lstnew(&(t_obj){.cam = cam, .type = CAMERA}));
     else
         ft_error(lst);
+    return (NULL);
 }

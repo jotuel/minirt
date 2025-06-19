@@ -8,7 +8,7 @@ bool validate_light(char *line, t_light light)
 }
 
 // L -40.0,50.0,0.0 0.6 10,0,255
-void light(char *line, t_list *lst, t_light light)
+t_list *light(char *line, t_list *lst, t_light light)
 {
     char **split;
     char **vec3;
@@ -24,7 +24,8 @@ void light(char *line, t_list *lst, t_light light)
     free_split(vec3);
     free_split(colors);
     if (validate_light(line, light))
-    	ft_lstadd_front(&lst, ft_lstnew(&light));
+       	return (ft_lstnew(&(t_obj){.light = light, .type = LIGHT}));
     else
         ft_error(lst);
+    return (NULL);
 }

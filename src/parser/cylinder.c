@@ -7,7 +7,7 @@ bool validate_cylinder(char *line, t_cylinder cy)
     return (true);
 }
 
-void cylinder(char *line, t_list *lst, t_cylinder cy)
+t_list *cylinder(char *line, t_list *lst, t_cylinder cy)
 {
     char **split;
     char **vec3;
@@ -28,7 +28,8 @@ void cylinder(char *line, t_list *lst, t_cylinder cy)
     free_split(vec);
     free_split(colors);
     if (validate_cylinder(line, cy))
-    	ft_lstadd_back(&lst, ft_lstnew(&cy));
+       	return (ft_lstnew(&(t_obj){.cylinder = cy, .type = CYLINDER}));
     else
         ft_error(lst);
+    return (NULL);
 }

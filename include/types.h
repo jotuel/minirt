@@ -13,7 +13,7 @@
 // metallic would have metal attributes
 // and glass glass
 // we can add more if wanted or create ready materials that players
-// can play with
+// can play with // players? -j
 typedef enum e_mat
 {
 	DEFAULT,
@@ -41,6 +41,8 @@ typedef struct s_vec3
 	float			y;
 	float			z;
 }					t_vec3;
+
+typedef t_vec3 t_point;
 
 typedef struct s_color
 {
@@ -85,7 +87,7 @@ typedef struct s_plane
 /// @param color
 typedef struct s_cylinder
 {
-	t_vec3			pos;
+	t_point			pos;
 	t_vec3			orientation;
 	float			diameter;
 	float			height;
@@ -98,7 +100,7 @@ typedef struct s_cylinder
 
 typedef struct s_sphere
 {
-	t_vec3			pos;
+	t_point			pos;
 	float			diameter;
 	t_color			color;
 }					t_sphere;
@@ -128,12 +130,11 @@ typedef struct s_camera
 
 typedef struct s_lightsource
 {
-	t_vec3			pos;
+	t_point			pos;
 	float			intensity;
 	t_color			color;
 }					t_light;
 
-typedef t_vec3 t_point;
 /// @param point1 = origin
 /// @param point2 = direction
 typedef struct s_ray

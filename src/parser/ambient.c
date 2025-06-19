@@ -1,4 +1,3 @@
-
 #include "../../include/minirt.h"
 
 static bool validate_ambiance(char *line, t_ambient amb)
@@ -9,7 +8,7 @@ static bool validate_ambiance(char *line, t_ambient amb)
 }
 
 // A 0.2 255,255,255 example of ambient lighting
-void ambient(char *line, t_list *lst, t_ambient amb)
+t_list *ambient(char *line, t_list *lst, t_ambient amb)
 {
     char **split;
     char **colors;
@@ -21,7 +20,8 @@ void ambient(char *line, t_list *lst, t_ambient amb)
     free_split(split);
     free_split(colors);
     if (validate_ambiance(line, amb))
-    	ft_lstadd_front(&lst, ft_lstnew(&amb));
+       	return (ft_lstnew(&(t_obj){.ambiance = amb, .type = AMBIENT}));
     else
         ft_error(lst);
+    return (NULL);
 }

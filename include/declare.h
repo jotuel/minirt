@@ -28,13 +28,13 @@ void set_green(t_color *color, uint8_t colour);
 void set_blue(t_color *color, uint8_t colour);
 uint_fast32_t get_color(t_color color);
 uint_fast32_t pixel_color(void);
-void ambient(char *line, t_list *lst, t_ambient amb);
-void camera(char *line, t_list *lst, t_camera cam);
-void initialize_camera(t_camera *camera, mlx_image_t *img);
-void cylinder(char *line, t_list *lst, t_cylinder cy);
-void plane(char *line, t_list *lst, t_plane pl);
-void sphere(char *line, t_list *lst, t_sphere sp);
-void light(char *line, t_list *lst, t_light light);
+t_list *ambient(char *line, t_list *lst, t_ambient amb);
+t_list *camera(char *line, t_list *lst, t_camera cam);
+t_list *initialize_camera(t_camera *camera, mlx_image_t *img);
+t_list *cylinder(char *line, t_list *lst, t_cylinder cy);
+t_list *plane(char *line, t_list *lst, t_plane pl);
+t_list *sphere(char *line, t_list *lst, t_sphere sp);
+t_list *light(char *line, t_list *lst, t_light light);
 
 /* MAP PARSING */
 t_list *parse_file(char *filename);
