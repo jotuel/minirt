@@ -23,7 +23,7 @@ t_list *sphere(char *line, t_list *lst, t_sphere sp)
     free_split(vec3);
     free_split(colors);
     if (validate_sphere(line, sp))
-        return (ft_lstnew(&(t_obj){.sphere = sp, .type = SPHERE}));
+        return (ft_lstnew(obj((t_obj){.sphere = sp, .type = SPHERE}, lst)));
     else
         ft_error(lst);
     return (NULL);

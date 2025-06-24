@@ -20,7 +20,7 @@ t_list *ambient(char *line, t_list *lst, t_ambient amb)
     free_split(split);
     free_split(colors);
     if (validate_ambiance(line, amb))
-       	return (ft_lstnew(&(t_obj){.ambiance = amb, .type = AMBIENT}));
+       	return (ft_lstnew(obj((t_obj){.ambiance = amb, .type = AMBIENT}, lst)));
     else
         ft_error(lst);
     return (NULL);

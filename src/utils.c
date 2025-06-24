@@ -1,50 +1,26 @@
 #include "../include/minirt.h"
 
-bool validate_orientation(t_vec3 orien)
+void *move_to_structs(void *ptr)
 {
-    if (orien.x > 1. || orien.x < 0.)
-        return (false);
-    else if (orien.y > 1. || orien.y < 0.)
-        return (false);
-    else if (orien.z > 1. || orien.z < 0.)
-        return (false);
-    return (true);
-}
+    static t_map *map;
+    t_obj *obj;
 
-bool validate_line(char *line)
-{
-    char *res;
-
-    res = ft_strtrim(line, "ACLsplcy0123456789.,\t");
-    if (res[0] == '\n')
-        return (free(res), true);
+    if (!map)
+        map = ft_calloc(1, sizeof(t_map));
+    obj = ptr;
+    if (!obj)
+        return (NULL);
+    else if (obj->type == AMBIENT)
+        map->ambient = obj->ambiance;
+    else if (obj->type == CAMERA)
+        map->camera = obj->cam;
+    else if (obj->type == LIGHT)
+        map->light = obj->light;
+    else if (obj->type == PLANE)
+        map->pl = &obj->plane;
+    else if (obj->type == CYLINDER)
+        map->cy = &obj->cylinder;
     else
-        return (free(res), false);
-}
-
-void free_split(char **split)
-{
-	int i;
-
-	i = 0;
-	while(split[i])
-		free(split[i++]);
-	free(split);
-}
-
-char **split_and_check(char *input, char by, int fields, void *mem)
-{
-    char **split;
-
-    split = ft_split(input, by);
-    if (!split)
-        ft_error(mem);
-    if (split[fields])
-        ft_error(mem);
-    while(fields--)
-    {
-        if(!split[fields])
-            ft_error(mem);
-    }
-    return (split);
+        map->sp = &obj->sphere;
+    return (map);
 }

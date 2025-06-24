@@ -49,3 +49,13 @@ char **split_and_check(char *input, char by, int fields, void *mem)
     }
     return (split);
 }
+
+void *obj(t_obj obj, t_list *lst)
+{
+    t_obj *new;
+
+   new = ft_calloc(sizeof(t_obj), 1);
+   if (!new)
+        ft_error(lst);
+   return (ft_memcpy(new, &obj, sizeof(t_obj)));
+}

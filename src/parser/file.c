@@ -27,7 +27,8 @@ static t_list *parse_line(char *line, t_list *lst)
     else if (ft_strchr(line, 'p'))
         return (plane(line, lst, (t_plane){0}));
     else
-        return (false);
+        ft_error(lst);
+    return (lst);
 }
 
 static t_list *file_parser(t_list *lst, int fd, char *line)
@@ -45,10 +46,8 @@ static t_list *file_parser(t_list *lst, int fd, char *line)
 
 t_list *parse_file(char *filename)
 {
-	t_list *lst;
 	int		fd;
 
-	lst = NULL;
     if (!filename || !check_filetype(filename))
     {
         ft_putendl_fd("Not a valid file", 2);
@@ -57,6 +56,5 @@ t_list *parse_file(char *filename)
     fd = open(filename, O_RDONLY);
     if (-1 == fd)
         return NULL;
-    lst = file_parser(lst, fd, ft_calloc(1, 1));
-    return (lst);
+    return (file_parser(ft_lstnew(NULL), fd, ft_calloc(1, 1)));
 }

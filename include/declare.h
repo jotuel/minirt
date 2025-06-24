@@ -9,7 +9,7 @@ void 			ft_error(void *mem);
 
 /* CASTING RAYS */
 float 			hit_sphere(t_point center, float radius, t_ray r);
-uint_fast32_t	color_ray(t_ray r, t_node *nodes);
+uint_fast32_t	color_ray(t_ray r, t_map *map);
 float			color_plane(t_ray r);
 float 			intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
 float			hit_cylinder(t_cylinder cy, t_ray r);
@@ -30,7 +30,7 @@ uint_fast32_t get_color(t_color color);
 uint_fast32_t pixel_color(void);
 t_list *ambient(char *line, t_list *lst, t_ambient amb);
 t_list *camera(char *line, t_list *lst, t_camera cam);
-t_list *initialize_camera(t_camera *camera, mlx_image_t *img);
+void    initialize_camera(t_camera *camera, mlx_image_t *img);
 t_list *cylinder(char *line, t_list *lst, t_cylinder cy);
 t_list *plane(char *line, t_list *lst, t_plane pl);
 t_list *sphere(char *line, t_list *lst, t_sphere sp);
@@ -40,6 +40,8 @@ t_list *light(char *line, t_list *lst, t_light light);
 t_list *parse_file(char *filename);
 char **split_and_check(char *input, char by, int fields, void *mem);
 void free_split(char **split);
+void *obj(t_obj obj, t_list *lst);
+void *move_to_structs(void *ptr);
 
 /* MATH */
 t_point at(t_ray r, float t);

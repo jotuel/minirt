@@ -28,7 +28,7 @@ t_list *cylinder(char *line, t_list *lst, t_cylinder cy)
     free_split(vec);
     free_split(colors);
     if (validate_cylinder(line, cy))
-       	return (ft_lstnew(&(t_obj){.cylinder = cy, .type = CYLINDER}));
+       	return (ft_lstnew(obj((t_obj){.cylinder = cy, .type = CYLINDER}, lst)));
     else
         ft_error(lst);
     return (NULL);

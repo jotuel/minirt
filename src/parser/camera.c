@@ -27,7 +27,7 @@ t_list *camera(char *line, t_list *lst, t_camera cam)
     free_split(vec);
     cam.fov = ft_atoi(split[3]);
     if (validate_camera(line, cam))
-       	return (ft_lstnew(&(t_obj){.cam = cam, .type = CAMERA}));
+       	return (ft_lstnew(obj((t_obj){.cam = cam, .type = CAMERA}, lst)));
     else
         ft_error(lst);
     return (NULL);

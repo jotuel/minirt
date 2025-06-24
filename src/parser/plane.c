@@ -26,7 +26,7 @@ t_list *plane(char *line, t_list *lst, t_plane pl)
     free_split(vec);
     free_split(colors);
     if (validate_plane(line, pl))
-        return (ft_lstnew(&(t_obj){.plane = pl, .type = PLANE}));
+        return (ft_lstnew(obj((t_obj){.plane = pl, .type = PLANE}, lst)));
     else
         ft_error(lst);
     return (NULL);

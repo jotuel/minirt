@@ -1,9 +1,10 @@
 #ifndef TYPES_H
 # define TYPES_H
+# include "../libft/libft.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include <stddef.h>
 # include <stdint.h>
 # include <stdbool.h>
-# define MAX_OBJ 100
 
 /*
 //emilia: maybe? These would be the base material types
@@ -161,7 +162,6 @@ typedef struct s_intersection
 {
 	float			t;
 	t_type			type;
-	t_obj			*obj;
 }					t_intersection;
 
 // node struct inside the content of linkedlist
@@ -178,13 +178,13 @@ typedef struct s_node
 // float 19:8
 typedef struct s_map
 {
-	t_obj			*obj[MAX_OBJ];
-	size_t			nbr;
-	size_t			dimensions[3];
-	size_t          size;
-	size_t          capacity;
-	void			*space;
-	t_node			*nodes;
+    t_camera        camera;
+    t_light         light;
+    t_ambient       ambient;
+	t_sphere		*sp;
+	t_plane         *pl;
+	t_cylinder      *cy;
+	mlx_image_t     *img;
 }					t_map;
 
 #endif

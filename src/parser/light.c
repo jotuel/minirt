@@ -24,7 +24,7 @@ t_list *light(char *line, t_list *lst, t_light light)
     free_split(vec3);
     free_split(colors);
     if (validate_light(line, light))
-       	return (ft_lstnew(&(t_obj){.light = light, .type = LIGHT}));
+       	return (ft_lstnew(obj((t_obj){.light = light, .type = LIGHT}, lst)));
     else
         ft_error(lst);
     return (NULL);
