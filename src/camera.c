@@ -32,8 +32,8 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	camera->v = vec3_cross(camera->w, camera->u);
 	viewport_u = vec3_scale(camera->u, viewport_width);
 	viewport_v = vec3_scale(vec3_scale(camera->v, -1), viewport_height);
-	camera->pixel_delta_u = vec3_scale(viewport_u, 1. / camera->width);
-	camera->pixel_delta_v = vec3_scale(viewport_v, 1. / camera->height);
+	camera->pixel_delta_u = vec3_scale(viewport_u, 1. / img->width);
+	camera->pixel_delta_v = vec3_scale(viewport_v, 1. / img->height);
 	viewport_upper_left = vec3_subtract(vec3_subtract(vec3_subtract(
 		camera->lookfrom, vec3_scale(camera->w, focal_length)
 	), vec3_scale(viewport_u, 0.5)), vec3_scale(viewport_v, 0.5));

@@ -28,5 +28,5 @@ inline t_vec3 vec3_cross(t_vec3 v, t_vec3 w)
 	return ((t_vec3)
 		{.x = v.y * w.z - v.z * w.y,
 		.y = v.z * w.x - v.x * w.z,
-		.z = v.x * w.y - v.x * w.y});
+		.z = v.x * w.y - v.y * w.x});
 }

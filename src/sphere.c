@@ -1,7 +1,7 @@
 #include "../include/minirt.h"
 
 // intersect_sphere
-float  hit_sphere(t_sphere sp, t_ray r)
+float  hit_sphere(t_ray r, t_sphere sp)
 {
 	const t_vec3 oc = vec3_subtract(sp.pos, r.origin);
 	const float a = powf(vec3_length(r.dir), 2);

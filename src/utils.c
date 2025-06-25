@@ -11,11 +11,11 @@ void *move_to_structs(void *ptr)
     if (!obj)
         return (NULL);
     else if (obj->type == AMBIENT)
-        map->ambient = obj->ambiance;
+        map->ambient = &obj->ambiance;
     else if (obj->type == CAMERA)
-        map->camera = obj->cam;
+        map->camera = &obj->cam;
     else if (obj->type == LIGHT)
-        map->light = obj->light;
+        map->light = &obj->light;
     else if (obj->type == PLANE)
         map->pl = &obj->plane;
     else if (obj->type == CYLINDER)

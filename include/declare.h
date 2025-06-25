@@ -8,11 +8,12 @@
 void 			ft_error(void *mem);
 
 /* CASTING RAYS */
-float 			hit_sphere(t_sphere sp, t_ray r);
+float 			hit_sphere(t_ray r, t_sphere sp);
 uint_fast32_t	color_ray(t_ray r, t_map *map);
 float			color_plane(t_ray r, t_plane pl);
 float 			intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
 float			hit_cylinder(t_ray r, t_cylinder cy);
+void           initialize_camera(t_camera *camera, mlx_image_t *img);
 
 /* SET & GET FUNCTIONS */
 float vec3_get_z(t_vec3 vec);
@@ -31,7 +32,6 @@ uint_fast32_t get_color(t_color color);
 uint_fast32_t pixel_color(void);
 t_list *ambient(char *line, t_list *lst, t_ambient amb);
 t_list *camera(char *line, t_list *lst, t_camera cam);
-void    initialize_camera(t_camera *camera, mlx_image_t *img);
 t_list *cylinder(char *line, t_list *lst, t_cylinder cy);
 t_list *plane(char *line, t_list *lst, t_plane pl);
 t_list *sphere(char *line, t_list *lst, t_sphere sp);

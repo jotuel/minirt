@@ -184,9 +184,9 @@ typedef struct s_node
 // float 19:8
 typedef struct s_map
 {
-    t_camera        camera;
-    t_light         light;
-    t_ambient       ambient;
+    t_camera        *camera;
+    t_light         *light;
+    t_ambient       *ambient;
 	t_sphere		*sp;
 	t_plane         *pl;
 	t_cylinder      *cy;

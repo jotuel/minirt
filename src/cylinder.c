@@ -80,8 +80,8 @@ float hit_cylinder(t_ray r, t_cylinder cy)
 	float	y1;
 	const t_quat q = quaternion_from_axis((t_vec3){0,1,0}, cy.orientation);
 	const t_quat inv_q = (t_quat){{-q.v.x, -q.v.y, -q.v.z}, q.w};
-	const t_vec3 local_origin = quat_rot(inv_q, vec3_subtract(r.origin, cy.pos));
-	const t_vec3 local_dir = quat_rot(inv_q, r.dir);
+	const t_vec3 local_origin = rotate_vector_by_quaternion(vec3_subtract(r.origin, cy.pos), inv_q);
+	const t_vec3 local_dir = rotate_vector_by_quaternion(r.dir, inv_q);
 	const t_ray local_ray = {local_origin, local_dir};
 
 	xs = intersect_cylinder(local_ray, cy);
