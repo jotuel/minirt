@@ -1,11 +1,11 @@
 #include "../include/minirt.h"
 
-
 //create hit cylinder function
 typedef struct s_cyl
 {
 	float	t0;
 	float	t1;
+
 }				t_cyl;
 
 bool	check_cap(t_ray r, float t, t_cylinder cy)
@@ -26,7 +26,7 @@ bool	check_cap(t_ray r, float t, t_cylinder cy)
 }
 
 //TODO: instead of returning t once, both need to be checked and returned
-t_cyl	intersect_caps(t_cylinder cy, t_ray r)
+t_cyl	intersect_caps(t_ray r, t_cylinder cy)
 {
 	t_cyl 	ct;
 	float	t;
@@ -34,43 +34,34 @@ t_cyl	intersect_caps(t_cylinder cy, t_ray r)
 	ct = (t_cyl){0};
 	if (cy.closed == false || (r.dir.y <= 0.00001))
 		return (ct);
-	cy.max = cy.pos.z + cy.max;
-	cy.min = cy.pos.z + cy.min;
 	t = (cy.min - r.origin.z) / r.dir.z;
-	printf("%f\n", t);
 	if (check_cap(r, t, cy))
-	{
 		ct.t0 = t;
-		printf("cap 1\n");
-	}
 	t = (cy.max - r.origin.z) / r.dir.z;
 	if (check_cap(r, t, cy))
-	{
-		printf("cap 2\n");
 		ct.t1 = t;
-	}
 	return (ct);
 }
 
-//cylinder pos and orientation
+
+
+
+// cylinder pos and orientation
 // float cy.diameter
 // float cy.height
-t_cyl intersect_cylinder(t_cylinder cy, t_ray r)
+t_cyl intersect_cylinder(t_ray r, t_cylinder cy)
 {
-	float	a;
+	const float	a = powf(r.dir.x, 2) + powf(r.dir.z, 2);
 	float	b;
 	float	c;
 	float	disc;
 	t_cyl	xs;
-	t_vec3	pos;
 
-	pos = vec3_subtract(r.origin, cy.pos);
-	a =  powf(r.dir.x, 2) + powf(r.dir.z, 2);
 	if (a == 0.0)
 		return ((t_cyl){0, 0});
-	b = 2 * pos.x * r.dir.x + 2 * pos.z * r.dir.z;
-	c = (pos.x * pos.x) + (pos.z * pos.z) - cy.diameter/2;
-	disc = (b * b) - 4 * a * c;
+	b = powf(r.origin.x, 2) + 2 * powf(r.origin.z, 2);
+	c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) -  cy.diameter/2;
+	disc = powf(b, 2) - 4 * a * c;
 	if (disc < 0)
 		return ((t_cyl){0, 0});
 	xs.t0 = (-b - sqrtf(disc)) / (2 * a);
@@ -81,19 +72,22 @@ t_cyl intersect_cylinder(t_cylinder cy, t_ray r)
 // t is used to determine point p which then can be used to find the normal
 // using the formua's demonstrated in the following diagram. The vector |n| needs
 // to be normalized or else the shading wont work properly.
-float hit_cylinder(t_cylinder cy, t_ray r)
+float hit_cylinder(t_ray r, t_cylinder cy)
 {
 	t_cyl	xs;
 	t_cyl	ct;
 	float	y0;
 	float	y1;
+	const t_quat q = quaternion_from_axis((t_vec3){0,1,0}, cy.orientation);
+	const t_quat inv_q = (t_quat){{-q.v.x, -q.v.y, -q.v.z}, q.w};
+	const t_vec3 local_origin = quat_rot(inv_q, vec3_subtract(r.origin, cy.pos));
+	const t_vec3 local_dir = quat_rot(inv_q, r.dir);
+	const t_ray local_ray = {local_origin, local_dir};
 
-	xs = intersect_cylinder(cy, r);
-	ct = intersect_caps(cy, r);
-	cy.max = cy.pos.y + cy.max;
-	cy.min = cy.pos.y + cy.min;
-	y0 = r.origin.y + xs.t0 * r.dir.y;
-	y1 = r.origin.y + xs.t1 * r.dir.y;
+	xs = intersect_cylinder(local_ray, cy);
+	ct = intersect_caps(local_ray, cy);
+	y0 = local_ray.origin.y + xs.t0 * local_ray.dir.y;
+	y1 = local_ray.origin.y + xs.t1 * local_ray.dir.y;
 	if (ct.t0)
 		return (ct.t0);
 	if (ct.t1)

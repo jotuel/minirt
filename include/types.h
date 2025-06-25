@@ -43,6 +43,12 @@ typedef struct s_vec3
 	float			z;
 }					t_vec3;
 
+typedef struct s_quat
+{
+    t_vec3          v;
+    float           w;
+}                   t_quat;
+
 typedef t_vec3 t_point;
 
 typedef struct s_color

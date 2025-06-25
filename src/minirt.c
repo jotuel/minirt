@@ -6,6 +6,8 @@ void cast_rays(void *ptr)
     t_map *map = ptr;
     unsigned int w;
     unsigned int h;
+    t_vec3 p_cen;
+    t_ray ray;
 
     initialize_camera(&map->camera, map->img);
     w = 0;
@@ -14,9 +16,8 @@ void cast_rays(void *ptr)
     {
         while(h < map->img->height)
         {
-            t_vec3 p_cen = vec3_add(vec3_add(map->camera.pixel00_pos, vec3_scale(map->camera.pixel_delta_u, h)), vec3_scale(map->camera.pixel_delta_v, w));
-			t_vec3 ray_direction =  vec3_subtract(p_cen, (t_vec3){0,0,0});
-			t_ray ray = (t_ray){.origin = map->camera.lookfrom, .dir = ray_direction};
+            p_cen = vec3_add(vec3_add(map->camera.pixel00_pos, vec3_scale(map->camera.pixel_delta_u, h)), vec3_scale(map->camera.pixel_delta_v, w));
+			ray = (t_ray){.origin = map->camera.lookfrom, .dir = p_cen};
             mlx_put_pixel(map->img, w, h, color_ray(ray, map));
             h += 1;
         }
@@ -40,10 +41,11 @@ int main(int argc, char **argv)
 		return 1;
 	lst = ft_lstmap(lst, move_to_structs, free);
 	map = lst->content;
-	mlx = mlx_init(400, 150, "mlx", true);
-	img = mlx_new_image(mlx, 400, 150);
+	mlx = mlx_init(1200, 800, "mlx", true);
+	img = mlx_new_image(mlx, 1200, 800);
 	mlx_image_to_window(mlx, img, 0, 0);
 	map->img = img;
+	map->camera.vup = (t_vec3){0., 1., 0.};
 	mlx_loop_hook(mlx, cast_rays, map);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);

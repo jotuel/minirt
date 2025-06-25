@@ -12,19 +12,19 @@ t_intersection intersections(t_ray r, t_map *map)
 
 	tmin = __FLT_MAX__;
 	type = NONE;
-	t = hit_sphere(map->sp->pos, map->sp->diameter, r);
+	t = hit_sphere(*map->sp, r);
 	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
 		type = SPHERE;
 	}
-	t = hit_cylinder(*map->cy, r);
+	t = hit_cylinder(r, *map->cy);
 	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
 		type = CYLINDER;
 	}
-	t = color_plane(r);
+	t = color_plane(r, *map->pl);
 	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
