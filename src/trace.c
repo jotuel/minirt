@@ -49,7 +49,7 @@ uint_fast32_t color_ray(t_ray r, t_node *nodes)
 		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3){1,1,1}), .5f);
 		return (get_color((t_color){unit_dir.x*255, unit_dir.y*255, unit_dir.z*255}));
 	}
-	else if (hit.type == CYLINDER)
+	if (hit.type == CYLINDER)
 	{
 		unit_dir = vec3_unit(vec3_subtract(at(r, hit.t), (t_vec3){hit.obj->cylinder.pos.x, at(r, hit.t).y, hit.obj->cylinder.pos.z}));
 		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3){1,0,1}), .5f);

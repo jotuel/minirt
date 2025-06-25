@@ -31,7 +31,7 @@ void initialize_camera(t_camera *camera, mlx_image_t *img)
 	camera->width = img->width;
 	camera->height = img->height;
 	camera->lookfrom = vec3;
-	vec3 = vec3_add(vec3, (t_vec3){0.00,0.00,-0.01});
+	vec3 = vec3_add(vec3, (t_vec3){0.00,0.00,0.00});
 	focal_length = vec3_length(vec3_subtract(camera->lookfrom, camera->lookat));
 	theta = to_radians(camera->fov / 2.);
 	h = tanf(theta/2);

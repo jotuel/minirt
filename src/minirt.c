@@ -31,24 +31,24 @@ void adding_info_to_nodes(t_map *minirt)
 	node = minirt->nodes;
 	if (node->obj != NULL)
 	{
-		node->obj->sphere.pos = (t_vec3){-.25,-0.25,-2};
+		node->obj->sphere.pos = (t_vec3){-.5,-0.25,-2};
 		node->obj->sphere.diameter = 0.3;
 		node->type = SPHERE;
 	}
 	node = node->next;
 	if (node->obj != NULL)
 	{
-		node->obj->sphere.pos = (t_vec3){0,1,-6};
+		node->obj->sphere.pos = (t_vec3){-1,1,-6};
 		node->obj->sphere.diameter = 0.6;
 		node->type = SPHERE;
 	}
 	node = node->next;
 	if (node->obj != NULL)
 	{
-		node->obj->cylinder.pos = (t_vec3){0,1,-7};
+		node->obj->cylinder.pos = (t_vec3){1,0,-7};
 		node->type = CYLINDER;
-		node->obj->cylinder.diameter = 10;
-		node->obj->cylinder.orientation = (t_vec3){0,0,-1};
+		node->obj->cylinder.diameter = 1;
+		node->obj->cylinder.orientation = (t_vec3){0,0,1};
 		node->obj->cylinder.height = 1.0;
 		node->obj->cylinder.max = node->obj->cylinder.height/2;
 		node->obj->cylinder.min = -node->obj->cylinder.height/2;
