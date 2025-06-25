@@ -64,6 +64,13 @@ typedef struct s_ambient
 	t_color			color;
 }					t_ambient;
 
+typedef struct s_cyl
+{
+	float	t0;
+	float	t1;
+
+}				t_cyl;
+
 /*
 // emilia: maybe something like this for material info?
 typedef struct s_material

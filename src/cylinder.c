@@ -1,13 +1,5 @@
 #include "../include/minirt.h"
 
-//create hit cylinder function
-typedef struct s_cyl
-{
-	float	t0;
-	float	t1;
-
-}				t_cyl;
-
 bool	check_cap(t_ray r, float t, t_cylinder cy)
 {
 	t_vec3 tmp;
@@ -60,7 +52,7 @@ t_cyl intersect_cylinder(t_ray r, t_cylinder cy)
 	if (a == 0.0)
 		return ((t_cyl){0, 0});
 	b = powf(r.origin.x, 2) + 2 * powf(r.origin.z, 2);
-	c = (r.origin.x * r.origin.x) + (r.origin.z * r.origin.z) -  cy.diameter/2;
+	c = powf(r.origin.x, 2) + powf(r.origin.z, 2) -  cy.diameter * .5f;
 	disc = powf(b, 2) - 4 * a * c;
 	if (disc < 0)
 		return ((t_cyl){0, 0});
@@ -92,9 +84,9 @@ float hit_cylinder(t_ray r, t_cylinder cy)
 		return (ct.t0);
 	if (ct.t1)
 		return (ct.t1);
-	if ((cy.min < y0 && y0 < cy.max))
+	if ((-cy.diameter * .5f < y0 && y0 < cy.diameter * .5f))
 		return (xs.t0);
-	if ((cy.min < y1 && y1 < cy.max))
+	if ((-cy.diameter * .5f < y1 && y1 < cy.diameter * .5f))
 		return (xs.t1);
 	return (0);
 }
