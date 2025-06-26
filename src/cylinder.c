@@ -19,9 +19,9 @@ typedef struct s_cyl
 
 bool	check_cap(t_ray r, float t, t_cylinder cy)
 {
-	t_vec3 tmp;
-	float dist;
-	float phi;
+	t_vec3	tmp;
+	float	dist;
+	float	phi;
 
 	tmp = vec3_add(r.origin, vec3_scale(r.dir, t));
 	tmp.z = 0;
@@ -77,11 +77,11 @@ t_quat normalize_quat(t_quat q)
 
 t_quat quaternion_from_axis(t_vec3 from, t_vec3 to)
 {
-	const t_vec3 afrom = normalize_vector(from);
-	const t_vec3 bto = normalize_vector(to);
-	const float dot = vec3_dot(afrom, bto); // returns a scalar value of two vectors, the angle between them
-	const t_vec3 axis = vec3_cross(afrom, bto); //gives me the axis to rotate from?
-	const float angle = acosf(dot);
+	const t_vec3	afrom = normalize_vector(from);
+	const t_vec3	bto = normalize_vector(to);
+	const float		dot = vec3_dot(afrom, bto); // returns a scalar value of two vectors, the angle between them
+	const t_vec3	axis = vec3_cross(afrom, bto); //gives me the axis to rotate from?
+	const float		angle = acosf(dot);
 	float s;
 
 	if (dot > 0.9999f) // no rotation needed
@@ -93,17 +93,17 @@ t_quat quaternion_from_axis(t_vec3 from, t_vec3 to)
 			orthogonal = vec3_cross(afrom, (t_vec3){0,0,1});
 		orthogonal = normalize_vector(orthogonal);
 		return ((t_quat){0, orthogonal.x, orthogonal.y, orthogonal.z});
-	}
-	s = sinf(angle * 0.5f);
-	return (normalize_quat((t_quat){.w = cosf(angle * 0.5f), .x = axis.x * s, .y = axis.y * s, .z = axis.z * s}));
+	} // this part lower is correct
+	s = sinf(angle / 2.0f);
+	return (normalize_quat((t_quat){.w = cosf(angle / 2.0f), .x = axis.x * s, .y = axis.y * s, .z = axis.z * s}));
 }
 
-// s = scalar
+// this is correct (i think)
 t_vec3	rotate_vector_by_quaternion (t_vec3 v, t_quat q)
 {
-	const t_vec3 u = {q.x, q.y, q.z};
-	const float s = q.w;
-	t_vec3 new_vector;
+	const t_vec3	u = {q.x, q.y, q.z};
+	const float		s = q.w;
+	t_vec3			new_vector;
 
 	new_vector = vec3_add(vec3_add(vec3_scale(u, vec3_dot(u, v) * 2.0f),
 				vec3_scale( v, s*s - vec3_dot(u, u))), vec3_scale(vec3_cross(u, v), 2.0f * s));
@@ -139,15 +139,15 @@ t_cyl intersect_cylinder(t_cylinder cy, t_ray r_local)
 // to be normalized or else the shading wont work properly.
 float hit_cylinder(t_cylinder cy, t_ray r)
 {
-	t_cyl	xs;
-	t_cyl	ct;
-	float	y0;
-	float	y1;
-	const t_quat q = quaternion_from_axis((t_vec3){0,1,0}, cy.orientation);
-	const t_quat inv_q = (t_quat){q.w, -q.x, -q.y, -q.z};
-	const t_vec3 local_origin = rotate_vector_by_quaternion(vec3_subtract(r.origin, cy.pos), inv_q);
-	const t_vec3 local_dir = rotate_vector_by_quaternion(r.dir, inv_q);
-	const t_ray local_ray = {local_origin, local_dir};
+	t_cyl			xs;
+	t_cyl			ct;
+	float			y0;
+	float			y1;
+	const t_quat	q = quaternion_from_axis((t_vec3){0,1,0}, cy.orientation);
+	const t_quat	inv_q = (t_quat){q.w, -q.x, -q.y, -q.z};
+	const t_vec3	local_origin = rotate_vector_by_quaternion(vec3_subtract(r.origin, cy.pos), inv_q);
+	const t_vec3	local_dir = rotate_vector_by_quaternion(r.dir, inv_q);
+	const t_ray		local_ray = {local_origin, local_dir};
 
 	xs = intersect_cylinder(cy, local_ray);
 	ct = intersect_caps(cy, local_ray);
