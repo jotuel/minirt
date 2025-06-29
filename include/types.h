@@ -134,6 +134,9 @@ typedef struct s_camera
 	t_vec3			u;
 	t_vec3			v;
 	t_vec3			w;
+	t_vec3			vu;
+	t_vec3			vv;
+	t_vec3			vul;
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	int				width;

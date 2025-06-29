@@ -1,7 +1,7 @@
 
 #include "../../include/minirt.h"
 
-bool validate_orientation(t_vec3 orien)
+bool	validate_orientation(t_vec3 orien)
 {
 	if (orien.x > 1. || orien.x < -1.)
 		return (false);
@@ -12,9 +12,9 @@ bool validate_orientation(t_vec3 orien)
 	return (true);
 }
 
-bool validate_line(char *line)
+bool	validate_line(char *line)
 {
-	char *res;
+	char	*res;
 
 	res = ft_strtrim(line, "ACLsplcy0123456789.,\t");
 	if (res[0] == '\n')
@@ -23,9 +23,9 @@ bool validate_line(char *line)
 		return (free(res), false);
 }
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -33,9 +33,9 @@ void free_split(char **split)
 	free(split);
 }
 
-char **split_and_check(char *input, char by, int fields, void *mem[3])
+char	**split_and_check(char *input, char by, int fields, void *mem[3])
 {
-	char **split;
+	char	**split;
 
 	split = ft_split(input, by);
 	if (!split || split[fields])
@@ -54,9 +54,9 @@ char **split_and_check(char *input, char by, int fields, void *mem[3])
 	return (split);
 }
 
-void *obj(t_obj obj, t_list *lst)
+void	*obj(t_obj obj, t_list *lst)
 {
-	t_obj *new;
+	t_obj	*new;
 
 	new = ft_calloc(sizeof(t_obj), 1);
 	if (!new)
