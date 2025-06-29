@@ -175,6 +175,7 @@ typedef struct s_intersection
 {
 	float			t;
 	t_type			type;
+	t_vec3			point;
 }					t_intersection;
 
 // node struct inside the content of linkedlist

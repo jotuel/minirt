@@ -1,5 +1,6 @@
 #include "../../include/minirt.h"
 
+inline
 t_quat quaternion_from_axis(t_vec3 from, t_vec3 to)
 {
 	const t_vec3 afrom = vec3_unit(from);
@@ -24,6 +25,7 @@ t_quat quaternion_from_axis(t_vec3 from, t_vec3 to)
 	.v.x = axis.x * s, .v.y = axis.y * s, .v.z = axis.z * s}));
 }
 
+inline
 t_vec3	rotate_vector_by_quaternion (t_vec3 v, t_quat q)
 {
     return ((t_vec3)vec3_add(vec3_add(vec3_scale(q.v, vec3_dot(q.v, v) * 2.0f),

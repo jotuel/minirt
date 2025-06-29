@@ -24,3 +24,8 @@ void *move_to_structs(void *ptr)
         map->sp = &obj->sphere;
     return (map);
 }
+
+void brush(void *ptr)
+{
+	(void)ptr;
+}

@@ -6,31 +6,34 @@
 // it should remember the closest hit ray position and color that pos
 t_intersection intersections(t_ray r, t_map *map)
 {
-	t_type type;
+	t_intersection is;
 	float  t;
 	float  tmin;
 
 	tmin = __FLT_MAX__;
-	type = NONE;
+	is.type = NONE;
+	t = intersect_plane(r, *map->pl).t;
+	if (t > 0.0 && t < tmin)
+	{
+		tmin = t;
+		is.type = PLANE;
+		is.t = t;
+	}
 	t = hit_sphere(r, *map->sp);
 	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
-		type = SPHERE;
+		is.type = SPHERE;
+		is.t = t;
 	}
-	t = hit_cylinder(r, *map->cy);
+	t = hit_cylinder(r, *map->cy).t;
 	if (t > 0.0 && t < tmin)
 	{
 		tmin = t;
-		type = CYLINDER;
+		is.type = CYLINDER;
+		is.t = t;
 	}
-	t = color_plane(r, *map->pl);
-	if (t > 0.0 && t < tmin)
-	{
-		tmin = t;
-		type = PLANE;
-	}
-	return ((t_intersection) {.type = type, .t = tmin});
+	return (is);
 }
 
 // this works but it doesnt take account what is the closest ray hit so that is
@@ -43,20 +46,11 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 
 	hit = intersections(r, map);
 	if (hit.type == SPHERE)
-	{
-		unit_dir = vec3_unit(vec3_subtract(at(r, hit.t), map->sp->pos));
-		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3) {1, 1, 1}), .5f);
-		return (get_color((t_color) {unit_dir.x * 255, unit_dir.y * 255, unit_dir.z * 255}));
-	}
-	if (hit.type == CYLINDER)
-	{
-		unit_dir = vec3_unit(vec3_subtract(
-			at(r, hit.t), (t_vec3) {map->cy->pos.x, at(r, hit.t).y, map->cy->pos.z}));
-		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3) {1, 0, 1}), .5f);
-		return (get_color((t_color) {unit_dir.x * 255, 0, unit_dir.z * 255}));
-	}
+		return (get_color(map->sp->color));
+	else if (hit.type == CYLINDER)
+		return (get_color(map->cy->color));
 	else if (hit.type == PLANE)
-		return (-1);
+		return (get_color(map->pl->color));
 	else // only gradient background
 	{
 		a = 0.5 * (vec3_unit(r.dir).y + 1.0);
