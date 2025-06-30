@@ -25,6 +25,20 @@ typedef enum e_mat
 }					t_mat;
 */
 
+typedef enum e_var
+{
+    baba,
+    bard,
+    baoc,
+    k2,
+    k1,
+    k0,
+    h,
+    t,
+    y,
+    ra
+} t_var;
+
 typedef enum e_type
 {
     NONE,
@@ -171,6 +185,13 @@ typedef struct s_obj
 	t_light			light;
 }					t_obj;
 
+typedef union u_object
+{
+	t_plane			plane;
+	t_sphere		sphere;
+	t_cylinder		cylinder;
+}                   t_object;
+
 // for tracking intersections, cast ray into the scene and get
 // handful of intersections that return the intersections value (t)
 // and object that was intersected
@@ -179,6 +200,7 @@ typedef struct s_intersection
 	float			t;
 	t_type			type;
 	t_vec3			point;
+	t_color			color;
 }					t_intersection;
 
 // node struct inside the content of linkedlist
@@ -198,9 +220,12 @@ typedef struct s_map
     t_camera        *camera;
     t_light         *light;
     t_ambient       *ambient;
-	t_sphere		*sp;
-	t_plane         *pl;
-	t_cylinder      *cy;
+	t_object   		*sp;
+	t_object        *pl;
+	t_object        *cy;
+	unsigned int    nbr_sp;
+	unsigned int    nbr_pl;
+	unsigned int    nbr_cy;
 	mlx_image_t     *img;
 }					t_map;
 

@@ -1,29 +1,50 @@
 #include "../include/minirt.h"
 
-t_intersection	intersect_cylinder(t_ray r, t_vec3 ba, t_vec3 oc, float ra)
+inline static
+t_vec3 point_s(const t_ray r,
+    const float f[10],
+    const t_vec3 ba,
+    const t_vec3 oc)
 {
-	float	arr[9];
+    return (vec3_divide(vec3_subtract(vec3_add(oc, vec3_scale(r.dir, f[t])),
+        vec3_divide(vec3_scale(ba, f[y]), f[baba])), f[ra]));
+}
 
-	arr[0] = vec3_dot(ba, ba);
-	arr[1] = vec3_dot(ba, r.dir);
-	arr[2] = vec3_dot(ba, oc);
-	arr[3] = arr[0] - powf(arr[1], 2);
-	arr[4] = arr[0] * vec3_dot(oc, r.dir) - arr[2] * arr[1];
-	arr[5] = arr[0] * vec3_dot(oc, oc) - powf(arr[2], 2) - powf(ra, 2) * arr[0];
-	arr[6] = powf(arr[4], 2) - arr[3] * arr[5];
-	if (arr[6] < 0.0)
+inline static
+t_vec3 point(const t_vec3 ba, const float y, const float baba)
+{
+    return (vec3_divide(vec3_scale(ba, copysign(1., y)), sqrtf(baba)));
+}
+
+t_intersection
+intersect_cylinder(const t_ray r,
+    const t_vec3 ba,
+    const t_vec3 oc,
+    const float rad)
+{
+	float	f[10];
+
+	f[baba] = vec3_dot(ba, ba);
+	f[bard] = vec3_dot(ba, r.dir);
+	f[baoc] = vec3_dot(ba, oc);
+	f[k2] = f[baba] - powf(f[bard], 2);
+	f[k1] = f[baba] * vec3_dot(oc, r.dir) - f[baoc] * f[bard];
+	f[k0] = f[baba] * vec3_dot(oc, oc) - powf(f[baoc], 2) - rad * rad * f[baba];
+	f[h] = powf(f[k1], 2) - f[k2] * f[k0];
+	if (f[h] < 0.0)
 		return ((t_intersection){0});
-	arr[6] = sqrtf(arr[6]);
-	arr[7] = (-arr[4] - arr[6]) / arr[3];
-	arr[8] = arr[2] + arr[7] * arr[1];
-	if (arr[8] > 0. && arr[8] < arr[0])
-		return ((t_intersection){CYLINDER, arr[8], .point = at(r, arr[7])});
-	if (arr[8] < 0.)
-		arr[7] = -arr[2] / arr[1];
+	f[h] = sqrtf(f[h]);
+	f[t] = (-f[k1] - f[h]) / f[k2];
+	f[y] = f[baoc] + f[t] * f[bard];
+	f[ra] = rad;
+	if (f[y] > 0. && f[y] < f[baba])
+		return ((t_intersection){CYLINDER, f[y], .point = point_s(r, f, ba, oc)});
+	if (f[y] < 0.)
+		f[t] = -f[baoc] / f[bard];
 	else
-		arr[7] = (arr[0] - arr[2]) / arr[1];
-	if (fabs(arr[4] + arr[3] * arr[7]) < arr[6])
-		return ((t_intersection){CYLINDER, arr[7], .point = at(r, arr[7])});
+		f[t] = (f[baba] - f[baoc]) / f[bard];
+	if (fabs(f[k1] + f[k2] * f[t]) < f[h])
+		return ((t_intersection){CYLINDER, f[t], .point = point(ba, f[y], f[baba])});
 	return ((t_intersection){0});
 }
 
