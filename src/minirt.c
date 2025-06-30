@@ -52,5 +52,6 @@ int	main(int argc, char **argv)
 	map->camera->vup = (t_vec3){0., 1., 0.};
 	mlx_loop_hook(mlx, cast_rays, map);
 	mlx_loop(mlx);
+	mlx_delete_image(mlx, map->img);
 	mlx_terminate(mlx);
 }
