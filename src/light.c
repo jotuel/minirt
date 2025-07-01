@@ -44,7 +44,7 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 
 	hit = intersections(r, map);
 	light = (t_ray){hit.point, vec3_unit(vec3_subtract(map->light->pos, hit.point))};
-	t = vec3_length(vec3_subtract(hit.point, map->light->pos));
+	t = vec3_length(vec3_subtract(map->light->pos, hit.point));
 	if (!hit_light(light, t, map))
 		return (get_color(color_scale(hit.color, map->ambient->intensity)));
 	return (get_color(color_scale(hit.color, map->light->intensity))); // with color
