@@ -1,27 +1,16 @@
 #include "../include/minirt.h"
 
-float color_plane(t_ray r, t_plane pl)
+t_intersection intersect_plane(t_ray r, t_plane pl)
 {
-	float	t;
-
-	t = intersect_plane(pl.pos, pl.orientation, r);
-	if (t > 0.0)
-		return (t);
-	return (0);
-}
-
-float intersect_plane(t_vec3 center, t_vec3 rot, t_ray r)
-{
-	t_vec3 p0l0;
+	float denom;
 	float t;
-	const float denom = vec3_dot(center, r.origin);
 
-	if (denom >  1e-6)
+	denom = vec3_dot(pl.orientation, r.dir);
+	if (fabs(denom) > 1e-4)
 	{
-		p0l0 = vec3_subtract(rot, r.dir);
-		t = vec3_dot(p0l0, center) / denom;
-		printf("t:%f\n", t);
-		return (t);
+		t = (vec3_dot(vec3_subtract(pl.pos, r.origin), pl.orientation) / denom);
+		if (t > 1e-4)
+			return ((t_intersection){.t = t, .point = at(r, t)});
 	}
-	return (-1);
+	return ((t_intersection){0});
 }

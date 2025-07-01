@@ -10,10 +10,10 @@ void 			ft_error(void *mem);
 /* CASTING RAYS */
 float 			hit_sphere(t_ray r, t_sphere sp);
 uint_fast32_t	color_ray(t_ray r, t_map *map);
-float			color_plane(t_ray r, t_plane pl);
-float 			intersect_plane(t_vec3 center, t_vec3 rot, t_ray r);
-float			hit_cylinder(t_ray r, t_cylinder cy);
-void           initialize_camera(t_camera *camera, mlx_image_t *img);
+t_intersection 	intersect_plane(t_ray r, t_plane pl);
+t_intersection 	hit_cylinder(t_ray r, t_cylinder cy);
+t_vec3 			cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra);
+void           	initialize_camera(t_camera *camera, mlx_image_t *img);
 
 /* SET & GET FUNCTIONS */
 float vec3_get_z(t_vec3 vec);
@@ -43,6 +43,7 @@ char **split_and_check(char *input, char by, int fields, void *mem[3]);
 void free_split(char **split);
 void *obj(t_obj obj, t_list *lst);
 void *move_to_structs(void *ptr);
+void brush(void *ptr);
 
 /* MATH */
 t_point at(t_ray r, float t);

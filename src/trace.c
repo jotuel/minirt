@@ -1,67 +1,118 @@
 #include "../include/minirt.h"
 #include <stdint.h>
 
-// adding hittable objects to linkedlist with enum types and creating a function call
-// that recognices which object was hit and goes to the right function
-// it should remember the closest hit ray position and color that pos
+
+
+t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr)
+{
+	t_intersection is;
+	t_intersection tmp;
+	unsigned int i;
+
+	is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
+	i = 0;
+	while (i < nbr)
+	{
+	    tmp = hit_cylinder(r, cy[i].cylinder);
+		if (tmp.t > 0.0 && tmp.t < is.t)
+		{
+			is = tmp;
+			is.type = CYLINDER;
+			is.color = cy[i].cylinder.color;
+		}
+		i += 1;
+	}
+	return (is);
+}
+
+t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
+{
+    t_intersection is;
+    t_intersection tmp;
+    unsigned int i;
+
+    is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
+    i = 0;
+    while (i < nbr)
+    {
+        tmp = intersect_plane(r, pl[i].plane);
+        if (tmp.t > 0.0 && tmp.t < is.t)
+        	is = tmp;
+        is.color = pl[i].plane.color;
+        is.type = PLANE;
+        i += 1;
+    }
+    return (is);
+}
+
+t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
+{
+	t_intersection is;
+	t_intersection tmp;
+	unsigned int i;
+
+	tmp = (t_intersection) {0};
+	is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
+	i = 0;
+	while (i < nbr)
+	{
+	    tmp.t = hit_sphere(r, sp[i].sphere);
+		if (tmp.t > 0.0 && tmp.t < is.t)
+		{
+			is = tmp;
+			is.type = SPHERE;
+			is.color = sp[i].sphere.color;
+		}
+		i += 1;
+	}
+	return (is);
+}
+
 t_intersection intersections(t_ray r, t_map *map)
 {
-	t_type type;
-	float  t;
+	t_intersection is;
+	t_intersection tmp;
 	float  tmin;
 
 	tmin = __FLT_MAX__;
-	type = NONE;
-	t = hit_sphere(r, *map->sp);
-	if (t > 0.0 && t < tmin)
+	is = (t_intersection) { .type = NONE };
+	tmp = intersect_planes(r, map->pl, map->nbr_pl);
+	if (tmp.t > 0.0 && tmp.t < tmin)
 	{
-		tmin = t;
-		type = SPHERE;
+		tmin = tmp.t;
+		is = tmp;
 	}
-	t = hit_cylinder(r, *map->cy);
-	if (t > 0.0 && t < tmin)
+	tmp = intersect_spheres(r, map->sp, map->nbr_sp);
+	if (tmp.t > 0.0 && tmp.t < tmin)
 	{
-		tmin = t;
-		type = CYLINDER;
+		tmin = tmp.t;
+		is = tmp;
 	}
-	t = color_plane(r, *map->pl);
-	if (t > 0.0 && t < tmin)
+	tmp = intersect_cylinders(r, map->cy, map->nbr_cy);
+	if (tmp.t > 0.0 && tmp.t < tmin)
 	{
-		tmin = t;
-		type = PLANE;
+		tmin = tmp.t;
+		is = tmp;
 	}
-	return ((t_intersection) {.type = type, .t = tmin});
+	return (is);
 }
 
 // this works but it doesnt take account what is the closest ray hit so that is
 // why it only renders one object at time
 uint_fast32_t color_ray(t_ray r, t_map *map)
 {
-	float		   a;
-	t_vec3		   unit_dir;
+	// float		   a;
+	// t_vec3		   unit_dir;
 	t_intersection hit;
 
 	hit = intersections(r, map);
-	if (hit.type == SPHERE)
-	{
-		unit_dir = vec3_unit(vec3_subtract(at(r, hit.t), map->sp->pos));
-		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3) {1, 1, 1}), .5f);
-		return (get_color((t_color) {unit_dir.x * 255, unit_dir.y * 255, unit_dir.z * 255}));
-	}
-	if (hit.type == CYLINDER)
-	{
-		unit_dir = vec3_unit(vec3_subtract(
-			at(r, hit.t), (t_vec3) {map->cy->pos.x, at(r, hit.t).y, map->cy->pos.z}));
-		unit_dir = vec3_scale(vec3_add(unit_dir, (t_vec3) {1, 0, 1}), .5f);
-		return (get_color((t_color) {unit_dir.x * 255, 0, unit_dir.z * 255}));
-	}
-	else if (hit.type == PLANE)
-		return (-1);
-	else // only gradient background
-	{
-		a = 0.5 * (vec3_unit(r.dir).y + 1.0);
-		unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
-		unit_dir = vec3_scale(unit_dir, 255);
-		return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
-	}
+	return (get_color(hit.color));
+
+	// else // only gradient background
+	// {
+	// 	a = 0.5 * (vec3_unit(r.dir).y + 1.0);
+	// 	unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
+	// 	unit_dir = vec3_scale(unit_dir, 255);
+	// 	return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
+	// }
 }
