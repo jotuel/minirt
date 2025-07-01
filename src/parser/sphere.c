@@ -1,10 +1,10 @@
 #include "../../include/minirt.h"
 
-bool validate_sphere(char *line, t_sphere sp)
+void validate_sphere(char *line, t_sphere sp, t_list *lst)
 {
     (void)line;
     (void)sp;
-    return (true);
+    (void)lst;
 }
 
 t_list *sphere(char *line, t_list *lst, t_sphere sp)
@@ -13,18 +13,15 @@ t_list *sphere(char *line, t_list *lst, t_sphere sp)
     char **vec3;
     char **colors;
 
-    split = split_and_check(line, '\t', 4, lst);
-    vec3 = split_and_check(split[1], ',', 3, lst);
-    colors = split_and_check(split[3], ',', 3, lst);
-    set_vec3(vec3, &sp.pos);
-    set_colors(colors, &sp.color);
+    split = split_and_check(line, '\t', 4, (void *[]){lst, NULL, line});
     sp.diameter = ft_atof(split[2]);
-    free_split(split);
+    vec3 = split_and_check(split[1], ',', 3, (void *[]){lst, split, line});
+    set_vec3(vec3, &sp.pos);
     free_split(vec3);
+    colors = split_and_check(split[3], ',', 3, (void *[]){lst, split, line});
+    set_colors(colors, &sp.color);
     free_split(colors);
-    if (validate_sphere(line, sp))
-        return (ft_lstnew(obj((t_obj){.sphere = sp, .type = SPHERE}, lst)));
-    else
-        ft_error(lst);
-    return (NULL);
+    free_split(split);
+    validate_sphere(line, sp, lst);
+    return (ft_lstnew(obj((t_obj){.sphere = sp, .type = SPHERE}, lst)));
 }

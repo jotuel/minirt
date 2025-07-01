@@ -43,6 +43,12 @@ typedef struct s_vec3
 	float			z;
 }					t_vec3;
 
+typedef struct s_quat
+{
+    t_vec3          v;
+    float           w;
+}                   t_quat;
+
 typedef t_vec3 t_point;
 
 typedef struct s_color
@@ -57,6 +63,13 @@ typedef struct s_ambient
 	float			intensity;
 	t_color			color;
 }					t_ambient;
+
+typedef struct s_cyl
+{
+	float	t0;
+	float	t1;
+
+}				t_cyl;
 
 /*
 // emilia: maybe something like this for material info?
@@ -178,9 +191,9 @@ typedef struct s_node
 // float 19:8
 typedef struct s_map
 {
-    t_camera        camera;
-    t_light         light;
-    t_ambient       ambient;
+    t_camera        *camera;
+    t_light         *light;
+    t_ambient       *ambient;
 	t_sphere		*sp;
 	t_plane         *pl;
 	t_cylinder      *cy;
