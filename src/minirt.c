@@ -17,7 +17,7 @@ void	cast_rays(void *ptr)
 	{
 		while (h < map->img->height)
 		{
-			p_cen = vec3_add(vec3_add(map->camera->pixel00_pos,
+			p_cen = vec3_add(vec3_add(map->camera->p00,
 						vec3_scale(map->camera->pixel_delta_u, h)),
 					vec3_scale(map->camera->pixel_delta_v, w));
 			ray = (t_ray){.origin = map->camera->lookfrom,

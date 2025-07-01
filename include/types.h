@@ -144,7 +144,7 @@ typedef struct s_camera
 	t_vec3			lookat;
 	uint_fast8_t    fov;
 	t_vec3			vup;
-	t_vec3			pixel00_pos;
+	t_vec3			p00;
 	t_vec3			u;
 	t_vec3			v;
 	t_vec3			w;

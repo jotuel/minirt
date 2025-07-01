@@ -29,11 +29,11 @@ void	initialize_camera(t_camera *cam, mlx_image_t *img)
 	cam->v = vec3_cross(cam->w, cam->u);
 	cam->vu = vec3_scale(cam->u, viewport_width);
 	cam->vv = vec3_scale(vec3_scale(cam->v, -1), viewport_height);
-	cam->pixel_delta_u = vec3_scale(cam->vu, 1. / img->width);
-	cam->pixel_delta_v = vec3_scale(cam->vv, 1. / img->height);
+	cam->pixel_delta_u = vec3_divide(cam->vu, img->width);
+	cam->pixel_delta_v = vec3_divide(cam->vv, img->height);
 	cam->vul = vec3_subtract(vec3_subtract(vec3_subtract(cam->lookfrom,
 					vec3_scale(cam->w, focal_length)), vec3_scale(cam->vu,
 					0.5)), vec3_scale(cam->vv, 0.5));
-	cam->pixel00_pos = vec3_add(cam->vul,
+	cam->p00 = vec3_add(cam->vul,
 			vec3_scale(vec3_add(cam->pixel_delta_u, cam->pixel_delta_v), 0.5));
 }

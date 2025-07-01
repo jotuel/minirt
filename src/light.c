@@ -18,7 +18,7 @@ bool hit_light(t_ray r, float t, t_map *map)
 {
 	float	tt;
 
-	r.origin = vec3_add(r.origin, vec3_scale(r.dir, 1e-4));
+	r.origin = vec3_add(r.origin, vec3_scale(r.dir, 9e-3));
 	tt = intersect_planes(r, map->pl, map->nbr_pl).t;
 	if (tt < t && tt > 0.0f)
 		return (false);
@@ -57,7 +57,7 @@ t_color lambertian_color(t_intersection hit, t_map *map)
 	t_vec3	l_dir;
 	t_ray	l_r;
 	t_vec3	n;
-	t_vec3	re;
+	//t_vec3	re;
 	t_color ambient;
 	t_color diffuse;
 	t_color effective_color;
@@ -67,8 +67,6 @@ t_color lambertian_color(t_intersection hit, t_map *map)
 	l_dir = vec3_unit(vec3_subtract(map->light->pos, hit.point));
 	l_r = (t_ray){hit.point, l_dir};
 	t = vec3_length(l_dir);
-	n = normal_at(hit);
-	re = reflect(l_dir, n);
 	if (!hit_light(l_r, t, map))
 	{
 		effective_color = color_scale(hit.color, map->ambient->intensity);
@@ -76,12 +74,15 @@ t_color lambertian_color(t_intersection hit, t_map *map)
 		return (ambient);
 	}
 	// also add ambient color, multiply both of the colors by ambient intensity and then combine them
+	n = normal_at(hit);
+	//re = reflect(l_dir, n);
 	effective_color = color_scale(hit.color, map->light->intensity);
 	ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
 	light_dot_normal = vec3_dot(l_dir, n);
 	if (light_dot_normal < 0)
 		diffuse = (t_color){0};
-	diffuse = color_scale(color_scale(effective_color, 0.9), light_dot_normal);
+	else
+		diffuse = color_scale(color_scale(effective_color, 0.9), light_dot_normal);
 	return (mix_colors(diffuse, ambient));
 }
 
