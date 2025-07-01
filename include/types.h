@@ -207,6 +207,8 @@ typedef struct s_intersection
 	t_type			type;
 	t_vec3			point;
 	t_color			color;
+	t_object		*obj;
+
 }					t_intersection;
 
 // node struct inside the content of linkedlist

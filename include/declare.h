@@ -30,6 +30,7 @@ void set_red(t_color *color, uint8_t colour);
 void set_green(t_color *color, uint8_t colour);
 void set_blue(t_color *color, uint8_t colour);
 uint_fast32_t get_color(t_color color);
+t_color	mix_colors(t_color color1, t_color color2);
 uint_fast32_t pixel_color(void);
 t_list *ambient(char *line, t_list *lst, t_ambient amb);
 t_list *camera(char *line, t_list *lst, t_camera cam);

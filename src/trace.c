@@ -17,6 +17,7 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 			is = tmp;
 			is.type = CYLINDER;
 			is.color = cy[i].cylinder.color;
+			is.obj = &cy[i];
 		}
 		i += 1;
 	}
@@ -38,6 +39,7 @@ t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
         	is = tmp;
         is.color = pl[i].plane.color;
         is.type = PLANE;
+		is.obj = &pl[i];
         i += 1;
     }
     return (is);
@@ -60,6 +62,7 @@ t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 			is = tmp;
 			is.type = SPHERE;
 			is.color = sp[i].sphere.color;
+			is.obj = &sp[i];
 		}
 		i += 1;
 	}
