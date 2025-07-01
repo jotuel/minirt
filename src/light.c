@@ -5,7 +5,7 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr);
 t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr);
 
-inline t_color	color_scale(t_color vec, float scale)
+inline static t_color	color_scale(t_color vec, float scale)
 {
 	vec.r *= scale;
 	vec.g *= scale;
