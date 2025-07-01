@@ -1,8 +1,6 @@
 #include "../include/minirt.h"
 #include <stdint.h>
 
-
-
 t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr)
 {
 	t_intersection is;
@@ -97,22 +95,24 @@ t_intersection intersections(t_ray r, t_map *map)
 	return (is);
 }
 
-// this works but it doesnt take account what is the closest ray hit so that is
-// why it only renders one object at time
-uint_fast32_t color_ray(t_ray r, t_map *map)
-{
-	// float		   a;
-	// t_vec3		   unit_dir;
-	t_intersection hit;
+// // this works but it doesnt take account what is the closest ray hit so that is
+// // why it only renders one object at time
+// uint_fast32_t color_ray(t_ray r, t_map *map)
+// {
+// 	// float		   a;
+// 	// t_vec3		   unit_dir;
+// 	t_intersection hit;
+// 	t_ray	light;
+// 	float	t;
 
-	hit = intersections(r, map);
-	return (get_color(hit.color));
+// 	hit = intersections(r, map);
+// 	return (get_color(hit.color));
 
-	// else // only gradient background
-	// {
-	// 	a = 0.5 * (vec3_unit(r.dir).y + 1.0);
-	// 	unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
-	// 	unit_dir = vec3_scale(unit_dir, 255);
-	// 	return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
-	// }
-}
+// 	// else // only gradient background
+// 	// {
+// 	// 	a = 0.5 * (vec3_unit(r.dir).y + 1.0);
+// 	// 	unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
+// 	// 	unit_dir = vec3_scale(unit_dir, 255);
+// 	// 	return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
+// 	// }
+// }

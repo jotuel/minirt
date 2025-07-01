@@ -195,6 +195,12 @@ typedef union u_object
 // for tracking intersections, cast ray into the scene and get
 // handful of intersections that return the intersections value (t)
 // and object that was intersected
+
+/// @brief return the intersections value (t) & object that was intersected
+/// @param t float where hit happened
+/// @param type t_type object type
+/// @param point t_vec3 pos of object
+/// @param color t_color color of object
 typedef struct s_intersection
 {
 	float			t;

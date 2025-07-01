@@ -10,6 +10,7 @@ void 			ft_error(void *mem);
 /* CASTING RAYS */
 float 			hit_sphere(t_ray r, t_sphere sp);
 uint_fast32_t	color_ray(t_ray r, t_map *map);
+t_intersection intersections(t_ray r, t_map *map);
 t_intersection 	intersect_plane(t_ray r, t_plane pl);
 t_intersection 	hit_cylinder(t_ray r, t_cylinder cy);
 t_vec3 			cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra);

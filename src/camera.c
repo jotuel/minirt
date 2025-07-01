@@ -19,7 +19,7 @@ void	initialize_camera(t_camera *cam, mlx_image_t *img)
 {
 	const float	focal_length = vec3_length(vec3_subtract(cam->lookfrom,
 				cam->lookat));
-	const float	theta = to_radians(cam->fov / 2.);
+	const float	theta = to_radians(cam->fov);
 	const float	h = tanf(theta / 2);
 	const float	viewport_height = 2 * h * focal_length;
 	const float	viewport_width = viewport_height * img->width / img->height;
