@@ -5,7 +5,7 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr);
 t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr);
 
-inline t_color	color_scale(t_color vec, float scale)
+inline static t_color	color_scale(t_color vec, float scale)
 {
 	vec.r *= scale;
 	vec.g *= scale;
@@ -43,11 +43,11 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 	float	t;
 
 	hit = intersections(r, map);
-	light = (t_ray){hit.point, vec3_subtract(hit.point, map->light->pos)};
+	light = (t_ray){hit.point, vec3_unit(vec3_subtract(map->light->pos, hit.point))};
 	t = vec3_length(vec3_subtract(hit.point, map->light->pos));
 	if (!hit_light(light, t, map))
 		return (get_color(color_scale(hit.color, map->ambient->intensity)));
-	return (get_color(hit.color)); // with color
+	return (get_color(color_scale(hit.color, map->light->intensity))); // with color
 
 	// else // only gradient background
 	// {
