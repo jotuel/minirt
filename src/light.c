@@ -36,15 +36,15 @@ t_vec3 reflect(t_vec3 in, t_vec3 normal)
 	return (vec3_subtract(in, vec3_scale(vec3_scale(normal, 2), vec3_dot(in, normal))));
 }
 
-t_vec3 normal_at(t_intersection hit)
+t_vec3 normal_at(t_ray r, t_intersection hit)
 {
 	t_vec3 v;
 
 	v = (t_vec3){0,0,0};
 	if (hit.type == SPHERE)
-		v = vec3_unit(vec3_subtract(hit.point, hit.obj->sphere.pos));
+		v = vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos), hit.obj->sphere.diameter * .5);
 	if (hit.type == PLANE)
-		v = vec3_cross(vec3_unit(hit.point), hit.obj->plane.orientation);
+		v = vec3_cross(hit.obj->plane.orientation, r.dir);
 	if (hit.type == CYLINDER)
 		v = cylinder_normal(hit.point, vec3_add(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
 			vec3_subtract(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
@@ -52,7 +52,7 @@ t_vec3 normal_at(t_intersection hit)
 	return (v);
 }
 
-t_color lambertian_color(t_intersection hit, t_map *map)
+t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 {
 	t_vec3	l_dir;
 	t_ray	l_r;
@@ -74,7 +74,7 @@ t_color lambertian_color(t_intersection hit, t_map *map)
 		return (ambient);
 	}
 	// also add ambient color, multiply both of the colors by ambient intensity and then combine them
-	n = normal_at(hit);
+	n = normal_at(r, hit);
 	//re = reflect(l_dir, n);
 	effective_color = color_scale(hit.color, map->light->intensity);
 	ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
@@ -95,7 +95,7 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 	t_intersection hit;
 
 	hit = intersections(r, map);
-	return (get_color(lambertian_color(hit, map)));
+	return (get_color(lambertian_color(r, hit, map)));
 
 	// else // only gradient background
 	// {
