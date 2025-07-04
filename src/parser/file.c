@@ -14,17 +14,17 @@ static bool	check_filetype(char *filename)
 
 static t_list	*parse_line(char *line, t_list *lst)
 {
-	if (ft_strchr(line, 'L'))
+	if (!ft_strncmp(line, "L", 1))
 		return (light(line, lst, (t_light){0}));
-	else if (ft_strchr(line, 'C'))
+	else if (!ft_strncmp(line, "C", 1))
 		return (camera(line, lst, (t_camera){0}));
-	else if (ft_strchr(line, 'A'))
+	else if (!ft_strncmp(line, "A", 1))
 		return (ambient(line, lst, (t_ambient){0}));
-	else if (ft_strchr(line, 's'))
+	else if (!ft_strncmp(line, "sp", 2))
 		return (sphere(line, lst, (t_sphere){0}));
-	else if (ft_strchr(line, 'c'))
+	else if (!ft_strncmp(line, "cy", 2))
 		return (cylinder(line, lst, (t_cylinder){0}));
-	else if (ft_strchr(line, 'p'))
+	else if (!ft_strncmp(line, "pl", 2))
 		return (plane(line, lst, (t_plane){0}));
 	else
 		ft_error(lst);

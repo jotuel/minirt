@@ -24,8 +24,8 @@ void	initialize_camera(t_camera *cam, mlx_image_t *img)
 	const float	viewport_height = 2 * h * focal_length;
 	const float	viewport_width = viewport_height * img->width / img->height;
 
-	cam->w = vec3_unit(vec3_subtract(cam->lookfrom, cam->lookat));
-	cam->u = vec3_unit(vec3_cross(cam->vup, cam->w));
+	cam->w = cam->lookat;
+	cam->u = vec3_unit(vec3_cross(cam->w, cam->vup));
 	cam->v = vec3_cross(cam->w, cam->u);
 	cam->vu = vec3_scale(cam->u, viewport_width);
 	cam->vv = vec3_scale(vec3_scale(cam->v, -1), viewport_height);

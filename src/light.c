@@ -49,6 +49,7 @@ t_vec3 normal_at(t_ray r, t_intersection hit)
 		v = cylinder_normal(hit.point, vec3_add(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
 			vec3_subtract(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
 			hit.obj->cylinder.diameter/2);
+
 	return (v);
 }
 
@@ -80,10 +81,10 @@ t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 	ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
 	light_dot_normal = vec3_dot(l_dir, n);
 	if (light_dot_normal < 0)
-		diffuse = (t_color){0};
+		diffuse = (t_color){1,1,1};
 	else
 		diffuse = color_scale(color_scale(effective_color, 0.9), light_dot_normal);
-	return (mix_colors(diffuse, ambient));
+	return (mix_colors(diffuse, mix_colors(ambient, effective_color)));
 }
 
 // this works but it doesnt take account what is the closest ray hit so that is
