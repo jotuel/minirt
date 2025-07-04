@@ -16,7 +16,6 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 		{
 			is = tmp;
 			is.type = CYLINDER;
-			printf("cylinder color: %d %d %d\n", cy[i].cylinder.color.r, cy[i].cylinder.color.g, cy[i].cylinder.color.b);
 			is.color = cy[i].cylinder.color;
 			is.obj = &cy[i];
 		}
