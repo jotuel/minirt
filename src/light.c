@@ -7,10 +7,14 @@ t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr);
 
 inline static t_color	color_scale(t_color vec, float scale)
 {
-	vec.r *= scale;
-	vec.g *= scale;
-	vec.b *= scale;
-	return (vec);
+	int	r;
+	int	g;
+	int	b;
+
+	r = fmin((int)vec.r * scale, 255);
+	g = fmin((int)vec.g * scale, 255);
+	b = fmin((int)vec.b * scale, 255);
+	return ((t_color){r,g,b});
 }
 
 // does the ray hit light or is there object in between the light and object?
@@ -53,6 +57,9 @@ t_vec3 normal_at(t_ray r, t_intersection hit)
 	return (v);
 }
 
+
+/// instead of mix color they must be added together and those values must be glambed. if over 255 then it is 255 and if under 0 then zero
+/// possibly with floats
 t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 {
 	t_vec3	l_dir;
