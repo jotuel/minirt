@@ -235,6 +235,7 @@ typedef struct s_map
 	unsigned int    nbr_pl;
 	unsigned int    nbr_cy;
 	mlx_image_t     *img;
+	mlx_t			*mlx;
 }					t_map;
 
 #endif

@@ -11,6 +11,8 @@ inline static t_color	color_scale(t_color vec, float scale)
 	int	g;
 	int	b;
 
+	if (scale == 1.)
+		return (vec);
 	r = fmin((int)vec.r * scale, 255);
 	g = fmin((int)vec.g * scale, 255);
 	b = fmin((int)vec.b * scale, 255);
@@ -87,6 +89,8 @@ t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 	effective_color = color_scale(hit.color, map->light->intensity);
 	ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
 	light_dot_normal = vec3_dot(l_dir, n);
+	if (hit.type == CYLINDER)
+		light_dot_normal = fabs(light_dot_normal);
 	if (light_dot_normal < 0)
 		diffuse = (t_color){1,1,1};
 	else

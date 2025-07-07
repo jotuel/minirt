@@ -1,20 +1,20 @@
 #include "../include/minirt.h"
 
-inline static
-t_vec3 point_s(const t_ray r,
-    const float f[10],
-    const t_vec3 ba,
-    const t_vec3 oc)
-{
-    return (vec3_divide(vec3_subtract(vec3_add(oc, vec3_scale(r.dir, f[t])),
-        vec3_divide(vec3_scale(ba, f[y]), f[baba])), f[ra]));
-}
+// inline static
+// t_vec3 point_s(const t_ray r,
+//     const float f[10],
+//     const t_vec3 ba,
+//     const t_vec3 oc)
+// {
+//     return (vec3_divide(vec3_subtract(vec3_add(oc, vec3_scale(r.dir, f[t])),
+//         vec3_divide(vec3_scale(ba, f[y]), f[baba])), f[ra]));
+// }
 
-inline static
-t_vec3 point(const t_vec3 ba, const float y, const float baba)
-{
-    return (vec3_divide(vec3_scale(ba, copysign(1., y)), sqrtf(baba)));
-}
+// inline static
+// t_vec3 point(const t_vec3 ba, const float y, const float baba)
+// {
+//     return (vec3_divide(vec3_scale(ba, copysignf(1., y)), sqrtf(baba)));
+// }
 
 t_intersection
 intersect_cylinder(const t_ray r,
@@ -38,13 +38,13 @@ intersect_cylinder(const t_ray r,
 	f[y] = f[baoc] + f[t] * f[bard];
 	f[ra] = rad;
 	if (f[y] > 0. && f[y] < f[baba])
-		return ((t_intersection){CYLINDER, f[y], .point = point_s(r, f, ba, oc)});
+		return ((t_intersection){CYLINDER, f[t], .point = at(r, f[t])});
 	if (f[y] < 0.)
 		f[t] = -f[baoc] / f[bard];
 	else
 		f[t] = (f[baba] - f[baoc]) / f[bard];
 	if (fabs(f[k1] + f[k2] * f[t]) < f[h])
-		return ((t_intersection){CYLINDER, f[t], .point = point(ba, f[y], f[baba])});
+		return ((t_intersection){CYLINDER, f[t], .point = at(r, f[t])});
 	return ((t_intersection){0});
 }
 
