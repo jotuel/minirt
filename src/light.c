@@ -13,6 +13,8 @@ inline static t_color	color_scale(t_color vec, float scale)
 	int	g;
 	int	b;
 
+	if (scale == 1.)
+		return (vec);
 	r = fmin((int)vec.r * scale, 255);
 	g = fmin((int)vec.g * scale, 255);
 	b = fmin((int)vec.b * scale, 255);

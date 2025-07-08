@@ -10,7 +10,7 @@ t_cyl  hit_points_sphere(t_ray r, t_sphere sp)
 	const float discrimant = powf(h, 2) - a * c;
 
 	if (discrimant < 0)
-		return ((t_cyl){});
+		return ((t_cyl){.t1 = -1, .t0 = -1});
 	return ((t_cyl){.t0 = (h - sqrtf(discrimant)) /  a, .t1 =(h + sqrtf(discrimant)) / a});
 }
 

@@ -31,27 +31,45 @@ void	cast_rays(void *ptr)
 	}
 }
 
+void key_hook(mlx_key_data_t key, void *map);
+void scroll_hook(double x_delta, double y_delta, void *cam);
+
+int init_scene(t_map *map, 	int32_t	index)
+{
+	map->camera->vup = (t_vec3){0., 1., 0.};
+	map->mlx = mlx_init(1200, 800, "minirt", false);
+	if (!map->mlx)
+		return (1);
+	map->img = mlx_new_image(map->mlx, 1200, 800);
+	if (!map->img)
+		return (mlx_terminate(map->mlx), 1);
+	index = mlx_image_to_window(map->mlx, map->img, 0, 0);
+	if (index < 0)
+		return (mlx_terminate(map->mlx), mlx_delete_image(map->mlx, map->img), 1);
+	if (!mlx_loop_hook(map->mlx, cast_rays, map))
+		return (1);//mlx_terminate(map->mlx), mlx_delete_image(map->mlx, map->img), 1);
+	mlx_key_hook(map->mlx, key_hook, map);
+	mlx_scroll_hook(map->mlx, scroll_hook, map->camera);
+	mlx_loop(map->mlx);
+//	mlx_delete_image(map->mlx, map->img);
+//	mlx_terminate(map->mlx);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
-	mlx_t	*mlx;
 	t_list	*lst;
 	t_map	*map;
 
-	(void)argv;
 	if (argc != 2)
 		return (1);
 	lst = parse_file(argv[1]);
 	if (!lst)
 		return (1);
 	lst = ft_lstmap(lst, move_to_structs, free);
+	if (!lst)
+		return (1);
 	map = lst->content;
 	ft_lstclear(&lst, brush);
-	mlx = mlx_init(1200, 800, "minirt", true);
-	map->img = mlx_new_image(mlx, 1200, 800);
-	mlx_image_to_window(mlx, map->img, 0, 0);
-	map->camera->vup = (t_vec3){0., 1., 0.};
-	mlx_loop_hook(mlx, cast_rays, map);
-	mlx_loop(mlx);
-	mlx_delete_image(mlx, map->img);
-	mlx_terminate(mlx);
+	return (init_scene(map, 0));
 }
