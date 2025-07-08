@@ -1,9 +1,11 @@
 #include "../include/minirt.h"
-#include <stdint.h>
+#include <math.h>
 
 t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr);
 t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr);
 t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr);
+t_color clamp_color(t_color a, t_color b);
+t_color	add_colors(t_color color1, t_color color2);
 
 inline static t_color	color_scale(t_color vec, float scale)
 {
@@ -46,19 +48,18 @@ t_vec3 normal_at(t_ray r, t_intersection hit)
 
 	v = (t_vec3){0,0,0};
 	if (hit.type == SPHERE)
-		v = vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos), hit.obj->sphere.diameter * .5);
+		v = vec3_unit(vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos), hit.obj->sphere.diameter * .5));
 	if (hit.type == PLANE)
-		v = vec3_cross(hit.obj->plane.orientation, r.dir);
+		v = vec3_unit(vec3_cross(hit.obj->plane.orientation, r.dir));
 	if (hit.type == CYLINDER)
-		v = cylinder_normal(hit.point, vec3_add(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
-			vec3_subtract(hit.obj->cylinder.pos, vec3_scale(hit.obj->cylinder.orientation, hit.obj->cylinder.height * .5)),
-			hit.obj->cylinder.diameter/2);
-
+		v = vec3_unit(hit.point);
 	return (v);
 }
 
 
-/// instead of mix color they must be added together and those values must be glambed. if over 255 then it is 255 and if under 0 then zero
+/// mix color = color1 + color2 / 2
+// add_color = color1 + color2
+// instead of mix color they must be added together and those values must be clamped. if over 255 then it is 255 and if under 0 then zero
 /// possibly with floats
 t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 {
@@ -75,23 +76,27 @@ t_color lambertian_color(t_ray r, t_intersection hit, t_map *map)
 	l_dir = vec3_unit(vec3_subtract(map->light->pos, hit.point));
 	l_r = (t_ray){hit.point, l_dir};
 	t = vec3_length(l_dir);
-	if (!hit_light(l_r, t, map))
+	if (!hit_light(l_r, t, map)) //something is on the way and chasts a shadow
 	{
-		effective_color = color_scale(hit.color, map->ambient->intensity);
-		ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
+		ambient = color_scale(clamp_color(map->ambient->color, hit.color), map->ambient->intensity);
 		return (ambient);
 	}
 	// also add ambient color, multiply both of the colors by ambient intensity and then combine them
 	n = normal_at(r, hit);
 	//re = reflect(l_dir, n);
-	effective_color = color_scale(hit.color, map->light->intensity);
-	ambient = mix_colors(effective_color, color_scale(map->ambient->color, map->ambient->intensity));
+	// doesnt take accout light color <- mistake
+	// color needs to be clamped to the min color value either by the light source or the obj color
+
+	effective_color = color_scale(clamp_color(hit.color, map->light->color), map->light->intensity);
+	ambient = color_scale(clamp_color(map->ambient->color, hit.color), map->ambient->intensity);
 	light_dot_normal = vec3_dot(l_dir, n);
+	// if (hit.type == CYLINDER)
+	// 	light_dot_normal = fabs(light_dot_normal);
 	if (light_dot_normal < 0)
-		diffuse = (t_color){1,1,1};
+		diffuse = (t_color){0};
 	else
-		diffuse = color_scale(color_scale(effective_color, 0.9), light_dot_normal);
-	return (mix_colors(diffuse, mix_colors(ambient, effective_color)));
+		diffuse = color_scale(color_scale(effective_color, 1), light_dot_normal);
+	return (add_colors(diffuse, ambient));
 }
 
 // this works but it doesnt take account what is the closest ray hit so that is
@@ -103,7 +108,9 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 	t_intersection hit;
 
 	hit = intersections(r, map);
-	return (get_color(lambertian_color(r, hit, map)));
+	if (hit.type != NONE)
+		return(get_color(lambertian_color(r, hit, map)));
+	return (get_color((t_color){25,25,25}));
 
 	// else // only gradient background
 	// {

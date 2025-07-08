@@ -18,9 +18,9 @@ float hit_sphere(t_ray r, t_sphere sp)
 {
 	const t_cyl ts = hit_points_sphere(r, sp);
 
-	if (ts.t0 < 0)
+	if (ts.t1 < 0)
 		return (-1.);
-	else if (ts.t1 < 0)
+	else if (ts.t0 < 0)
 		return (ts.t1);
 	return (ts.t0);
 }
