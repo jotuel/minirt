@@ -33,11 +33,13 @@ void	cast_rays(void *ptr)
 
 void key_hook(mlx_key_data_t key, void *map);
 void scroll_hook(double x_delta, double y_delta, void *cam);
+void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, void *map);
+void resize_hook(int width, int height, void *map);
 
 int init_scene(t_map *map, 	int32_t	index)
 {
 	map->camera->vup = (t_vec3){0., 1., 0.};
-	map->mlx = mlx_init(1200, 800, "minirt", false);
+	map->mlx = mlx_init(1200, 800, "minirt", true);
 	if (!map->mlx)
 		return (1);
 	map->img = mlx_new_image(map->mlx, 1200, 800);
@@ -49,7 +51,9 @@ int init_scene(t_map *map, 	int32_t	index)
 	if (!mlx_loop_hook(map->mlx, cast_rays, map))
 		return (1);//mlx_terminate(map->mlx), mlx_delete_image(map->mlx, map->img), 1);
 	mlx_key_hook(map->mlx, key_hook, map);
+	mlx_resize_hook(map->mlx, resize_hook, map);
 	mlx_scroll_hook(map->mlx, scroll_hook, map->camera);
+	mlx_mouse_hook(map->mlx, mouse_hook, map);
 	mlx_loop(map->mlx);
 //	mlx_delete_image(map->mlx, map->img);
 //	mlx_terminate(map->mlx);
