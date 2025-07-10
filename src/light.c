@@ -23,7 +23,10 @@ static t_vec3 normal_at(t_ray r, t_intersection hit)
 		v = vec3_unit(vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos),
 			hit.obj->sphere.diameter * .5));
 	if (hit.type == PLANE)
-		v = vec3_unit(vec3_cross(hit.obj->plane.orientation, r.dir));
+		{
+		v = hit.obj->plane.orientation;
+		// v = vec3_unit(vec3_cross(hit.obj->plane.orientation, hit.point));
+		}
 	if (hit.type == CYLINDER)
 		v = vec3_unit(hit.point);
 	return (v);
