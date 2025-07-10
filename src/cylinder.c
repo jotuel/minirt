@@ -38,7 +38,7 @@ intersect_cylinder(const t_ray r,
 	f[y] = f[baoc] + f[t] * f[bard];
 	f[ra] = rad;
 	if (f[y] > 0. && f[y] < f[baba])
-		return ((t_intersection){CYLINDER, f[y], .point = point_s(r, f, ba, oc)});
+		return ((t_intersection){CYLINDER, f[t], .point = point_s(r, f, ba, oc)});
 	if (f[y] < 0.)
 		f[t] = -f[baoc] / f[bard];
 	else

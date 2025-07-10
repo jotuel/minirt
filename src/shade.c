@@ -1,8 +1,6 @@
 #include "../include/minirt.h"
 
-t_color	color_scale(t_color vec, float scale);
-
-t_color clamp_color(t_color a, t_color b)
+static inline t_color clamp_color(t_color a, t_color b)
 {
 	t_color	color;
 	
@@ -16,12 +14,12 @@ t_color clamp_color(t_color a, t_color b)
 	return (color);
 }
 
-t_vec3 reflect(t_vec3 in, t_vec3 normal)
+static t_vec3 reflect(t_vec3 in, t_vec3 normal)
 {
 	return (vec3_subtract(in, vec3_scale(vec3_scale(normal, 2), vec3_dot(in, normal))));
 }
 
-t_color ambient_color(t_intersection hit, t_map *map)
+inline t_color ambient_color(t_intersection hit, t_map *map)
 {
 	return (color_scale(clamp_color(map->ambient->color, hit.color), map->ambient->intensity));
 }
@@ -44,7 +42,7 @@ t_color diffuse_color(t_intersection hit, t_map *map, t_vec3 l_dir, t_vec3 norma
 t_color specular_color(t_ray r, t_map *map, t_vec3 l_dir, t_vec3 normal)
 {
 	t_vec3	re;
-	t_color specular;
+	t_color	specular;
 	float	re_dot_eye;
 	float	factor;
 	
