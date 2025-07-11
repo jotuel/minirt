@@ -1,4 +1,5 @@
 #include "../include/minirt.h"
+#include <math.h>
 
 t_intersection intersect_plane(t_ray r, t_plane pl)
 {
@@ -6,7 +7,7 @@ t_intersection intersect_plane(t_ray r, t_plane pl)
 	float t;
 
 	denom = vec3_dot(pl.orientation, r.dir);
-	if (fabs(denom) > 1e-4)
+	if (fabsf(denom) > 1e-4)
 	{
 		t = (vec3_dot(vec3_subtract(pl.pos, r.origin), pl.orientation) / denom);
 		if (t > 1e-4)

@@ -41,7 +41,7 @@ void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, t_map 
 	int x;
 	int y;
 
-	if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
+	if (button == MLX_MOUSE_BUTTON_LEFT || action)
 	{
 		mlx_get_mouse_pos(map->mlx, &x, &y);
 		if (x < xy[0] && map->camera->lookat.z > -0.91)
