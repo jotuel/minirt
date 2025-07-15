@@ -1,6 +1,11 @@
 #include "../include/minirt.h"
 #include <math.h>
 
+/*
+ * Ax + By + Cz + D = 0
+ * if this equation is satisfied the ray intersects the plane
+ * checks first if the ray only hits very near infinity
+ */
 t_intersection intersect_plane(t_ray r, t_plane pl)
 {
 	float denom;

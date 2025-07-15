@@ -22,12 +22,15 @@ static t_vec3 normal_at(t_ray r, t_intersection hit)
 	if (hit.type == SPHERE)
 		v = vec3_unit(vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos),
 			hit.obj->sphere.diameter * .5));
-	if (hit.type == PLANE)
-		{
-		v = hit.obj->plane.orientation;
+	else if (hit.type == PLANE)
+	{
+		if (0.f < vec3_dot(hit.obj->plane.orientation, r.dir))
+			v = vec3_neg(hit.obj->plane.orientation);
+		else
+			v = hit.obj->plane.orientation;
 		// v = vec3_unit(vec3_cross(hit.obj->plane.orientation, hit.point));
-		}
-	if (hit.type == CYLINDER)
+	}
+	else if (hit.type == CYLINDER)
 		v = vec3_unit(hit.point);
 	return (v);
 }

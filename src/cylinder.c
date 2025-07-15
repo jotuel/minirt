@@ -1,5 +1,8 @@
 #include "../include/minirt.h"
 
+/*
+ * this is for calculating the normal from a side hit
+ */
 inline static
 t_vec3 point_s(const t_ray r,
     const float f[10],
@@ -10,12 +13,20 @@ t_vec3 point_s(const t_ray r,
         vec3_divide(vec3_scale(ba, f[y]), f[baba])), f[ra]));
 }
 
+/*
+ * and this for an end hit
+ */
 inline static
 t_vec3 point(const t_vec3 ba, const float y, const float baba)
 {
     return (vec3_divide(vec3_scale(ba, copysign(1., y)), sqrtf(baba)));
 }
 
+/*
+ * x² + y² = r²
+ * if this condition fills we do a tiny amount of math to
+ * see whether we hit the side, or the end.
+ */
 t_intersection
 intersect_cylinder(const t_ray r,
     const t_vec3 ba,
@@ -38,16 +49,20 @@ intersect_cylinder(const t_ray r,
 	f[y] = f[baoc] + f[t] * f[bard];
 	f[ra] = rad;
 	if (f[y] > 0. && f[y] < f[baba])
-		return ((t_intersection){CYLINDER, f[t], .point = point_s(r, f, ba, oc)});
+		return ((t_intersection){f[t], CYLINDER, point_s(r, f, ba, oc), {0}, NULL});
 	if (f[y] < 0.)
 		f[t] = -f[baoc] / f[bard];
 	else
 		f[t] = (f[baba] - f[baoc]) / f[bard];
 	if (fabs(f[k1] + f[k2] * f[t]) < f[h])
-		return ((t_intersection){CYLINDER, f[t], .point = point(ba, f[y], f[baba])});
+		return ((t_intersection){f[t], CYLINDER, point(ba, f[y], f[baba]), {0}, NULL});
 	return ((t_intersection){0});
 }
 
+/*
+ * we turn a center, orientation and diameter defined cylinder
+ * into two extreme end points + radius defined one here.
+ */
 t_intersection	hit_cylinder(t_ray r, t_cylinder cy)
 {
 	const float		hh = cy.height * .5;
@@ -59,6 +74,10 @@ t_intersection	hit_cylinder(t_ray r, t_cylinder cy)
 	return (intersect_cylinder(r, ba, oc, cy.diameter / 2));
 }
 
+/*
+ * this is for getting from the t and ray via at function the
+ * surface normal of a cylinder hit
+ */
 t_vec3	cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra)
 {
 	const t_vec3	pa = vec3_subtract(p, a);

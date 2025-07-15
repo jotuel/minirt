@@ -1,6 +1,11 @@
 #include "../include/minirt.h"
 #include <stdint.h>
 
+/*
+ * we go through the cylinder, one by one, comparing the t values.
+ * the smallest positive value found is returned with some additional
+ * details about it.
+ */
 t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr)
 {
 	t_intersection is;
@@ -24,6 +29,11 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 	return (is);
 }
 
+/*
+ * we go through the planes, one by one, comparing the t values.
+ * the smallest positive value found is returned with some additional
+ * details about it.
+ */
 t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
 {
     t_intersection is;
@@ -45,6 +55,11 @@ t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
     return (is);
 }
 
+/*
+ * we go through the spheres, one by one, comparing the t values.
+ * the smallest positive value found is returned with some additional
+ * details about it.
+ */
 t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 {
 	t_intersection is;
@@ -69,6 +84,11 @@ t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 	return (is);
 }
 
+/*
+ * calls all of the ray-object-intersect functions
+ * then comparing the returned t values returning
+ * the smallest positive out of all, if any exist.
+ */
 t_intersection intersections(t_ray r, t_map *map)
 {
 	t_intersection is;

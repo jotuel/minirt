@@ -10,7 +10,9 @@ void	cast_rays(void *ptr)
 	t_ray			ray;
 
 	map = ptr;
-	initialize_camera(map->camera, map->img);
+	if (map->change)
+		initialize_camera(map->camera, map->img);
+	map->change = false;
 	w = 0;
 	h = 0;
 	while (w < map->img->width)

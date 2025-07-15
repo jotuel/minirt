@@ -119,10 +119,6 @@ typedef struct s_cylinder
 	t_vec3			orientation;
 	float			diameter;
 	float			height;
-	float			min;
-	float			max;
-	bool			closed;
-	bool			cap;
 	t_color			color;
 }					t_cylinder;
 
@@ -236,6 +232,7 @@ typedef struct s_map
 	unsigned int    nbr_cy;
 	mlx_image_t     *img;
 	mlx_t			*mlx;
+	bool			change;
 }					t_map;
 
 #endif
