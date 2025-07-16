@@ -40,6 +40,9 @@ char	**split_and_check(char *input, char by, int fields, void *mem[3])
 	split = ft_split(input, by);
 	if (!split || split[fields])
 	{
+		free(mem[2]);
+		free_split(mem[1]);
+		ft_error(mem[0]);
 	}
 	while (fields--)
 	{

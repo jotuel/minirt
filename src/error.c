@@ -4,11 +4,7 @@
 
 void	ft_error(void *mem)
 {
-	t_list	*lst;
-
-	lst = mem;
-	stdout = stderr;
-	printf("Error\nDanger, Will Robinson\n");
-	ft_lstclear(&lst, free);
+	ft_putstr_fd("Error\n", 2);
+	ft_lstclear((t_list**)&mem, free);
 	exit(EXIT_FAILURE);
 }

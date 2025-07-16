@@ -1,6 +1,24 @@
 #include "../include/minirt.h"
 
-void *object_realloc(void *ptr, void *data, int nbr);
+void *object_realloc(void *ptr, void *data, int nbr)
+{
+	t_object	*new_ptr;
+
+	new_ptr = ft_calloc(nbr, sizeof(t_object));
+	if (!new_ptr)
+		return (NULL);
+	if (ptr)
+	{
+		ft_memcpy(new_ptr, ptr, sizeof(t_object) * (nbr - 1));
+		ft_memcpy(&new_ptr[nbr - 1], data, sizeof(t_object));
+		free(ptr);
+	}
+	else
+	{
+		ft_memcpy(new_ptr, data, sizeof(t_object));
+	}
+	return (new_ptr);
+}
 
 void	*move_to_structs(void *ptr)
 {
@@ -30,24 +48,4 @@ void	*move_to_structs(void *ptr)
 void	brush(void *ptr)
 {
 	(void)ptr;
-}
-
-void *object_realloc(void *ptr, void *data, int nbr)
-{
-	t_object	*new_ptr;
-
-	new_ptr = ft_calloc(nbr, sizeof(t_object));
-	if (!new_ptr)
-		return (NULL);
-	if (ptr)
-	{
-		ft_memcpy(new_ptr, ptr, sizeof(t_object) * (nbr - 1));
-		ft_memcpy(&new_ptr[nbr - 1], data, sizeof(t_object));
-		free(ptr);
-	}
-	else
-	{
-		ft_memcpy(new_ptr, data, sizeof(t_object));
-	}
-	return (new_ptr);
 }
