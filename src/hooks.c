@@ -27,7 +27,6 @@ void key_hook(mlx_key_data_t key, t_map *map)
 		map->camera->lookfrom = vec3_subtract(map->camera->lookfrom, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
 	else if (key.key == MLX_KEY_D)
 		map->camera->lookfrom = vec3_add(map->camera->lookfrom, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
-	map->change = true;
 }
 
 /*
@@ -70,11 +69,8 @@ void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, t_map 
  */
 void resize_hook(int width, int height, t_map *map)
 {
-	if (width > 0 && height > 0)
-	{
-		map->camera->aspectratio = (float)width / height;
-		map->camera->width = width;
-		map->camera->height = height;
-		mlx_resize_image(map->img, width, height);
-	}
+	map->camera->aspectratio = (float)width / height;
+	map->camera->width = width;
+	map->camera->height = height;
+	mlx_resize_image(map->img, width, height);
 }

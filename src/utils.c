@@ -12,15 +12,15 @@ void	*move_to_structs(void *ptr)
 	obj = ptr;
 	if (!obj)
 		return (NULL);
-	else if (obj->type == AMBIENT)
+	else if (obj->type == AMB)
 		map->ambient = &obj->ambiance;
-	else if (obj->type == CAMERA)
+	else if (obj->type == CAM)
 		map->camera = &obj->cam;
 	else if (obj->type == LIGHT)
 		map->light = &obj->light;
 	else if (obj->type == PLANE)
 		map->pl = object_realloc(map->pl, &obj->plane, ++map->nbr_pl);
-	else if (obj->type == CYLINDER)
+	else if (obj->type == CYL)
 		map->cy = object_realloc(map->cy, &obj->cylinder, ++map->nbr_cy);
 	else
 		map->sp = object_realloc(map->sp, &obj->sphere, ++map->nbr_sp);

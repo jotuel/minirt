@@ -42,12 +42,12 @@ typedef enum e_var
 typedef enum e_type
 {
     NONE,
-    AMBIENT,
+    AMB,
 	PLANE,
-	SPHERE,
-	CYLINDER,
+	SPH,
+	CYL,
 	LIGHT,
-	CAMERA,
+	CAM,
 }					t_type;
 
 typedef struct s_vec3

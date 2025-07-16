@@ -20,7 +20,7 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
 		if (tmp.t > 0.0 && tmp.t < is.t)
 		{
 			is = tmp;
-			is.type = CYLINDER;
+			is.type = CYL;
 			is.color = cy[i].cylinder.color;
 			is.obj = &cy[i];
 		}
@@ -75,7 +75,7 @@ t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 		if (tmp.t > 0.0 && tmp.t < is.t)
 		{
 			is = tmp;
-			is.type = SPHERE;
+			is.type = SPH;
 			is.color = sp[i].sphere.color;
 			is.obj = &sp[i];
 		}
@@ -96,7 +96,7 @@ t_intersection intersections(t_ray r, t_map *map)
 	float  tmin;
 
 	tmin = __FLT_MAX__;
-	is = (t_intersection) { .type = NONE };
+	is = (t_intersection) {0};
 	tmp = intersect_planes(r, map->pl, map->nbr_pl);
 	if (tmp.t > 0.0 && tmp.t < tmin)
 	{
@@ -118,24 +118,30 @@ t_intersection intersections(t_ray r, t_map *map)
 	return (is);
 }
 
-// // this works but it doesnt take account what is the closest ray hit so that is
-// // why it only renders one object at time
-// uint_fast32_t color_ray(t_ray r, t_map *map)
-// {
-// 	// float		   a;
-// 	// t_vec3		   unit_dir;
-// 	t_intersection hit;
-// 	t_ray	light;
-// 	float	t;
+void	cast_rays(t_map *map)
+{
+	unsigned int	w;
+	unsigned int	h;
+	t_vec3			p_cen;
+	t_ray			ray;
 
-// 	hit = intersections(r, map);
-// 	return (get_color(hit.color));
-
-// 	// else // only gradient background
-// 	// {
-// 	// 	a = 0.5 * (vec3_unit(r.dir).y + 1.0);
-// 	// 	unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
-// 	// 	unit_dir = vec3_scale(unit_dir, 255);
-// 	// 	return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
-// 	// }
-// }
+	initialize_camera(map->camera, map->img);
+	w = 0;
+	h = 0;
+	while (w < map->img->width)
+	{
+		while (h < map->img->height)
+		{
+			p_cen = vec3_add(vec3_add(map->camera->p00,
+						vec3_scale(map->camera->pixel_delta_u, h)),
+					vec3_scale(map->camera->pixel_delta_v, w));
+			ray = (t_ray){.origin = map->camera->lookfrom,
+				.dir = vec3_unit(vec3_subtract(p_cen,
+							map->camera->lookfrom))};
+			mlx_put_pixel(map->img, w, h, color_ray(ray, map));
+			h += 1;
+		}
+		h = 0;
+		w += 1;
+	}
+}
