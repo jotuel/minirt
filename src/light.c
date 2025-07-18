@@ -60,7 +60,7 @@ static t_color phong_material(t_ray r, t_intersection hit, t_map *map)
 	t_color	diffuse;
 	t_color	specular;
 
-	l_dir = vec3_subtract(map->light->pos, hit.point);
+	l_dir = vec3_subtract(map->light->pos, at(r, hit.t));
 	ambient = ambient_color(hit, map);
 	if (!hit_light((t_ray){hit.point, vec3_unit(l_dir)}, vec3_length(l_dir), map))
 		return (ambient);
@@ -77,7 +77,7 @@ uint_fast32_t color_ray(t_ray r, t_map *map)
 	t_intersection hit;
 
 	hit = intersections(r, map);
-	if (hit.type != NONE)
+	if (hit.type)
 		return(get_color(phong_material(r, hit, map)));
 	return (get_color((t_color){25,25,25}));
 }

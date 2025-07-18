@@ -111,10 +111,7 @@ t_intersection intersections(t_ray r, t_map *map)
 	}
 	tmp = intersect_cylinders(r, map->cy, map->nbr_cy);
 	if (tmp.t > 0.0 && tmp.t < tmin)
-	{
-		tmin = tmp.t;
-		is = tmp;
-	}
+		return (tmp);
 	return (is);
 }
 
