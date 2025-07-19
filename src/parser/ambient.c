@@ -2,9 +2,14 @@
 
 void	validate_ambiance(char *line, t_ambient amb, t_list *lst)
 {
-	(void)line;
-	(void)amb;
-	(void)lst;
+	static int nbr;
+
+	if (nbr++)
+		ft_error(lst);
+	else if (ft_strncmp(ft_strchr(line, 'A'), "A\t", 2))
+		ft_error(lst);
+	else if (amb.intensity < 0 || amb.intensity > 1)
+		ft_error(lst);
 }
 
 // A 0.2 255,255,255 example of ambient lighting
@@ -20,5 +25,5 @@ t_list	*ambient(char *line, t_list *lst, t_ambient amb)
 	free_split(colors);
 	free_split(split);
 	validate_ambiance(line, amb, lst);
-	return (ft_lstnew(obj((t_obj){.ambiance = amb, .type = AMBIENT}, lst)));
+	return (ft_lstnew(obj((t_obj){.ambiance = amb, .type = AMB}, lst)));
 }

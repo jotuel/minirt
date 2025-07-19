@@ -65,11 +65,8 @@ void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, t_map 
  */
 void resize_hook(int width, int height, t_map *map)
 {
-	if (width > 0 && height > 0)
-	{
-		map->camera->aspectratio = (float)width / height;
-		map->camera->width = width;
-		map->camera->height = height;
-		mlx_resize_image(map->img, width, height);
-	}
+	map->camera->aspectratio = (float)width / height;
+	map->camera->width = width;
+	map->camera->height = height;
+	mlx_resize_image(map->img, width, height);
 }

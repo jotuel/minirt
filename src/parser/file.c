@@ -31,14 +31,33 @@ static t_list	*parse_line(char *line, t_list *lst)
 	return (lst);
 }
 
+static bool trim_line(char *line)
+{
+	if (!line)
+		return (false);
+	while(*line)
+	{
+		if (ft_isspace(*line))
+			*line = '\t';
+		else if (ft_isalnum(*line) || *line == '.' || *line == ',' || *line == '-')
+			;
+		else
+			return (true);
+		line++;
+	}
+	return (false);
+}
+
 static t_list	*file_parser(t_list *lst, int fd, char *line)
 {
 	while (line)
 	{
-		if (*line && line[0] != '\n')
+		if (*line && line[0] != '\t')
 			ft_lstadd_front(&lst, parse_line(line, lst));
 		free(line);
 		line = get_next_line(fd);
+		if (trim_line(line))
+			ft_error(line);
 	}
 	close(fd);
 	return (lst);
@@ -50,7 +69,7 @@ t_list	*parse_file(char *filename)
 
 	if (!filename || !check_filetype(filename))
 	{
-		ft_putendl_fd("Not a valid file", 2);
+		ft_putendl_fd("Error\n Not a valid file", 2);
 		return (NULL);
 	}
 	fd = open(filename, O_RDONLY);

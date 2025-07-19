@@ -2,9 +2,16 @@
 
 void	validate_camera(char *line, t_camera cam, t_list *lst)
 {
-	(void)line;
-	(void)cam;
-	(void)lst;
+	static int nbr;
+
+	if (nbr++)
+		ft_error(lst);
+	else if (ft_strncmp(ft_strchr(line, 'C'), "C\t", 2))
+		ft_error(lst);
+	else if (cam.fov < 1 || cam.fov > 180)
+		ft_error(lst);
+	else if (0 == vec3_dot(cam.lookat, cam.lookat))
+		ft_error(lst);
 }
 
 /*  C    -50,0,0   0,0,1    70 <- example of given camera coordinates
@@ -26,5 +33,5 @@ t_list	*camera(char *line, t_list *lst, t_camera cam)
 	free_split(vec3);
 	free_split(split);
 	validate_camera(line, cam, lst);
-	return (ft_lstnew(obj((t_obj){.cam = cam, .type = CAMERA}, lst)));
+	return (ft_lstnew(obj((t_obj){.cam = cam, .type = CAM}, lst)));
 }

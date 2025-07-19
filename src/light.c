@@ -19,7 +19,7 @@ static t_vec3 normal_at(t_ray r, t_intersection hit)
 	t_vec3 v;
 
 	v = (t_vec3){0,0,0};
-	if (hit.type == SPHERE)
+	if (hit.type == SPH)
 		v = vec3_unit(vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos),
 			hit.obj->sphere.diameter * .5));
 	else if (hit.type == PLANE)
@@ -28,9 +28,8 @@ static t_vec3 normal_at(t_ray r, t_intersection hit)
 			v = vec3_neg(hit.obj->plane.orientation);
 		else
 			v = hit.obj->plane.orientation;
-		// v = vec3_unit(vec3_cross(hit.obj->plane.orientation, hit.point));
 	}
-	else if (hit.type == CYLINDER)
+	else if (hit.type == CYL)
 		v = vec3_unit(hit.point);
 	return (v);
 }
@@ -61,7 +60,7 @@ static t_color phong_material(t_ray r, t_intersection hit, t_map *map)
 	t_color	diffuse;
 	t_color	specular;
 
-	l_dir = vec3_subtract(map->light->pos, hit.point);
+	l_dir = vec3_subtract(map->light->pos, at(r, hit.t));
 	ambient = ambient_color(hit, map);
 	if (!hit_light((t_ray){hit.point, vec3_unit(l_dir)}, vec3_length(l_dir), map))
 		return (ambient);
@@ -75,20 +74,10 @@ static t_color phong_material(t_ray r, t_intersection hit, t_map *map)
 
 uint_fast32_t color_ray(t_ray r, t_map *map)
 {
-	// float		   a;
-	// t_vec3		   unit_dir;
 	t_intersection hit;
 
 	hit = intersections(r, map);
-	if (hit.type != NONE)
+	if (hit.type)
 		return(get_color(phong_material(r, hit, map)));
 	return (get_color((t_color){25,25,25}));
-
-	// else // only gradient background
-	// {
-	// 	a = 0.5 * (vec3_unit(r.dir).y + 1.0);
-	// 	unit_dir = (vec3_add(vec3_scale((t_vec3) {1., 1., 1}, 1. - a), vec3_scale((t_vec3) {0.5, 0.7, 1.}, a)));
-	// 	unit_dir = vec3_scale(unit_dir, 255);
-	// 	return (get_color((t_color) {unit_dir.x, unit_dir.y, unit_dir.z}));
-	// }
 }
