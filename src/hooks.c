@@ -27,7 +27,6 @@ void key_hook(mlx_key_data_t key, t_map *map)
 		map->camera->lookfrom = vec3_subtract(map->camera->lookfrom, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
 	else if (key.key == MLX_KEY_D)
 		map->camera->lookfrom = vec3_add(map->camera->lookfrom, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
-	map->change = true;
 }
 
 /*
@@ -44,23 +43,19 @@ void scroll_hook(double x_delta, double y_delta, t_camera *cam)
 
 void mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods, t_map *map)
 {
-	static int xy[2];
+	t_vec3 tmp;
 	int x;
 	int y;
 
-	if (button == MLX_MOUSE_BUTTON_LEFT || action == MLX_REPEAT)
+	if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
 	{
 		mlx_get_mouse_pos(map->mlx, &x, &y);
-		if (x < xy[0] && map->camera->lookat.z > -0.91)
-			map->camera->lookat = vec3_add(map->camera->lookat, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
-		else if (x > xy[0] && map->camera->lookat.z < 0.91)
-			map->camera->lookfrom = vec3_subtract(map->camera->lookat, vec3_scale(vec3_cross(map->camera->lookat, map->camera->vup), 0.1));
-		if (y < xy[1] && map->camera->lookat.y > -0.91)
-			map->camera->lookat.y += 0.1;
-		else if (y > xy[1] && map->camera->lookat.y < 0.91)
-			map->camera->lookat.y -= 0.1;
-		xy[0] = x;
-		xy[1] = y;
+		printf("%d%d\n", x, y);
+		tmp = vec3_add(vec3_add(map->camera->lookat,
+					vec3_scale(map->camera->pixel_delta_u, y)),
+				vec3_scale(map->camera->pixel_delta_v, x));
+		map->camera->lookat =  vec3_unit(vec3_subtract(tmp,
+					map->camera->lookfrom));
 	}
 	(void)mods;
 }

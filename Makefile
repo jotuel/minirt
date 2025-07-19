@@ -28,7 +28,7 @@ $(LIBFT):
 mlx: $(MLX)
 $(MLX):
 	git clone $(TARGET_REPO) $@
-	cmake $(MLX) -B $(MLX)/build
+	cmake $(MLX) -DCMAKE_CXX_COMPILER=c++-15 -B $(MLX)/build
 	$(MAKE) $(MLX)/build -j4
 clean:
 	$(MAKE) libft clean
