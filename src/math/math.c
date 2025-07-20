@@ -6,11 +6,11 @@ inline t_vec3	refraction(t_vec3 uv, t_vec3 n, float e)
 	t_vec3	rout_perp;
 	t_vec3	rout_para;
 
-	cos_theta = fmin(vec3_dot(vec3_neg(uv), n), 1);
-	rout_perp = vec3_scale(vec3_add(uv, vec3_scale(n, cos_theta)), e);
-	rout_para = vec3_scale(n, -sqrtf(fabs(1.0 - vec3_dot(rout_perp,
+	cos_theta = fmin(dot(neg(uv), n), 1);
+	rout_perp = scale(add(uv, scale(n, cos_theta)), e);
+	rout_para = scale(n, -sqrtf(fabs(1.0 - dot(rout_perp,
 						rout_perp))));
-	return (vec3_add(rout_para, rout_perp));
+	return (add(rout_para, rout_perp));
 }
 
 inline float	reflectance(float cos, float idx)
@@ -24,7 +24,7 @@ inline float	reflectance(float cos, float idx)
 
 inline t_vec3	reflection(t_vec3 vec, t_vec3 n)
 {
-	return (vec3_subtract(vec, vec3_scale(n, 2 * vec3_dot(vec, n))));
+	return (subtract(vec, scale(n, 2 * dot(vec, n))));
 }
 
 inline float	to_radians(float degrees)

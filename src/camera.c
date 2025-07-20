@@ -17,23 +17,23 @@ int	calculate_height(int width, float aspectratio)
 /// located to the scene relative to the camera coordinates
 void	initialize_camera(t_camera *cam, mlx_image_t *img)
 {
-	const float	focal_length = vec3_length(vec3_subtract(cam->lookfrom,
-				cam->lookat));
+	const float	focal_length = length(subtract(cam->lookfrom,
+					cam->lookat));
 	const float	theta = to_radians(cam->fov);
 	const float	h = tanf(theta / 2);
 	const float	viewport_height = 2 * h * focal_length;
 	const float	viewport_width = viewport_height * img->width / img->height;
 
 	cam->w = cam->lookat;
-	cam->u = vec3_unit(vec3_cross(cam->w, cam->vup));
-	cam->v = vec3_cross(cam->w, cam->u);
-	cam->vu = vec3_scale(cam->u, viewport_width);
-	cam->vv = vec3_scale(vec3_scale(cam->v, -1), viewport_height);
-	cam->pixel_delta_u = vec3_divide(cam->vu, img->width);
-	cam->pixel_delta_v = vec3_divide(cam->vv, img->height);
-	cam->vul = vec3_subtract(vec3_subtract(vec3_subtract(cam->lookfrom,
-					vec3_scale(cam->w, focal_length)), vec3_scale(cam->vu,
-					0.5)), vec3_scale(cam->vv, 0.5));
-	cam->p00 = vec3_add(cam->vul,
-			vec3_scale(vec3_add(cam->pixel_delta_u, cam->pixel_delta_v), 0.5));
+	cam->u = unit(cross(cam->w, cam->vup));
+	cam->v = cross(cam->w, cam->u);
+	cam->vu = scale(cam->u, viewport_width);
+	cam->vv = scale(neg(cam->v), viewport_height);
+	cam->pixel_delta_u = divide(cam->vu, img->width);
+	cam->pixel_delta_v = divide(cam->vv, img->height);
+	cam->vul = subtract(subtract(subtract(cam->lookfrom,
+					scale(cam->w, focal_length)), scale(cam->vu,
+					0.5)), scale(cam->vv, 0.5));
+	cam->p00 = add(cam->vul, scale(add(cam->pixel_delta_u,
+					cam->pixel_delta_v), 0.5));
 }

@@ -1,6 +1,6 @@
 #include "../include/minirt.h"
 
-void *object_realloc(void *ptr, void *data, int nbr)
+void	*object_realloc(void *ptr, void *data, int nbr)
 {
 	t_object	*new_ptr;
 
@@ -26,7 +26,7 @@ void	*move_to_structs(void *ptr)
 	t_obj			*obj;
 
 	if (!map)
-	    map = ft_calloc(1, sizeof(t_map));
+		map = ft_calloc(1, sizeof(t_map));
 	obj = ptr;
 	if (!obj)
 		return (NULL);

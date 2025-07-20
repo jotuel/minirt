@@ -17,39 +17,39 @@ void	set_blue(t_color *color, uint8_t colour)
 }
 
 /* TODO: check for alien characters */
-void set_colors(char **colors, t_color *color)
+void	set_colors(char **colors, t_color *color)
 {
-	unsigned int check;
+	unsigned int	check;
 
 	check = ft_atoi(colors[0]);
 	if (check > 255 && ft_strlen(colors[0]) > 3)
 		ft_error(NULL);
-    set_red(color, check);
-   	check = ft_atoi(colors[1]);
+	set_red(color, check);
+	check = ft_atoi(colors[1]);
 	if (check > 255 && ft_strlen(colors[1]) > 3)
 		ft_error(NULL);
-    set_green(color, check);
-   	check = ft_atoi(colors[2]);
+	set_green(color, check);
+	check = ft_atoi(colors[2]);
 	if (check > 255 && ft_strlen(colors[2]) > 3)
 		ft_error(NULL);
-    set_blue(color, check);
+	set_blue(color, check);
 }
 
 /* TODO: check for alien characters */
-void set_vec3(char **vec3, t_vec3 *vec)
+void	set_vec3(char **vec3, t_vec3 *vec)
 {
-	double check;
+	double	check;
 
 	check = ft_atof(vec3[0]);
 	if (check < -FLT_MAX || check > FLT_MAX)
 		ft_error(NULL);
-    vec3_set_x(vec, check);
-   	check = ft_atof(vec3[1]);
+	set_x(vec, check);
+	check = ft_atof(vec3[1]);
 	if (check < -FLT_MAX || check > FLT_MAX)
 		ft_error(NULL);
-    vec3_set_y(vec, check);
-   	check = ft_atof(vec3[2]);
+	set_y(vec, check);
+	check = ft_atof(vec3[2]);
 	if (check < -FLT_MAX || check > FLT_MAX)
 		ft_error(NULL);
-    vec3_set_z(vec, check);
+	set_z(vec, check);
 }

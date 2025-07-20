@@ -7,12 +7,12 @@ inline float	linear_to_gamma(float linear)
 	return (0);
 }
 
-inline t_vec3	vec3_unit(t_vec3 v)
+inline t_vec3	unit(t_vec3 v)
 {
-	return (vec3_scale(v, 1. / vec3_length(v)));
+	return (scale(v, 1. / length(v)));
 }
 
-inline t_vec3	vec3_divide(t_vec3 vec, float scale)
+inline t_vec3	divide(t_vec3 vec, float scale)
 {
 	vec.x /= scale;
 	vec.y /= scale;
@@ -24,5 +24,5 @@ inline t_vec3	vec3_divide(t_vec3 vec, float scale)
 // position function
 inline t_point	at(t_ray r, float t)
 {
-	return (vec3_add(r.origin, vec3_scale(r.dir, t)));
+	return (add(r.origin, scale(r.dir, t)));
 }

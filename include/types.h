@@ -110,14 +110,14 @@ typedef struct s_plane
 
 /// @param pos 				= a point on the axis
 /// @param orientation		= axis direction
-/// @param diameter			= radius * 2
+/// @param radius			= radius * 2
 /// @param height
 /// @param color
 typedef struct s_cylinder
 {
 	t_point			pos;
 	t_vec3			orientation;
-	float			diameter;
+	float			radius;
 	float			height;
 	t_color			color;
 }					t_cylinder;
@@ -125,7 +125,7 @@ typedef struct s_cylinder
 typedef struct s_sphere
 {
 	t_point			pos;
-	float			diameter;
+	float			radius;
 	t_color			color;
 }					t_sphere;
 
@@ -205,7 +205,7 @@ typedef struct s_intersection
 	t_color			color;
 	t_object		*obj;
 
-}					t_intersection;
+}					t_isect;
 
 // node struct inside the content of linkedlist
 typedef struct s_node

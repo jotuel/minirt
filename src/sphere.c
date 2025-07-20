@@ -6,14 +6,14 @@
  * if this equation is satisfied the ray either
  * enters or exits the sphere. or both, could be both.
  */
-t_cyl  hit_points_sphere(t_ray r, t_sphere sp)
+t_cyl	hit_points_sphere(t_ray r, t_sphere sp)
 {
-	const t_vec3 oc = vec3_subtract(r.origin, sp.pos);
-	const float a = vec3_dot(oc, r.dir);
-	const float c = vec3_dot(oc, oc) - powf(sp.diameter * .5f, 2);
-	float h;
+	const t_vec3	oc = subtract(r.origin, sp.pos);
+	const float		a = dot(oc, r.dir);
+	const float		c = dot(oc, oc) - powf(sp.radius, 2);
+	float			h;
 
-	h = a*a - c;
+	h = a * a - c;
 	if (h < 0)
 		return ((t_cyl){-1, -1});
 	h = sqrtf(h);
@@ -23,9 +23,9 @@ t_cyl  hit_points_sphere(t_ray r, t_sphere sp)
 /*
  * this finds the relevant t value to return and returns it.
  */
-float hit_sphere(t_ray r, t_sphere sp)
+float	hit_sphere(t_ray r, t_sphere sp)
 {
-	const t_cyl ts = hit_points_sphere(r, sp);
+	const t_cyl	ts = hit_points_sphere(r, sp);
 
 	if (ts.t1 < 0)
 		return (-1.);

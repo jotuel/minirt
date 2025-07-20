@@ -11,35 +11,35 @@ t_color	color_scale(t_color vec, float scale)
 	r = fmin((int)vec.r * scale, 255);
 	g = fmin((int)vec.g * scale, 255);
 	b = fmin((int)vec.b * scale, 255);
-	return ((t_color){r,g,b});
+	return ((t_color){r, g, b});
 }
 
-static t_vec3 normal_at(t_ray r, t_intersection hit)
+static t_vec3	normal_at(t_ray r, t_isect hit)
 {
-	t_vec3 v;
+	t_vec3	v;
 
-	v = (t_vec3){0,0,0};
+	v = (t_vec3){0, 0, 0};
 	if (hit.type == SPH)
-		v = vec3_unit(vec3_divide(vec3_subtract(at(r, hit.t), hit.obj->sphere.pos),
-			hit.obj->sphere.diameter * .5));
+		v = unit(divide(subtract(at(r, hit.t),
+						hit.obj->sphere.pos), hit.obj->sphere.radius * .5));
 	else if (hit.type == PLANE)
 	{
-		if (0.f < vec3_dot(hit.obj->plane.orientation, r.dir))
-			v = vec3_neg(hit.obj->plane.orientation);
+		if (0.f < dot(hit.obj->plane.orientation, r.dir))
+			v = neg(hit.obj->plane.orientation);
 		else
 			v = hit.obj->plane.orientation;
 	}
 	else if (hit.type == CYL)
-		v = vec3_unit(hit.point);
+		v = unit(hit.point);
 	return (v);
 }
 
 // Check if the ray hits the light source, or is something blocking the light
-static bool hit_light(t_ray r, float t, t_map *map)
+static bool	hit_light(t_ray r, float t, t_map *map)
 {
 	float	tt;
 
-	r.origin = vec3_add(r.origin, vec3_scale(r.dir, 9e-3));
+	r.origin = add(r.origin, scale(r.dir, 9e-3));
 	tt = intersect_planes(r, map->pl, map->nbr_pl).t;
 	if (tt < t && tt > 0.0f)
 		return (false);
@@ -52,7 +52,7 @@ static bool hit_light(t_ray r, float t, t_map *map)
 	return (true);
 }
 
-static t_color phong_material(t_ray r, t_intersection hit, t_map *map)
+static t_color	phong_material(t_ray r, t_isect hit, t_map *map)
 {
 	t_vec3	l_dir;
 	t_vec3	n;
@@ -60,24 +60,25 @@ static t_color phong_material(t_ray r, t_intersection hit, t_map *map)
 	t_color	diffuse;
 	t_color	specular;
 
-	l_dir = vec3_subtract(map->light->pos, at(r, hit.t));
+	n = at(r, hit.t);
+	l_dir = subtract(map->light->pos, n);
 	ambient = ambient_color(hit, map);
-	if (!hit_light((t_ray){hit.point, vec3_unit(l_dir)}, vec3_length(l_dir), map))
+	if (!hit_light((t_ray){n, unit(l_dir)}, length(l_dir), map))
 		return (ambient);
 	specular = (t_color){0};
 	n = normal_at(r, hit);
-	l_dir = vec3_unit(l_dir);
+	l_dir = unit(l_dir);
 	diffuse = diffuse_color(hit, map, l_dir, n);
 	specular = specular_color(r, map, l_dir, n);
 	return (add_colors(add_colors(diffuse, ambient), specular));
 }
 
-uint_fast32_t color_ray(t_ray r, t_map *map)
+uint_fast32_t	color_ray(t_ray r, t_map *map)
 {
-	t_intersection hit;
+	t_isect	hit;
 
 	hit = intersections(r, map);
 	if (hit.type)
-		return(get_color(phong_material(r, hit, map)));
-	return (get_color((t_color){25,25,25}));
+		return (get_color(phong_material(r, hit, map)));
+	return (get_color((t_color){25, 25, 25}));
 }

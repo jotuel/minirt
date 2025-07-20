@@ -22,9 +22,9 @@ t_color	mix_colors(t_color color1, t_color color2)
 	int	g;
 	int	b;
 
-	r = ((int)color1.r + (int)color2.r)/2;
-	g = ((int)color1.g + (int)color2.g)/2;
-	b = ((int)color1.b + (int)color2.b)/2;
+	r = ((int)color1.r + (int)color2.r) / 2;
+	g = ((int)color1.g + (int)color2.g) / 2;
+	b = ((int)color1.b + (int)color2.b) / 2;
 	return ((t_color){r, g, b});
 }
 

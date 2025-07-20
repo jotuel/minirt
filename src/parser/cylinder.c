@@ -4,9 +4,9 @@ void	validate_cylinder(char *line, t_cylinder cy, t_list *lst)
 {
 	if (ft_strncmp(ft_strchr(line, 'c'), "cy\t", 3))
 		ft_error(lst);
-	else if (cy.diameter < 0 || cy.height < 0)
+	else if (cy.radius < 0 || cy.height < 0)
 		ft_error(lst);
-	else if (0 == vec3_dot(cy.orientation, cy.orientation))
+	else if (0 == dot(cy.orientation, cy.orientation))
 		ft_error(lst);
 }
 
@@ -24,7 +24,7 @@ t_list	*cylinder(char *line, t_list *lst, t_cylinder cy)
 	free_split(tmp);
 	tmp = split_and_check(split[5], ',', 3, (void *[]){lst, split, line});
 	set_colors(tmp, &cy.color);
-	cy.diameter = ft_atof(split[3]);
+	cy.radius = ft_atof(split[3]);
 	cy.height = ft_atof(split[4]);
 	free_split(split);
 	free_split(tmp);

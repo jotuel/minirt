@@ -10,7 +10,7 @@ void	validate_camera(char *line, t_camera cam, t_list *lst)
 		ft_error(lst);
 	else if (cam.fov < 1 || cam.fov > 180)
 		ft_error(lst);
-	else if (0 == vec3_dot(cam.lookat, cam.lookat))
+	else if (0 == dot(cam.lookat, cam.lookat))
 		ft_error(lst);
 }
 

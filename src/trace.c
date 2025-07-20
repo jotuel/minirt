@@ -6,17 +6,18 @@
  * the smallest positive value found is returned with some additional
  * details about it.
  */
-t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr)
+t_isect	intersect_cylinders(t_ray r, t_object *cy,
+		const unsigned int nbr)
 {
-	t_intersection is;
-	t_intersection tmp;
-	unsigned int i;
+	t_isect	is;
+	t_isect	tmp;
+	unsigned int	i;
 
-	is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
+	is = (t_isect){.type = NONE, .t = __FLT_MAX__};
 	i = 0;
 	while (i < nbr)
 	{
-	    tmp = hit_cylinder(r, cy[i].cylinder);
+		tmp = hit_cylinder(r, cy[i].cylinder);
 		if (tmp.t > 0.0 && tmp.t < is.t)
 		{
 			is = tmp;
@@ -34,25 +35,25 @@ t_intersection intersect_cylinders(t_ray r, t_object *cy, const unsigned int nbr
  * the smallest positive value found is returned with some additional
  * details about it.
  */
-t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
+t_isect	intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
 {
-    t_intersection is;
-    t_intersection tmp;
-    unsigned int i;
+	t_isect	is;
+	t_isect	tmp;
+	unsigned int	i;
 
-    is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
-    i = 0;
-    while (i < nbr)
-    {
-        tmp = intersect_plane(r, pl[i].plane);
-        if (tmp.t > 0.0 && tmp.t < is.t)
-        	is = tmp;
-        is.color = pl[i].plane.color;
-        is.type = PLANE;
+	is = (t_isect){.type = NONE, .t = __FLT_MAX__};
+	i = 0;
+	while (i < nbr)
+	{
+		tmp = intersect_plane(r, pl[i].plane);
+		if (tmp.t > 0.0 && tmp.t < is.t)
+			is = tmp;
+		is.color = pl[i].plane.color;
+		is.type = PLANE;
 		is.obj = &pl[i];
-        i += 1;
-    }
-    return (is);
+		i += 1;
+	}
+	return (is);
 }
 
 /*
@@ -60,18 +61,18 @@ t_intersection intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
  * the smallest positive value found is returned with some additional
  * details about it.
  */
-t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
+t_isect	intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 {
-	t_intersection is;
-	t_intersection tmp;
-	unsigned int i;
+	t_isect	is;
+	t_isect	tmp;
+	unsigned int	i;
 
-	tmp = (t_intersection) {0};
-	is = (t_intersection) { .type = NONE, .t = __FLT_MAX__ };
+	tmp = (t_isect){0};
+	is = (t_isect){.type = NONE, .t = __FLT_MAX__};
 	i = 0;
 	while (i < nbr)
 	{
-	    tmp.t = hit_sphere(r, sp[i].sphere);
+		tmp.t = hit_sphere(r, sp[i].sphere);
 		if (tmp.t > 0.0 && tmp.t < is.t)
 		{
 			is = tmp;
@@ -89,14 +90,14 @@ t_intersection intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
  * then comparing the returned t values returning
  * the smallest positive out of all, if any exist.
  */
-t_intersection intersections(t_ray r, t_map *map)
+t_isect	intersections(t_ray r, t_map *map)
 {
-	t_intersection is;
-	t_intersection tmp;
-	float  tmin;
+	t_isect	is;
+	t_isect	tmp;
+	float			tmin;
 
 	tmin = __FLT_MAX__;
-	is = (t_intersection) {0};
+	is = (t_isect){0};
 	tmp = intersect_planes(r, map->pl, map->nbr_pl);
 	if (tmp.t > 0.0 && tmp.t < tmin)
 	{
@@ -129,12 +130,11 @@ void	cast_rays(t_map *map)
 	{
 		while (h < map->img->height)
 		{
-			p_cen = vec3_add(vec3_add(map->camera->p00,
-						vec3_scale(map->camera->pixel_delta_u, h)),
-					vec3_scale(map->camera->pixel_delta_v, w));
+			p_cen = add(add(map->camera->p00,
+						scale(map->camera->pixel_delta_u, h)),
+					scale(map->camera->pixel_delta_v, w));
 			ray = (t_ray){.origin = map->camera->lookfrom,
-				.dir = vec3_unit(vec3_subtract(p_cen,
-							map->camera->lookfrom))};
+				.dir = unit(subtract(p_cen, map->camera->lookfrom))};
 			mlx_put_pixel(map->img, w, h, color_ray(ray, map));
 			h += 1;
 		}

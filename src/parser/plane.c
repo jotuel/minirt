@@ -4,7 +4,7 @@ void	validate_plane(char *line, t_plane pl, t_list *lst)
 {
 	if (ft_strncmp(ft_strchr(line, 'p'), "pl\t", 3))
 		ft_error(lst);
-	else if (0 == vec3_dot(pl.orientation, pl.orientation))
+	else if (0 == dot(pl.orientation, pl.orientation))
 		ft_error(lst);
 }
 

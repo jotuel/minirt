@@ -1,9 +1,15 @@
 #include "../include/minirt.h"
 #include <stdint.h>
 
-bool setup_mlx(t_map *map, int32_t *index)
+static void convert_prerender(t_map *map)
 {
-	map->camera->vup = (t_vec3){0., 1., 0.};
+	convert_cylinders(map);
+	convert_cylinders(map);
+	convert_camera(map->camera);
+}
+
+static bool	setup_mlx(t_map *map, int32_t *index)
+{
 	map->mlx = mlx_init(1200, 800, "minirt", true);
 	if (!map->mlx)
 		return (false);
@@ -14,7 +20,7 @@ bool setup_mlx(t_map *map, int32_t *index)
 		return (false);
 	}
 	*index = mlx_image_to_window(map->mlx, map->img, 0, 0);
-	if (index < 0)
+	if (*index < 0)
 	{
 		mlx_terminate(map->mlx);
 		mlx_delete_image(map->mlx, map->img);
@@ -24,17 +30,18 @@ bool setup_mlx(t_map *map, int32_t *index)
 	return (true);
 }
 
-void 			cast_rays(void *ptr);
-void 			key_hook(mlx_key_data_t key, void *map);
-void 			scroll_hook(double x_delta, double y_delta, void *cam);
-void 			mouse_hook(mouse_key_t button,
-	action_t action, modifier_key_t mods, void *map);
-void 			resize_hook(int width, int height, void *map);
+void	cast_rays(void *ptr);
+void	key_hook(mlx_key_data_t key, void *map);
+void	scroll_hook(double x_delta, double y_delta, void *cam);
+void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
+			void *map);
+void	resize_hook(int width, int height, void *map);
 
-int init_scene(t_map *map, 	int32_t	index)
+static int	init_scene(t_map *map, int32_t index)
 {
 	if (!setup_mlx(map, &index))
 		return (1);
+	convert_prerender(map);
 	mlx_loop_hook(map->mlx, cast_rays, map);
 	mlx_key_hook(map->mlx, key_hook, map);
 	mlx_resize_hook(map->mlx, resize_hook, map);
