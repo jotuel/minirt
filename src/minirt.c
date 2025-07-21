@@ -1,5 +1,5 @@
 #include "../include/minirt.h"
-#include <stdint.h>
+#include <unistd.h>
 
 static void convert_prerender(t_map *map)
 {
@@ -37,6 +37,13 @@ void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
 			void *map);
 void	resize_hook(int width, int height, void *map);
 
+static void free_all(t_map *map)
+{
+	free(map->cy);
+	free(map->sp);
+	free(map->pl);
+}
+
 static int	init_scene(t_map *map, int32_t index)
 {
 	if (!setup_mlx(map, &index))
@@ -48,6 +55,7 @@ static int	init_scene(t_map *map, int32_t index)
 	mlx_scroll_hook(map->mlx, scroll_hook, map->camera);
 	mlx_mouse_hook(map->mlx, mouse_hook, map);
 	mlx_loop(map->mlx);
+	free_all(map);
 	return (0);
 }
 
