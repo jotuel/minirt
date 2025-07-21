@@ -55,6 +55,7 @@ static int	init_scene(t_map *map, int32_t index)
 	mlx_scroll_hook(map->mlx, scroll_hook, map->camera);
 	mlx_mouse_hook(map->mlx, mouse_hook, map);
 	mlx_loop(map->mlx);
+	mlx_terminate(map->mlx);
 	free_all(map);
 	return (0);
 }
