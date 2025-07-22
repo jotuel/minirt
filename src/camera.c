@@ -18,7 +18,7 @@ int	calculate_height(int width, float aspectratio)
 void	initialize_camera(t_camera *cam, mlx_image_t *img)
 {
 	const float	focal_length = length(subtract(cam->lookfrom,
-					cam->lookat));
+				cam->lookat));
 	const float	theta = to_radians(cam->fov);
 	const float	h = tanf(theta / 2);
 	const float	viewport_height = 2 * h * focal_length;

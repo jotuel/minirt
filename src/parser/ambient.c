@@ -2,7 +2,7 @@
 
 void	validate_ambiance(char *line, t_ambient amb, t_list *lst)
 {
-	static int nbr;
+	static int	nbr;
 
 	if (nbr++)
 		ft_error(lst);

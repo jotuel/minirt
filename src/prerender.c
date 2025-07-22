@@ -1,10 +1,10 @@
 #include "../include/minirt.h"
 
-void convert_cylinders(t_map *map)
+void	convert_cylinders(t_map *map)
 {
 	float			h;
 	t_vec3			hh;
-	unsigned int 	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < map->nbr_cy)
@@ -18,9 +18,9 @@ void convert_cylinders(t_map *map)
 	}
 }
 
-void convert_spheres(t_map *map)
+void	convert_spheres(t_map *map)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < map->nbr_sp)
@@ -30,7 +30,7 @@ void convert_spheres(t_map *map)
 	}
 }
 
-void convert_camera(t_camera *cam)
+void	convert_camera(t_camera *cam)
 {
 	if (cam->lookat.x == 0 && cam->lookat.z == 0)
 		cam->vup = (t_vec3){1, 0, 0};

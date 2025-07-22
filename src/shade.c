@@ -20,6 +20,9 @@ static t_vec3	reflect(t_vec3 in, t_vec3 normal)
 					normal))));
 }
 
+///@todo: write comments
+///@todo: if i do scenes, redo the scene in Blender
+// @fun todo: quaternions for camera?
 inline t_color	ambient_color(t_isect hit, t_map *map)
 {
 	return (color_scale(clamp_color(map->ambient->color, hit.color),
@@ -46,10 +49,10 @@ t_color	diffuse_color(t_isect hit, t_map *map, t_vec3 l_dir,
 
 t_color	specular_color(t_ray r, t_map *map, t_vec3 l_dir, t_vec3 normal)
 {
-	t_vec3 re;
-	t_color specular;
-	float re_dot_eye;
-	float factor;
+	t_vec3	re;
+	t_color	specular;
+	float	re_dot_eye;
+	float	factor;
 
 	specular = (t_color){255, 255, 255};
 	re = reflect(l_dir, normal);

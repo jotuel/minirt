@@ -52,7 +52,7 @@ t_isect	hit_cylinder(t_ray r, t_cylinder cy)
 {
 	const t_vec3	ba = subtract(cy.orientation, cy.pos);
 	const t_vec3	oc = subtract(r.origin, cy.pos);
-	float	f[10];
+	float			f[10];
 
 	f[ra] = cy.radius;
 	f[baba] = dot(ba, ba);

@@ -9,8 +9,8 @@
 t_isect	intersect_cylinders(t_ray r, t_object *cy,
 		const unsigned int nbr)
 {
-	t_isect	is;
-	t_isect	tmp;
+	t_isect			is;
+	t_isect			tmp;
 	unsigned int	i;
 
 	is = (t_isect){.type = NONE, .t = __FLT_MAX__};
@@ -37,8 +37,8 @@ t_isect	intersect_cylinders(t_ray r, t_object *cy,
  */
 t_isect	intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
 {
-	t_isect	is;
-	t_isect	tmp;
+	t_isect			is;
+	t_isect			tmp;
 	unsigned int	i;
 
 	is = (t_isect){.type = NONE, .t = __FLT_MAX__};
@@ -63,8 +63,8 @@ t_isect	intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
  */
 t_isect	intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
 {
-	t_isect	is;
-	t_isect	tmp;
+	t_isect			is;
+	t_isect			tmp;
 	unsigned int	i;
 
 	tmp = (t_isect){0};
@@ -92,8 +92,8 @@ t_isect	intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr)
  */
 t_isect	intersections(t_ray r, t_map *map)
 {
-	t_isect	is;
-	t_isect	tmp;
+	t_isect			is;
+	t_isect			tmp;
 	float			tmin;
 
 	tmin = __FLT_MAX__;

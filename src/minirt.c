@@ -1,7 +1,7 @@
 #include "../include/minirt.h"
 #include <unistd.h>
 
-static void convert_prerender(t_map *map)
+static void	convert_prerender(t_map *map)
 {
 	convert_cylinders(map);
 	convert_cylinders(map);
@@ -34,10 +34,10 @@ void	cast_rays(void *ptr);
 void	key_hook(mlx_key_data_t key, void *map);
 void	scroll_hook(double x_delta, double y_delta, void *cam);
 void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
-			void *map);
+				void *map);
 void	resize_hook(int width, int height, void *map);
 
-static void free_all(t_map *map)
+static void	free_all(t_map *map)
 {
 	free(map->cy);
 	free(map->sp);

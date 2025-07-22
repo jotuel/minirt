@@ -31,15 +31,16 @@ static t_list	*parse_line(char *line, t_list *lst)
 	return (lst);
 }
 
-static bool trim_line(char *line)
+static bool	trim_line(char *line)
 {
 	if (!line)
 		return (false);
-	while(*line)
+	while (*line)
 	{
 		if (ft_isspace(*line))
 			*line = '\t';
-		else if (ft_isalnum(*line) || *line == '.' || *line == ',' || *line == '-')
+		else if (ft_isalnum(*line) || *line == '.'
+			|| *line == ',' || *line == '-')
 			;
 		else
 			return (true);
