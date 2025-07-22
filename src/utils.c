@@ -71,3 +71,11 @@ void	brush(void *ptr)
 {
 	(void)ptr;
 }
+
+bool	has_alphabet(char *line)
+{
+	while (*line)
+		if (ft_isalpha(*line++))
+			return (true);
+	return (false);
+}
