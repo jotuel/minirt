@@ -1,13 +1,20 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks for extra characters after pl and that normal
+ * is a valid unit vector.
+ */
 void	validate_plane(char *line, t_plane pl, t_list *lst)
 {
 	if (ft_strncmp(ft_strchr(line, 'p'), "pl\t", 3))
-		ft_error(lst);
+		ft_error2(&lst, line, "pl: Extra characters");
 	else if (0 == dot(pl.orientation, pl.orientation))
-		ft_error(lst);
+		ft_error2(&lst, line, "pl: Not a unit vector");
 }
 
+/*
+ * pl pos x,y,z normal as unit vector u,v,w, color r,g,b
+ */
 t_list	*plane(char *line, t_list *lst, t_plane pl)
 {
 	char	**split;

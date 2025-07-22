@@ -21,7 +21,7 @@ static t_vec3	normal_at(t_ray r, t_isect hit)
 	v = (t_vec3){0, 0, 0};
 	if (hit.type == SPH)
 		v = unit(divide(subtract(at(r, hit.t),
-						hit.obj->sphere.pos), hit.obj->sphere.radius * .5));
+						hit.obj->sphere.pos), hit.obj->sphere.radius));
 	else if (hit.type == PLANE)
 	{
 		if (0.f < dot(hit.obj->plane.orientation, r.dir))

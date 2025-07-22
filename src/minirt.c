@@ -31,6 +31,7 @@ static bool	setup_mlx(t_map *map, int32_t *index)
 }
 
 void	cast_rays(void *ptr);
+void	*move_to_structs(void *ptr);
 void	key_hook(mlx_key_data_t key, void *map);
 void	scroll_hook(double x_delta, double y_delta, void *cam);
 void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
@@ -42,10 +43,16 @@ static void free_all(t_map *map)
 	free(map->cy);
 	free(map->sp);
 	free(map->pl);
+	free(map->ambient);
+	free(map->camera);
+	free(map->light);
+	free(map);
 }
 
 static int	init_scene(t_map *map, int32_t index)
 {
+	if (!(map->camera && map->ambient && map->light))
+		return (1);
 	if (!setup_mlx(map, &index))
 		return (1);
 	convert_prerender(map);
@@ -62,18 +69,20 @@ static int	init_scene(t_map *map, int32_t index)
 
 int	main(int argc, char **argv)
 {
-	t_list	*lst;
-	t_map	*map;
+	t_list	*lst[2];
+	int		ret;
 
 	if (argc != 2)
+	{
+		ft_putendl_fd("Error\nUsage ./minirt *.rt", 2);
 		return (1);
-	lst = parse_file(argv[1]);
-	if (!lst)
-		return (1);
-	lst = ft_lstmap(lst, move_to_structs, free);
-	if (!lst)
-		return (1);
-	map = lst->content;
-	ft_lstclear(&lst, brush);
-	return (init_scene(map, 0));
+	}
+	lst[0] = parse_file(argv[1]);
+	if (!lst[0] || !lst[0]->content)
+		ft_error(lst, "No lines");
+	lst[1] = ft_lstmap(lst[0], move_to_structs, free);
+	ret = init_scene(lst[1]->content, 0);
+	ft_lstclear(&lst[0], free);
+	ft_lstclear(&lst[1], brush);
+	return (ret);
 }

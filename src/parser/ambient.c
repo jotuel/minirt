@@ -1,15 +1,19 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks that only one exists, after A character there is no extra
+ * and that intensity is withing range
+ */
 void	validate_ambiance(char *line, t_ambient amb, t_list *lst)
 {
 	static int nbr;
 
 	if (nbr++)
-		ft_error(lst);
+		ft_error2(&lst, line, "Only one ambiance");
 	else if (ft_strncmp(ft_strchr(line, 'A'), "A\t", 2))
-		ft_error(lst);
+		ft_error2(&lst, line, "A: Extra characters");
 	else if (amb.intensity < 0 || amb.intensity > 1)
-		ft_error(lst);
+		ft_error2(&lst, line, "A: Intensity out of range");
 }
 
 // A 0.2 255,255,255 example of ambient lighting

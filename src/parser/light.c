@@ -1,15 +1,19 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks that there is only one light source, for extra characters
+ * after L and that intensity is in range.
+ */
 void	validate_light(char *line, t_light light, t_list *lst)
 {
 	static int nbr;
 
 	if (nbr++)
-		ft_error(lst);
+		ft_error2(&lst, line, "Only one light allowed");
 	else if (ft_strncmp(ft_strchr(line, 'L'), "L\t", 2))
-		ft_error(lst);
+		ft_error2(&lst, line, "L: Extra characters");
 	else if (light.intensity < 0 || light.intensity > 1)
-		ft_error(lst);
+		ft_error2(&lst, line, "L: Intensity out of range");
 }
 
 // L -40.0,50.0,0.0 0.6 10,0,255

@@ -28,30 +28,35 @@ void	free_split(char **split)
 	int	i;
 
 	i = 0;
-	while (split[i])
-		free(split[i++]);
-	free(split);
+	if (split)
+	{
+		while (split[i])
+			free(split[i++]);
+		free(split);
+	}
 }
 
 char	**split_and_check(char *input, char by, int fields, void *mem[3])
 {
 	char	**split;
+	int 	i;
 
 	split = ft_split(input, by);
-	if (!split || split[fields])
+	if (!split)
 	{
 		free(mem[2]);
 		free_split(mem[1]);
-		ft_error(mem[0]);
+		ft_error(mem[0], "Memory allocation failed");
 	}
-	while (fields--)
+	i = 0;
+	while (i < fields)
 	{
-		if (!split[fields])
+		if (!split[i++])
 		{
 			free(mem[2]);
 			free_split(mem[1]);
 			free_split(split);
-			ft_error(mem[0]);
+			ft_error(mem[0], "Invalid .rt file");
 		}
 	}
 	return (split);
@@ -63,6 +68,6 @@ void	*obj(t_obj obj, t_list *lst)
 
 	new = ft_calloc(sizeof(t_obj), 1);
 	if (!new)
-		ft_error(lst);
+		ft_error(lst, "Memory allocation failed");
 	return (ft_memcpy(new, &obj, sizeof(t_obj)));
 }

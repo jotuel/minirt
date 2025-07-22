@@ -1,13 +1,20 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks for extra characters after sp and whether diameter
+ * exists.
+ */
 void	validate_sphere(char *line, t_sphere sp, t_list *lst)
 {
 	if (ft_strncmp(ft_strchr(line, 's'), "sp\t", 3))
-		ft_error(lst);
+		ft_error2(&lst, line, "sp: Extra characters");
 	else if (sp.radius < 0)
-		ft_error(lst);
+		ft_error2(&lst, line, "sp: Diameter out of range");
 }
 
+/*
+ * sp pos x,y,z diameter color r,g,b
+ */
 t_list	*sphere(char *line, t_list *lst, t_sphere sp)
 {
 	char	**split;

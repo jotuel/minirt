@@ -27,7 +27,7 @@ static t_list	*parse_line(char *line, t_list *lst)
 	else if (!ft_strncmp(line, "pl", 2))
 		return (plane(line, lst, (t_plane){0}));
 	else
-		ft_error(lst);
+		ft_error(lst, "Invalid line");
 	return (lst);
 }
 
@@ -57,7 +57,7 @@ static t_list	*file_parser(t_list *lst, int fd, char *line)
 		free(line);
 		line = get_next_line(fd);
 		if (trim_line(line))
-			ft_error(line);
+			ft_error(line, "Extra characters");
 	}
 	close(fd);
 	return (lst);
@@ -69,7 +69,7 @@ t_list	*parse_file(char *filename)
 
 	if (!filename || !check_filetype(filename))
 	{
-		ft_putendl_fd("Error\n Not a valid file", 2);
+		ft_putendl_fd("Error\nNot a valid file", 2);
 		return (NULL);
 	}
 	fd = open(filename, O_RDONLY);

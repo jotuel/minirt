@@ -1,15 +1,22 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks for extra characters after cy, that diameter and
+ * height exist and that orientation is a valid unit vector.
+ */
 void	validate_cylinder(char *line, t_cylinder cy, t_list *lst)
 {
 	if (ft_strncmp(ft_strchr(line, 'c'), "cy\t", 3))
-		ft_error(lst);
+		ft_error2(&lst, line, "cy: Extra characters");
 	else if (cy.radius < 0 || cy.height < 0)
-		ft_error(lst);
+		ft_error2(&lst, line, "cy: diameter or height out of range");
 	else if (0 == dot(cy.orientation, cy.orientation))
-		ft_error(lst);
+		ft_error2(&lst, line, "cy: Not a unit vector");
 }
 
+/*
+ * cy pos x,y,z unit vector u,v,w diameter height color
+ */
 t_list	*cylinder(char *line, t_list *lst, t_cylinder cy)
 {
 	char	**split;

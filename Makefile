@@ -22,13 +22,12 @@ MAKE = make -C
 NAME = minirt
 
 all: $(NAME) $(SRC) $(HEADER)
-$(NAME): mlx libft/libft.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+$(NAME): $(MLX) $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $@
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 $(LIBFT):
 	$(MAKE) libft all supp bonus
-mlx: $(MLX)
 $(MLX):
 	git clone $(TARGET_REPO) $@
 	cmake $(MLX) -B $(MLX)/build

@@ -1,20 +1,26 @@
 #include "../../include/minirt.h"
 
+/*
+ * checks that there is only one camera, no extra characters
+ * after C, fov is 1<->180 and that orientation is valid unit
+ * vector.
+ */
 void	validate_camera(char *line, t_camera cam, t_list *lst)
 {
 	static int nbr;
 
 	if (nbr++)
-		ft_error(lst);
+		ft_error2(&lst, line, "Only one camera");
 	else if (ft_strncmp(ft_strchr(line, 'C'), "C\t", 2))
-		ft_error(lst);
+		ft_error2(&lst, line, "C: Extra characters");
 	else if (cam.fov < 1 || cam.fov > 180)
-		ft_error(lst);
+		ft_error2(&lst, line, "C: FOV out of range");
 	else if (0 == dot(cam.lookat, cam.lookat))
-		ft_error(lst);
+		ft_error2(&lst, line, "C: Not a unit vector");
 }
 
-/*  C    -50,0,0   0,0,1    70 <- example of given camera coordinates
+/*
+ *  C    -50,0,0   0,0,1    70 <- example of given camera coordinates
  *	cam  x, y, z  direction fov
  *
  */

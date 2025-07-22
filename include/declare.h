@@ -5,7 +5,10 @@
 #include "types.h"
 #include <stdbool.h>
 
-void 			ft_error(void *mem);
+/* ERROR HANDLING */
+void 			ft_error(void *mem, char *msg);
+void			ft_error1(t_map *map, char *msg);
+void 			ft_error2(t_list **lst, void *line, char *msg);
 
 /* CASTING RAYS */
 float 			hit_sphere(t_ray r, t_sphere sp);
@@ -54,7 +57,6 @@ t_list			*parse_file(char *filename);
 char			**split_and_check(char *input, char by, int fields, void *mem[3]);
 void			free_split(char **split);
 void			*obj(t_obj obj, t_list *lst);
-void			*move_to_structs(void *ptr);
 void			brush(void *ptr);
 void			convert_cylinders(t_map *map);
 void 			convert_spheres(t_map *map);
