@@ -22,6 +22,17 @@ t_isect			hit_cylinder(t_ray r, t_cylinder cy);
 t_vec3 			cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra);
 void           	initialize_camera(t_camera *camera, mlx_image_t *img);
 
+/* HOOKS */
+bool			key_util(mlx_key_data_t key, t_map *map);
+bool			translate_object(mlx_key_data_t key, t_map *map);
+bool			rotate_object(mlx_key_data_t key, t_map *map);
+void			translate_x(t_map *map, bool dir);
+void			translate_y(t_map *map, bool dir);
+void			translate_z(t_map *map, bool dir);
+void			rotate_x(t_map *map, bool dir);
+void			rotate_y(t_map *map, bool dir);
+void			rotate_z(t_map *map, bool dir);
+
 /* SHADING */
 t_color			add_colors(t_color color1, t_color color2);
 t_color			specular_color(t_ray r, t_map *map, t_vec3 l_dir, t_vec3 normal);

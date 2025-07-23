@@ -11,7 +11,7 @@ LIBFT = libft/libft.a
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
 SRC = minirt.c error.c color.c trace.c camera.c cylinder.c \
 	sphere.c plane.c utils.c light.c shade.c hooks.c set.c \
-	prerender.c
+	prerender.c rotate.c translate.c hook_utils.c
 PARSE = file.c utils.c ambient.c light.c camera.c cylinder.c sphere.c plane.c
 MATH = math.c lerp.c vector.c vector3.c vector_math.c vector3_math.c quat.c
 HEADER := $(addprefix include/, $(HEADER))

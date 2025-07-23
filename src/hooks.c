@@ -7,32 +7,12 @@ void	key_hook(mlx_key_data_t key, t_map *map)
 {
 	if (key.key == MLX_KEY_ESCAPE && key.action == MLX_PRESS)
 		mlx_close_window(map->mlx);
-	else if (key.key == MLX_KEY_SPACE && (key.modifier & MLX_SHIFT))
-		map->camera->lookfrom.z += 0.1;
-	else if (key.key == MLX_KEY_SPACE)
-		map->camera->lookfrom.z -= 0.1;
-	else if (key.key == MLX_KEY_LEFT)
-		map->camera->lookfrom.x -= 0.1;
-	else if (key.key == MLX_KEY_RIGHT)
-		map->camera->lookfrom.x += 0.1;
-	else if (key.key == MLX_KEY_UP)
-		map->camera->lookfrom.y += 0.1;
-	else if (key.key == MLX_KEY_DOWN)
-		map->camera->lookfrom.y -= 0.1;
-	else if (key.key == MLX_KEY_W)
-		map->camera->lookfrom = subtract(map->camera->lookfrom,
-				scale(map->camera->lookat, 0.1));
-	else if (key.key == MLX_KEY_S)
-		map->camera->lookfrom = add(map->camera->lookfrom,
-				scale(map->camera->lookat, 0.1));
-	else if (key.key == MLX_KEY_A)
-		map->camera->lookfrom = subtract(map->camera->lookfrom,
-				scale(cross(map->camera->lookat, map->camera->vup),
-					0.1));
-	else if (key.key == MLX_KEY_D)
-		map->camera->lookfrom = add(map->camera->lookfrom,
-				scale(cross(map->camera->lookat, map->camera->vup),
-					0.1));
+	else if (key_util(key, map))
+		return ;
+	else if (rotate_object(key, map))
+		return ;
+	else if (translate_object(key, map))
+		return ;
 }
 
 /*
@@ -50,18 +30,22 @@ void	scroll_hook(double x_delta, double y_delta, t_camera *cam)
 void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
 		t_map *map)
 {
-	t_vec3	tmp;
-	int		x;
-	int		y;
+	static	t_isect is;
+	t_vec3			tmp;
+	t_ray			ray;
+	int				x;
+	int				y;
 
 	if (button == MLX_MOUSE_BUTTON_LEFT && action == MLX_PRESS)
 	{
 		mlx_get_mouse_pos(map->mlx, &x, &y);
-		printf("%d%d\n", x, y);
 		tmp = add(add(map->camera->p00,
 					scale(map->camera->pixel_delta_u, y)),
-				scale(neg(map->camera->pixel_delta_v), x));
-		map->camera->lookat = unit(tmp);
+				scale(map->camera->pixel_delta_v, x));
+		ray = (t_ray){.origin = map->camera->lookfrom,
+			.dir = unit(subtract(tmp, map->camera->lookfrom))};
+		is = intersections(ray, map);
+		map->select = &is;
 	}
 	(void)mods;
 }

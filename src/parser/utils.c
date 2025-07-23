@@ -46,13 +46,15 @@ char	**split_and_check(char *input, char by, int fields, void *mem[3])
 	{
 		free(mem[2]);
 		free_split(mem[1]);
-		ft_error(mem[0], "Memory allocation failed");
+		ft_error(mem[0], "Invalid .rt file");
 	}
 	i = 0;
 	while (i < fields)
-		if (!split[i++])
+		if (split[i])
+			i += 1;
+		else
 			break;
-	if (split[i])
+	if (split[i] || i < fields)
 	{
 		free(mem[2]);
 		free_split(mem[1]);

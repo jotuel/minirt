@@ -1,5 +1,13 @@
 #include "../include/minirt.h"
 
+/*
+ * takes a t_obj which has one of each structs and
+ * keeps allocating it into a union of sphere, cylinder
+ * and plane. every type has their own so this creates an
+ * array of similar objects. just done lazily by having a
+ * single function handle all at the cost of some extra
+ * memory usage.
+ */
 void	*object_realloc(void *ptr, void *data, int nbr)
 {
 	t_object	*new_ptr;
@@ -18,6 +26,11 @@ void	*object_realloc(void *ptr, void *data, int nbr)
 	return (new_ptr);
 }
 
+/*
+ * takes a camera, ambient or light out of a t_obj and allocates
+ * it into its own memory area. just so that the larger structure
+ * can be freed.
+ */
 void	*single_object(t_obj *data, t_type type, void *obj)
 {
 	if (type == AMB)
@@ -44,6 +57,10 @@ void	*single_object(t_obj *data, t_type type, void *obj)
 	return (NULL);
 }
 
+/*
+ * takes the list from parser and allocates it into a single struct
+ * with sligthly better propertiers for rendering.
+ */
 void	*move_to_structs(t_obj *obj)
 {
 	static t_map	*map;
@@ -67,11 +84,18 @@ void	*move_to_structs(t_obj *obj)
 	return (map);
 }
 
+/*
+ * this can be passed to lstfree when dealing with the newly created
+ * list. because multiple frees of the same pointer would likely cause issues.
+ */
 void	brush(void *ptr)
 {
 	(void)ptr;
 }
 
+/*
+ * this is used by parser to check for extraneous characters.
+ */
 bool	has_alphabet(char *line)
 {
 	while (*line)
