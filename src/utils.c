@@ -1,5 +1,13 @@
 #include "../include/minirt.h"
 
+/*
+ * takes a t_obj which has one of each structs and
+ * keeps allocating it into a union of sphere, cylinder
+ * and plane. every type has their own so this creates an
+ * array of similar objects. just done lazily by having a
+ * single function handle all at the cost of some extra
+ * memory usage.
+ */
 void	*object_realloc(void *ptr, void *data, int nbr)
 {
 	t_object	*new_ptr;
@@ -14,28 +22,59 @@ void	*object_realloc(void *ptr, void *data, int nbr)
 		free(ptr);
 	}
 	else
-	{
 		ft_memcpy(new_ptr, data, sizeof(t_object));
-	}
 	return (new_ptr);
 }
 
-void	*move_to_structs(void *ptr)
+/*
+ * takes a camera, ambient or light out of a t_obj and allocates
+ * it into its own memory area. just so that the larger structure
+ * can be freed.
+ */
+void	*single_object(t_obj *data, t_type type, void *obj)
+{
+	if (type == AMB)
+	{
+		obj = ft_calloc(1, sizeof(t_ambient));
+		if (!obj)
+			return (NULL);
+		return (ft_memcpy(obj, &data->ambiance, sizeof(t_ambient)));
+	}
+	else if (type == CAM)
+	{
+		obj = ft_calloc(1, sizeof(t_camera));
+		if (!obj)
+			return (NULL);
+		return (ft_memcpy(obj, &data->cam, sizeof(t_camera)));
+	}
+	else if (type == LIGHT)
+	{
+		obj = ft_calloc(1, sizeof(t_light));
+		if (!obj)
+			return (NULL);
+		return (ft_memcpy(obj, &data->light, sizeof(t_light)));
+	}
+	return (NULL);
+}
+
+/*
+ * takes the list from parser and allocates it into a single struct
+ * with sligthly better propertiers for rendering.
+ */
+void	*move_to_structs(t_obj *obj)
 {
 	static t_map	*map;
-	t_obj			*obj;
 
 	if (!map)
 		map = ft_calloc(1, sizeof(t_map));
-	obj = ptr;
-	if (!obj)
+	if (!obj || !map)
 		return (NULL);
 	else if (obj->type == AMB)
-		map->ambient = &obj->ambiance;
+		map->ambient = single_object(obj, AMB, NULL);
 	else if (obj->type == CAM)
-		map->camera = &obj->cam;
+		map->camera = single_object(obj, CAM, NULL);
 	else if (obj->type == LIGHT)
-		map->light = &obj->light;
+		map->light = single_object(obj, LIGHT, NULL);
 	else if (obj->type == PLANE)
 		map->pl = object_realloc(map->pl, &obj->plane, ++map->nbr_pl);
 	else if (obj->type == CYL)
@@ -45,7 +84,22 @@ void	*move_to_structs(void *ptr)
 	return (map);
 }
 
+/*
+ * this can be passed to lstfree when dealing with the newly created
+ * list. because multiple frees of the same pointer would likely cause issues.
+ */
 void	brush(void *ptr)
 {
 	(void)ptr;
+}
+
+/*
+ * this is used by parser to check for extraneous characters.
+ */
+bool	has_alphabet(char *line)
+{
+	while (*line)
+		if (ft_isalpha(*line++))
+			return (true);
+	return (false);
 }

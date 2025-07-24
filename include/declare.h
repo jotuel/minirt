@@ -5,7 +5,10 @@
 #include "types.h"
 #include <stdbool.h>
 
-void 			ft_error(void *mem);
+/* ERROR HANDLING */
+void 			ft_error(void *mem, char *msg);
+void			ft_error1(t_map *map, char *msg);
+void 			ft_error2(t_list **lst, void *line, char *msg);
 
 /* CASTING RAYS */
 float 			hit_sphere(t_ray r, t_sphere sp);
@@ -18,6 +21,17 @@ t_isect			intersect_spheres(t_ray r, t_object *sp, const unsigned int nbr);
 t_isect			hit_cylinder(t_ray r, t_cylinder cy);
 t_vec3 			cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra);
 void           	initialize_camera(t_camera *camera, mlx_image_t *img);
+
+/* HOOKS */
+bool			key_util(mlx_key_data_t key, t_map *map);
+bool			translate_object(mlx_key_data_t key, t_map *map);
+bool			rotate_object(mlx_key_data_t key, t_map *map);
+void			translate_x(t_map *map, bool dir);
+void			translate_y(t_map *map, bool dir);
+void			translate_z(t_map *map, bool dir);
+void			rotate_x(t_map *map, bool dir);
+void			rotate_y(t_map *map, bool dir);
+void			rotate_z(t_map *map, bool dir);
 
 /* SHADING */
 t_color			add_colors(t_color color1, t_color color2);
@@ -35,7 +49,7 @@ void			set_x(t_vec3 *vec, float x);
 void			set_y(t_vec3 *vec, float y);
 void			set_z(t_vec3 *vec, float z);
 void			set_vec3(char **vec3, t_vec3 *vec);
-void			set_colors(char **colors, t_color *color);
+bool			set_colors(char **colors, t_color *color);
 void			set_red(t_color *color, uint8_t colour);
 void			set_green(t_color *color, uint8_t colour);
 void			set_blue(t_color *color, uint8_t colour);
@@ -54,8 +68,8 @@ t_list			*parse_file(char *filename);
 char			**split_and_check(char *input, char by, int fields, void *mem[3]);
 void			free_split(char **split);
 void			*obj(t_obj obj, t_list *lst);
-void			*move_to_structs(void *ptr);
 void			brush(void *ptr);
+bool			has_alphabet(char *line);
 void			convert_cylinders(t_map *map);
 void 			convert_spheres(t_map *map);
 void			convert_camera(t_camera *cam);

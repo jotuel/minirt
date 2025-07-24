@@ -232,7 +232,7 @@ typedef struct s_map
 	unsigned int    nbr_cy;
 	mlx_image_t     *img;
 	mlx_t			*mlx;
-	bool			change;
+	t_isect			*select;
 }					t_map;
 
 #endif
