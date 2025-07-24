@@ -1,7 +1,6 @@
 #include "../include/minirt.h"
 
-
-bool	key_util(mlx_key_data_t key, t_map *map)
+void	key_util(mlx_key_data_t key, t_map *map)
 {
 	if (key.key == MLX_KEY_SPACE && (key.modifier & MLX_SHIFT))
 		map->camera->lookfrom.z += 0.1;
@@ -23,15 +22,10 @@ bool	key_util(mlx_key_data_t key, t_map *map)
 				scale(map->camera->lookat, 0.1));
 	else if (key.key == MLX_KEY_A)
 		map->camera->lookfrom = subtract(map->camera->lookfrom,
-				scale(cross(map->camera->lookat, map->camera->vup),
-					0.1));
+				scale(cross(map->camera->lookat, map->camera->vup), 0.1));
 	else if (key.key == MLX_KEY_D)
 		map->camera->lookfrom = add(map->camera->lookfrom,
-				scale(cross(map->camera->lookat, map->camera->vup),
-					0.1));
-	else
-		return (false);
-	return (true);
+				scale(cross(map->camera->lookat, map->camera->vup), 0.1));
 }
 
 bool	rotate_object(mlx_key_data_t key, t_map *map)
@@ -51,7 +45,7 @@ bool	rotate_object(mlx_key_data_t key, t_map *map)
 	else if (key.key == MLX_KEY_Y)
 		rotate_y(map, false);
 	else
- 		return (false);
+		return (false);
 	return (true);
 }
 

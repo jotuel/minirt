@@ -23,7 +23,7 @@ t_vec3 			cylinder_normal(t_vec3 p, t_vec3 a, t_vec3 b, float ra);
 void           	initialize_camera(t_camera *camera, mlx_image_t *img);
 
 /* HOOKS */
-bool			key_util(mlx_key_data_t key, t_map *map);
+void			key_util(mlx_key_data_t key, t_map *map);
 bool			translate_object(mlx_key_data_t key, t_map *map);
 bool			rotate_object(mlx_key_data_t key, t_map *map);
 void			translate_x(t_map *map, bool dir);

@@ -6,7 +6,7 @@
  */
 void	validate_light(char *line, t_light light, t_list *lst, bool check)
 {
-	static int nbr;
+	static int	nbr;
 
 	if (nbr++)
 		ft_error2(&lst, line, "Only one light allowed");

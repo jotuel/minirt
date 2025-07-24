@@ -1,18 +1,5 @@
 #include "../include/minirt.h"
 
-// what type should aspectratio be? its 19:8?
-// height will be calculated based on the width and the aspectratio
-// but height should never be less than 1
-int	calculate_height(int width, float aspectratio)
-{
-	int	height;
-
-	height = width / aspectratio;
-	if (height < 1)
-		height = 1;
-	return (height);
-}
-
 /// @brief camera is initialized after the other objects are
 /// located to the scene relative to the camera coordinates
 void	initialize_camera(t_camera *cam, mlx_image_t *img)

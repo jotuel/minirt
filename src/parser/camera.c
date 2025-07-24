@@ -7,7 +7,7 @@
  */
 void	validate_camera(char *line, t_camera cam, t_list *lst)
 {
-	static int nbr;
+	static int	nbr;
 
 	if (nbr++)
 		ft_error2(&lst, line, "Only one camera");

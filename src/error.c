@@ -26,7 +26,7 @@ void	ft_error1(t_map *map, char *msg)
 	exit(EXIT_FAILURE);
 }
 
-void ft_error2(t_list **lst, void *line, char *msg)
+void	ft_error2(t_list **lst, void *line, char *msg)
 {
 	ft_putendl_fd("Error", 2);
 	ft_putendl_fd(msg, 2);

@@ -26,7 +26,8 @@ static t_vec3	reflect(t_vec3 in, t_vec3 normal)
 }
 
 /*
- * Calculate ambient color based on the ambient color, object color and ambient intensity
+ * Calculate ambient color based on the ambient color,
+ * object color and ambient intensity
  */
 inline t_color	ambient_color(t_isect hit, t_map *map)
 {

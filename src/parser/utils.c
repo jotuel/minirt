@@ -1,4 +1,3 @@
-
 #include "../../include/minirt.h"
 
 bool	validate_orientation(t_vec3 orien)
@@ -39,7 +38,7 @@ void	free_split(char **split)
 char	**split_and_check(char *input, char by, int fields, void *mem[3])
 {
 	char	**split;
-	int 	i;
+	int		i;
 
 	split = ft_split(input, by);
 	if (!split)
@@ -52,8 +51,8 @@ char	**split_and_check(char *input, char by, int fields, void *mem[3])
 	while (i < fields)
 		if (split[i])
 			i += 1;
-		else
-			break;
+	else
+		break ;
 	if (split[i] || i < fields)
 	{
 		free(mem[2]);
