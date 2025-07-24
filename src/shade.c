@@ -1,5 +1,10 @@
 #include "../include/minirt.h"
 
+/*
+ * Light reflection depends on light color.
+ * White light reflects all colors; missing channels block reflection.
+ * This clamps object color to the light's color channels.
+ */
 static inline t_color	clamp_color(t_color a, t_color b)
 {
 	t_color	color;
@@ -20,15 +25,21 @@ static t_vec3	reflect(t_vec3 in, t_vec3 normal)
 					normal))));
 }
 
-///@todo: write comments
-///@todo: if i do scenes, redo the scene in Blender
-// @fun todo: quaternions for camera?
+/*
+ * Calculate ambient color based on the ambient color, object color and ambient intensity
+ */
 inline t_color	ambient_color(t_isect hit, t_map *map)
 {
 	return (color_scale(clamp_color(map->ambient->color, hit.color),
 			map->ambient->intensity));
 }
 
+/*
+ * Effective color = object color modulated by light color and intensity.
+ * If the dot product of light direction and surface normal is negative,
+ * the surface is not lit (color = black).
+ * Otherwise, diffuse color = effective color scaled by the dot product.
+ */
 t_color	diffuse_color(t_isect hit, t_map *map, t_vec3 l_dir,
 		t_vec3 normal)
 {
@@ -47,6 +58,11 @@ t_color	diffuse_color(t_isect hit, t_map *map, t_vec3 l_dir,
 	return (diffuse);
 }
 
+/*
+ * If the dot product of reflection and ray direction is negative,
+ * no reflection occurs (color = black).
+ * Otherwise, color is scaled by the specular factor (0.8 = intensity).
+ */
 t_color	specular_color(t_ray r, t_map *map, t_vec3 l_dir, t_vec3 normal)
 {
 	t_vec3	re;
