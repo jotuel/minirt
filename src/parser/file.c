@@ -1,4 +1,5 @@
 #include "../../include/minirt.h"
+#include <stdlib.h>
 
 static bool	check_filetype(char *filename)
 {
@@ -27,7 +28,7 @@ static t_list	*parse_line(char *line, t_list *lst)
 	else if (!ft_strncmp(line, "pl", 2))
 		return (plane(line, lst, (t_plane){0}));
 	else
-		ft_error(lst, "Invalid line");
+		ft_error2(&lst, line, "Invalid line");
 	return (lst);
 }
 
@@ -70,11 +71,14 @@ t_list	*parse_file(char *filename)
 
 	if (!filename || !check_filetype(filename))
 	{
-		ft_putendl_fd("Error\nNot a valid file", 2);
-		return (NULL);
+		ft_putendl_fd("Error\nInvalid filename", 2);
+		exit(EXIT_FAILURE);
 	}
 	fd = open(filename, O_RDONLY);
 	if (-1 == fd)
-		return (NULL);
+	{
+		ft_putendl_fd("Error\nNot a valid file", 2);
+		exit(EXIT_FAILURE);
+	}
 	return (file_parser(ft_lstnew(NULL), fd, ft_calloc(1, 1)));
 }

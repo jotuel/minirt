@@ -10,7 +10,7 @@ void	validate_camera(char *line, t_camera cam, t_list *lst)
 	static int	nbr;
 
 	if (nbr++)
-		ft_error2(&lst, line, "Only one camera");
+		ft_error2(&lst, line, "C: Only one camera");
 	else if (ft_strncmp(ft_strchr(line, 'C'), "C\t", 2))
 		ft_error2(&lst, line, "C: Extra characters");
 	else if (cam.fov < 1 || cam.fov > 180)
@@ -34,7 +34,7 @@ t_list	*camera(char *line, t_list *lst, t_camera cam)
 	vec3 = split_and_check(split[1], ',', 3, (void *[]){lst, split, line});
 	set_vec3(vec3, &cam.lookfrom);
 	free_split(vec3);
-	vec3 = split_and_check(split[2], ',', 3, (void *[]){lst, NULL, line});
+	vec3 = split_and_check(split[2], ',', 3, (void *[]){lst, split, line});
 	set_vec3(vec3, &cam.lookat);
 	free_split(vec3);
 	free_split(split);

@@ -19,7 +19,7 @@ SRC := $(addprefix src/, $(SRC)) $(addprefix src/parser/,\
 	$(PARSE)) $(addprefix src/math/, $(MATH))
 OBJ := $(SRC:%.c=%.o)
 MAKE = make -C
-NAME = minirt
+NAME = miniRT
 
 all: $(NAME) $(SRC) $(HEADER)
 $(NAME): $(MLX) $(LIBFT) $(OBJ)

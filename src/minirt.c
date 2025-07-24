@@ -52,9 +52,17 @@ static void	free_all(t_map *map)
 static int	init_scene(t_map *map, int32_t index)
 {
 	if (!(map->camera && map->ambient && map->light))
+	{
+		free_all(map);
+		ft_putendl_fd("Error\nMissing mandatory object", 2);
 		return (1);
+	}
 	if (!setup_mlx(map, &index))
+	{
+		free_all(map);
+		ft_putendl_fd("Error\nMLX42 setup failed", 2);
 		return (1);
+	}
 	convert_prerender(map);
 	mlx_loop_hook(map->mlx, cast_rays, map);
 	mlx_key_hook(map->mlx, key_hook, map);
@@ -79,7 +87,7 @@ int	main(int argc, char **argv)
 	}
 	lst[0] = parse_file(argv[1]);
 	if (!lst[0] || !lst[0]->content)
-		ft_error(lst, "No lines");
+		ft_error(lst[0], "No lines");
 	lst[1] = ft_lstmap(lst[0], move_to_structs, free);
 	ret = init_scene(lst[1]->content, 0);
 	ft_lstclear(&lst[0], free);

@@ -9,7 +9,7 @@ void	validate_sphere(char *line, t_sphere sp, t_list *lst, bool check)
 {
 	if (ft_strncmp(ft_strchr(line, 's'), "sp\t", 3))
 		ft_error2(&lst, line, "sp: Extra characters");
-	else if (sp.radius < 0)
+	else if (sp.radius <= 0)
 		ft_error2(&lst, line, "sp: Diameter out of range");
 	else if (!check)
 		ft_error2(&lst, line, "sp: Color value out of range");

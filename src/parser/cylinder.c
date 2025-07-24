@@ -9,7 +9,7 @@ void	validate_cylinder(char *line, t_cylinder cy, t_list *lst, bool check)
 {
 	if (ft_strncmp(ft_strchr(line, 'c'), "cy\t", 3))
 		ft_error2(&lst, line, "cy: Extra characters");
-	else if (cy.radius < 0 || cy.height < 0)
+	else if (cy.radius <= 0 || cy.height <= 0)
 		ft_error2(&lst, line, "cy: diameter or height out of range");
 	else if (0 == dot(cy.orientation, cy.orientation))
 		ft_error2(&lst, line, "cy: Not a unit vector");
