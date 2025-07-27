@@ -127,6 +127,7 @@ void	cast_rays(t_map *map)
 	w = 0;
 	h = 0;
 	while (w < map->img->width)
+	#pragma omp parallel num_threads(5)
 	{
 		while (h < map->img->height)
 		{
@@ -136,9 +137,12 @@ void	cast_rays(t_map *map)
 			ray = (t_ray){.origin = map->camera->lookfrom,
 				.dir = unit(subtract(p_cen, map->camera->lookfrom))};
 			mlx_put_pixel(map->img, w, h, color_ray(ray, map));
-			h += 1;
+			#pragma omp atomic update
+			h++;
 		}
+		#pragma omp atomic write
 		h = 0;
-		w += 1;
+		#pragma omp atomic update
+		w++;
 	}
 }
