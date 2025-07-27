@@ -1,0 +1,1 @@
+This is the multithreaded version of the program for anyone with a compiler (and the libraries) that support OpenMP. It uses 6 threads because our school computers have that many, and coincidentally, my home computer has 6 cores. So seemed a ok default. 
