@@ -47,15 +47,15 @@ bool	set_colors(char **colors, t_color *color)
 void	set_vec3(char **vec3, t_vec3 *vec)
 {
 	if (has_alphabet(vec3[0]))
-		set_x(vec, NAN);
+		set_x(vec, -1.f);
 	else
 		set_x(vec, ft_atof(vec3[0]));
 	if (has_alphabet(vec3[1]))
-		set_y(vec, NAN);
+		set_y(vec, -1.f);
 	else
 		set_y(vec, ft_atof(vec3[1]));
 	if (has_alphabet(vec3[2]))
-		set_x(vec, NAN);
+		set_x(vec, -1.f);
 	else
 		set_z(vec, ft_atof(vec3[2]));
 }

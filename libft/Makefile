@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
+CC = emcc
 SRCS = ft_atof.c \
 	ft_atoi.c \
 	ft_bzero.c \
@@ -70,7 +70,7 @@ INC_DIR = .
 CFLAGS = -Wall -Wextra -Werror -g2
 CPPFLAGS = -I$(INC_DIR)
 NAME = libft.a
-AR = ar rcs $(NAME)
+AR = emar rcs $(NAME)
 all: $(NAME)
 $(NAME) : $(OBJS)
 	$(AR) $(OBJS)

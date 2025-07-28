@@ -1,5 +1,13 @@
 #include "../include/minirt.h"
 #include <unistd.h>
+#include <emscripten/html5.h>
+#include <emscripten/emscripten.h>
+
+mlx_t *mlx;
+
+void	emscripten_main_loop() {
+	mlx_loop(mlx);
+}
 
 static void	convert_prerender(t_map *map)
 {
@@ -51,6 +59,7 @@ static void	free_all(t_map *map)
 
 static int	init_scene(t_map *map, int32_t index)
 {
+	map->mlx = mlx;
 	if (!(map->camera && map->ambient && map->light))
 	{
 		free_all(map);
@@ -69,7 +78,7 @@ static int	init_scene(t_map *map, int32_t index)
 	mlx_resize_hook(map->mlx, resize_hook, map);
 	mlx_scroll_hook(map->mlx, scroll_hook, map->camera);
 	mlx_mouse_hook(map->mlx, mouse_hook, map);
-	mlx_loop(map->mlx);
+	emscripten_set_main_loop(emscripten_main_loop, 0, true);
 	mlx_terminate(map->mlx);
 	free_all(map);
 	return (0);

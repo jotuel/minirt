@@ -50,32 +50,35 @@ static bool	trim_line(char *line)
 	return (false);
 }
 
-static t_list	*file_parser(t_list *lst, int fd, char *line)
+static t_list	*file_parser(t_list *lst, FILE* fd, char *line)
 {
-	while (line)
+	ssize_t nread;
+	size_t len;
+
+	while (	(nread = getline(&line, &len, fd)))
 	{
+		if (trim_line(line))
+			ft_error(line, "Extra characters");
 		if (*line && line[0] != '\t')
 			ft_lstadd_front(&lst, parse_line(line, lst));
 		free(line);
-		line = get_next_line(fd);
-		if (trim_line(line))
-			ft_error(line, "Extra characters");
 	}
-	close(fd);
+	free(line);
+	fclose(fd);
 	return (lst);
 }
 
 t_list	*parse_file(char *filename)
 {
-	int	fd;
+	FILE*	fd;
 
 	if (!filename || !check_filetype(filename))
 	{
 		ft_putendl_fd("Error\nInvalid filename", 2);
 		exit(EXIT_FAILURE);
 	}
-	fd = open(filename, O_RDONLY);
-	if (-1 == fd)
+	fd = fopen("scenes/scene.rt", "rb");
+	if (!fd)
 	{
 		ft_putendl_fd("Error\nNot a valid file", 2);
 		exit(EXIT_FAILURE);

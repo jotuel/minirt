@@ -1,11 +1,11 @@
-AR = ar rcs
-CC = cc
+AR = emar rcs
+CC = emcc
 TARGET_REPO = https://github.com/codam-coding-college/MLX42.git
 INCLUDE_DIRS = libft
 INCLUDE = Makefile
 HEADER = declare.h minirt.h types.h
 HEADERS	= -Iinclude -IMLX42/include/MLX42
-CFLAGS = -Wall -Wextra -Werror -g2 -flto -O3 -ffast-math -march=native $(HEADERS)
+CFLAGS = -Wall -Wextra -Werror -g2 -flto -O3 -ffast-math $(HEADERS)
 MLX	= MLX42
 LIBFT = libft/libft.a
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
@@ -23,20 +23,20 @@ NAME = miniRT
 
 all: $(NAME) $(SRC) $(HEADER)
 $(NAME): $(MLX) $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $@
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -s USE_GLFW=3 --preload-file scenes/scene.rt -o $@
 %.o: %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 $(LIBFT):
-	$(MAKE) libft all supp bonus
+	emmake $(MAKE) libft all supp bonus
 $(MLX):
 	git clone $(TARGET_REPO) $@
-	cmake $(MLX) -B $(MLX)/build
-	$(MAKE) $(MLX)/build -j4
+	emcmake cmake $(MLX) -B $(MLX)/build
+	emmake $(MAKE) $(MLX)/build -j4
 clean:
-	$(MAKE) libft clean
+	emmake $(MAKE) libft clean
 	rm -f $(OBJ)
 fclean: clean
-	$(MAKE) libft fclean
+	emmake $(MAKE) libft fclean
 	rm -rf $(MLX)
 	rm -f $(NAME)
 re: clean all
