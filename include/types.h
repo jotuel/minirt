@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                     __     h  _ _  _| _    */
+/*   types.h                                        __/ \\__  i (_(_)(_|(/_   */
+/*                                                // \\__/ \\ v  _ _|_        */
+/*   By: ehaanpaa <ehaanpaa@student.hive.fi>      \\__/ \\__/ e _>(_| | --    */
+/*                                                // \\__/ \\ .  _  _ |       */
+/*   Created: 2025/07/30 19:48:14 by ehaanpaa     \\__/ \\__/ f (_)(_)|       */
+/*   Updated: 2025/07/30 19:48:14 by ehaanpaa        \\__/    i               */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TYPES_H
 # define TYPES_H
-# include "../libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
+# include "../libft/libft.h"
+# include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
-# include <stdbool.h>
 
 /*
 //emilia: maybe? These would be the base material types
@@ -27,22 +39,22 @@ typedef enum e_mat
 
 typedef enum e_var
 {
-    baba,
-    bard,
-    baoc,
-    k2,
-    k1,
-    k0,
-    h,
-    t,
-    y,
-    ra
-} t_var;
+	baba,
+	bard,
+	baoc,
+	k2,
+	k1,
+	k0,
+	h,
+	t,
+	y,
+	ra
+}					t_var;
 
 typedef enum e_type
 {
-    NONE,
-    AMB,
+	NONE,
+	AMB,
 	PLANE,
 	SPH,
 	CYL,
@@ -59,11 +71,11 @@ typedef struct s_vec3
 
 typedef struct s_quat
 {
-    t_vec3          v;
-    float           w;
-}                   t_quat;
+	t_vec3			v;
+	float			w;
+}					t_quat;
 
-typedef t_vec3 t_point;
+typedef t_vec3		t_point;
 
 typedef struct s_color
 {
@@ -80,10 +92,10 @@ typedef struct s_ambient
 
 typedef struct s_cyl
 {
-	float	t0;
-	float	t1;
+	float			t0;
+	float			t1;
 
-}				t_cyl;
+}					t_cyl;
 
 /*
 // emilia: maybe something like this for material info?
@@ -92,13 +104,14 @@ typedef struct s_material
 	t_color			color;
 	float			roughness;
 	t_color			normal;
-	float			specularity; <-- maybe not needed, can be just defined as a set 0,5
+	float			specularity; <-- maybe not needed,
+					can be just defined as a set 0,5
 	float			metallic; ?? <- or its own separate struct? maybe not
 
 }					t_material;
 */
 
-//emilia: for now, each object could have the t_color
+// emilia: for now, each object could have the t_color
 // but if we end up creating materials then I would change the
 // to_color to t_material and create a struct for that
 typedef struct s_plane
@@ -129,7 +142,6 @@ typedef struct s_sphere
 	t_color			color;
 }					t_sphere;
 
-
 /// @param fov								= field of view
 /// @param vup								= view up
 /// @param u, @param v, @param w			= Camera frame basis vectors
@@ -138,7 +150,7 @@ typedef struct s_camera
 {
 	t_vec3			lookfrom;
 	t_vec3			lookat;
-	uint_fast8_t    fov;
+	uint_fast8_t	fov;
 	t_vec3			vup;
 	t_vec3			p00;
 	t_vec3			u;
@@ -172,7 +184,7 @@ typedef struct s_ray
 
 typedef struct s_obj
 {
-    t_ambient       ambiance;
+	t_ambient		ambiance;
 	t_plane			plane;
 	t_sphere		sphere;
 	t_cylinder		cylinder;
@@ -186,7 +198,7 @@ typedef union u_object
 	t_plane			plane;
 	t_sphere		sphere;
 	t_cylinder		cylinder;
-}                   t_object;
+}					t_object;
 
 // for tracking intersections, cast ray into the scene and get
 // handful of intersections that return the intersections value (t)
@@ -210,10 +222,10 @@ typedef struct s_intersection
 // node struct inside the content of linkedlist
 typedef struct s_node
 {
-	int		data;
+	int				data;
 	struct s_node	*next;
-	t_type	type;
-	t_obj	*obj;
+	t_type			type;
+	t_obj			*obj;
 
 }					t_node;
 
@@ -221,16 +233,16 @@ typedef struct s_node
 // float 19:8
 typedef struct s_map
 {
-    t_camera        *camera;
-    t_light         *light;
-    t_ambient       *ambient;
-	t_object   		*sp;
-	t_object        *pl;
-	t_object        *cy;
-	unsigned int    nbr_sp;
-	unsigned int    nbr_pl;
-	unsigned int    nbr_cy;
-	mlx_image_t     *img;
+	t_camera		*camera;
+	t_light			*light;
+	t_ambient		*ambient;
+	t_object		*sp;
+	t_object		*pl;
+	t_object		*cy;
+	unsigned int	nbr_sp;
+	unsigned int	nbr_pl;
+	unsigned int	nbr_cy;
+	mlx_image_t		*img;
 	mlx_t			*mlx;
 	t_isect			*select;
 }					t_map;
