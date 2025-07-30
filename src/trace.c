@@ -129,7 +129,6 @@ void	cast_rays(t_map *map)
 	w = 0;
 	h = 0;
 	while (w < map->img->width)
-	#pragma omp parallel
 	{
 		while (h < map->img->height)
 		{
