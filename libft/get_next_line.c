@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "libft.h"
 
-char    *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-    return (get_delim(fd, '\n'));
+	return (get_delim(fd, '\n'));
 }
 
 char	*get_delim(int fd, char dl)
 {
 	t_string	str;
-	char 		c;
+	char		c;
 
 	str.str = NULL;
 	str.len = 0;

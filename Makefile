@@ -5,7 +5,7 @@ INCLUDE_DIRS = libft
 INCLUDE = Makefile
 HEADER = declare.h minirt.h types.h
 HEADERS	= -Iinclude -IMLX42/include/MLX42
-CFLAGS = -Wall -Wextra -Werror -g2 -flto -O3 -ffast-math -march=native $(HEADERS)
+CFLAGS = -Wall -Wextra -Werror -flto -O3 -ffast-math -march=native $(HEADERS)
 MLX	= MLX42
 LIBFT = libft/libft.a
 LIBS = -L $(MLX)/build -lmlx42 -L libft -lft -ldl -lglfw -pthread -lm
@@ -39,7 +39,7 @@ fclean: clean
 	$(MAKE) libft fclean
 	rm -rf $(MLX)
 	rm -f $(NAME)
-re: clean all
+re: fclean all
 
 .PHONY:
 	all, libft, clean, flean, re, $(MLX)

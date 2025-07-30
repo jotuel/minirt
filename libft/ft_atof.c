@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-float ft_atof(const char *str)
+float	ft_atof(const char *str)
 {
-    uint32_t	integer;
+	uint32_t	integer;
 	uint32_t	fraction;
 	size_t		power;
 	float		sign;
