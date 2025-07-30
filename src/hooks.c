@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                     __     h  _ _  _| _    */
+/*   hooks.c                                        __/ \\__  i (_(_)(_|(/_   */
+/*                                                // \\__/ \\ v  _ _|_        */
+/*   By: ehaanpaa <ehaanpaa@student.hive.fi>      \\__/ \\__/ e _>(_| | --    */
+/*                                                // \\__/ \\ .  _  _ |       */
+/*   Created: 2025/07/30 18:57:16 by ehaanpaa     \\__/ \\__/ f (_)(_)|       */
+/*   Updated: 2025/07/30 18:57:16 by ehaanpaa        \\__/    i               */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minirt.h"
 
 /*
@@ -40,8 +52,8 @@ void	mouse_hook(mouse_key_t button, action_t action, modifier_key_t mods,
 	{
 		mlx_get_mouse_pos(map->mlx, &x, &y);
 		tmp = add(add(map->camera->p00,
-					scale(map->camera->pixel_delta_u, y)),
-				scale(map->camera->pixel_delta_v, x));
+					scale(map->camera->pixel_delta_u, x)),
+				scale(map->camera->pixel_delta_v, y));
 		ray = (t_ray){.origin = map->camera->lookfrom,
 			.dir = unit(subtract(tmp, map->camera->lookfrom))};
 		is = intersections(ray, map);
