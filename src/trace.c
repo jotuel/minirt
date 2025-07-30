@@ -47,10 +47,12 @@ t_isect	intersect_planes(t_ray r, t_object *pl, const unsigned int nbr)
 	{
 		tmp = intersect_plane(r, pl[i].plane);
 		if (tmp.t > 0.0 && tmp.t < is.t)
+		{
 			is = tmp;
-		is.color = pl[i].plane.color;
-		is.type = PLANE;
-		is.obj = &pl[i];
+			is.color = pl[i].plane.color;
+			is.type = PLANE;
+			is.obj = &pl[i];
+		}
 		i += 1;
 	}
 	return (is);
@@ -127,12 +129,13 @@ void	cast_rays(t_map *map)
 	w = 0;
 	h = 0;
 	while (w < map->img->width)
+	#pragma omp parallel
 	{
 		while (h < map->img->height)
 		{
 			p_cen = add(add(map->camera->p00,
-						scale(map->camera->pixel_delta_u, h)),
-					scale(map->camera->pixel_delta_v, w));
+						scale(map->camera->pixel_delta_u, w)),
+					scale(map->camera->pixel_delta_v, h));
 			ray = (t_ray){.origin = map->camera->lookfrom,
 				.dir = unit(subtract(p_cen, map->camera->lookfrom))};
 			mlx_put_pixel(map->img, w, h, color_ray(ray, map));
