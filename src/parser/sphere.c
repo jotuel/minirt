@@ -37,7 +37,7 @@ t_list	*sphere(char *line, t_list *lst, t_sphere sp)
 	bool	check;
 
 	split = split_and_check(line, '\t', 4, (void *[]){lst, NULL, line});
-	sp.radius = ft_atof(split[2]);
+	sp.radius = check_float(split[2]);
 	tmp = split_and_check(split[1], ',', 3, (void *[]){lst, split, line});
 	set_vec3(tmp, &sp.pos);
 	free_split(tmp);

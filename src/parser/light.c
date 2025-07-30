@@ -38,7 +38,7 @@ t_list	*light(char *line, t_list *lst, t_light light)
 	bool	check;
 
 	split = split_and_check(line, '\t', 4, (void *[]){lst, NULL, line});
-	light.intensity = ft_atof(split[2]);
+	light.intensity = check_float(split[2]);
 	tmp = split_and_check(split[1], ',', 3, (void *[]){lst, split, line});
 	set_vec3(tmp, &light.pos);
 	free_split(tmp);

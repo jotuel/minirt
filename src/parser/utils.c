@@ -12,26 +12,32 @@
 
 #include "../../include/minirt.h"
 
-bool	validate_orientation(t_vec3 orien)
+int	check_int(char *line)
 {
-	if (orien.x > 1. || orien.x < -1.)
-		return (false);
-	else if (orien.y > 1. || orien.y < -1.)
-		return (false);
-	else if (orien.z > 1. || orien.z < -1.)
-		return (false);
-	return (true);
+	int	i;
+
+	i = 0;
+	while (ft_isdigit(line[i]))
+		i++;
+	if (line[i])
+		return (-1);
+	return (ft_atoi(line));
 }
 
-bool	validate_line(char *line)
+float	check_float(char *line)
 {
-	char	*res;
+	int	i;
 
-	res = ft_strtrim(line, "ACLsplcy0123456789.,\t");
-	if (res[0] == '\n')
-		return (free(res), true);
-	else
-		return (free(res), false);
+	i = 0;
+	while (ft_isdigit(line[i]))
+		i++;
+	if (line[i] == '.')
+		i++;
+	while (ft_isdigit(line[i]))
+		i++;
+	if (line[i])
+		return (-1);
+	return (ft_atof(line));
 }
 
 void	free_split(char **split)

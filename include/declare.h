@@ -73,6 +73,8 @@ bool			has_alphabet(char *line);
 void			convert_cylinders(t_map *map);
 void 			convert_spheres(t_map *map);
 void			convert_camera(t_camera *cam);
+float			check_float(char *line);
+int				check_int(char *line);
 
 /* MATH */
 t_point			at(t_ray r, float t);

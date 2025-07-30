@@ -38,7 +38,7 @@ t_list	*ambient(char *line, t_list *lst, t_ambient amb)
 	bool	check;
 
 	split = split_and_check(line, '\t', 3, (void *[3]){lst, NULL, line});
-	amb.intensity = ft_atof(split[1]);
+	amb.intensity = check_float(split[1]);
 	colors = split_and_check(split[2], ',', 3, (void *[3]){lst, split, line});
 	check = set_colors(colors, &amb.color);
 	free_split(colors);

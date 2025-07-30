@@ -47,8 +47,8 @@ t_list	*cylinder(char *line, t_list *lst, t_cylinder cy)
 	free_split(tmp);
 	tmp = split_and_check(split[5], ',', 3, (void *[]){lst, split, line});
 	check = set_colors(tmp, &cy.color);
-	cy.radius = ft_atof(split[3]);
-	cy.height = ft_atof(split[4]);
+	cy.radius = check_float(split[3]);
+	cy.height = check_float(split[4]);
 	free_split(split);
 	free_split(tmp);
 	validate_cylinder(line, cy, lst, check);

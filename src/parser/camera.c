@@ -42,7 +42,7 @@ t_list	*camera(char *line, t_list *lst, t_camera cam)
 	char	**vec3;
 
 	split = split_and_check(line, '\t', 4, (void *[]){lst, NULL, line});
-	cam.fov = ft_atoi(split[3]);
+	cam.fov = check_int(split[3]);
 	vec3 = split_and_check(split[1], ',', 3, (void *[]){lst, split, line});
 	set_vec3(vec3, &cam.lookfrom);
 	free_split(vec3);
