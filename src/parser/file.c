@@ -52,8 +52,8 @@ static bool	trim_line(char *line)
 	{
 		if (ft_isspace(*line))
 			*line = '\t';
-		else if (ft_isalnum(*line) || *line == '.'
-			|| *line == ',' || *line == '-')
+		else if (ft_isalnum(*line) || *line == '.' || *line == ','
+			|| *line == '-')
 			;
 		else
 			return (true);
@@ -64,14 +64,24 @@ static bool	trim_line(char *line)
 
 static t_list	*file_parser(t_list *lst, int fd, char *line)
 {
+	t_list	*tmp;
+
+	if (!lst)
+		ft_error3(fd, NULL, line, "Memory allocation failed");
 	while (line)
 	{
 		if (*line && line[0] != '\t')
-			ft_lstadd_front(&lst, parse_line(line, lst));
+		{
+			tmp = parse_line(line, lst);
+			if (tmp)
+				ft_lstadd_front(&lst, tmp);
+			else
+				ft_error3(fd, &lst, line, "Memory allocation failed");
+		}
 		free(line);
 		line = get_next_line(fd);
 		if (trim_line(line))
-			ft_error(line, "Extra characters");
+			ft_error3(fd, &lst, line, "Extra characters");
 	}
 	close(fd);
 	return (lst);

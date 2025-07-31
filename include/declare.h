@@ -21,6 +21,7 @@
 void			ft_error(void *mem, char *msg);
 void			ft_error1(t_map *map, char *msg);
 void			ft_error2(t_list **lst, void *line, char *msg);
+void			ft_error3(int fd, t_list **lst, void *line, char *msg);
 
 /* CASTING RAYS */
 float			hit_sphere(t_ray r, t_sphere sp);

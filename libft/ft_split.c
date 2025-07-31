@@ -14,7 +14,8 @@
 
 static unsigned int	str_count(char *s, char c);
 static char			**free_mem(char **arr);
-static void			split(char **arr, char const *s, char c, unsigned int strs);
+static char			**split(char **arr, char const *s, char c,
+						unsigned int strs);
 
 char	**ft_split(char const *s, char c)
 {
@@ -27,11 +28,10 @@ char	**ft_split(char const *s, char c)
 	arr = ft_calloc(strs + 1, sizeof(char *));
 	if (!arr)
 		return (NULL);
-	split(arr, s, c, strs);
-	return (arr);
+	return (split(arr, s, c, strs));
 }
 
-static void	split(char **arr, char const *s, char c, unsigned int strs)
+static char	**split(char **arr, char const *s, char c, unsigned int strs)
 {
 	char	*ptr;
 	char	*ptr_nxt;
@@ -46,16 +46,13 @@ static void	split(char **arr, char const *s, char c, unsigned int strs)
 			ptr_nxt = ft_strchr(ptr, c);
 			arr[i] = ft_substr(s, ptr - s, ptr_nxt - ptr);
 			if (!arr[i++])
-			{
-				free_mem(arr);
-				break ;
-			}
+				return (free_mem(arr));
 			ptr = ptr_nxt;
 		}
 		else
 			++ptr;
 	}
-	return ;
+	return (arr);
 }
 
 static unsigned int	str_count(char *s, char c)
@@ -89,8 +86,11 @@ static unsigned int	str_count(char *s, char c)
 
 static char	**free_mem(char **arr)
 {
-	while (*arr)
-		free(*arr++);
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
 	free(arr);
 	return (NULL);
 }

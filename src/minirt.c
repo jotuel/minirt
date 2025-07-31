@@ -32,7 +32,7 @@ static bool	setup_mlx(t_map *map, int32_t *index)
 		return (false);
 	}
 	*index = mlx_image_to_window(map->mlx, map->img, 0, 0);
-	if (*index < 0)
+	if (*index == -1)
 	{
 		mlx_terminate(map->mlx);
 		mlx_delete_image(map->mlx, map->img);
@@ -63,6 +63,8 @@ static void	free_all(t_map *map)
 
 static int	init_scene(t_map *map, int32_t index)
 {
+	if (!map)
+		return (ft_putendl_fd("Error\nMemory allocation failure", 2), 1);
 	if (!(map->camera && map->ambient && map->light))
 	{
 		free_all(map);

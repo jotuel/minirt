@@ -46,3 +46,12 @@ void	ft_error2(t_list **lst, void *line, char *msg)
 	ft_lstclear(lst, free);
 	exit(EXIT_FAILURE);
 }
+
+void	ft_error3(int fd, t_list **lst, void *line, char *msg)
+{
+	ft_putendl_fd("Error", 2);
+	ft_putendl_fd(msg, 2);
+	ft_lstclear(lst, free);
+	free(line);
+	close(fd);
+}
