@@ -5,4 +5,5 @@ Made during summer of 2025 as part of studies at Hive, Helsinki. It is a very pr
 
 It turned out fine. Because of the implementation the [openmp](https://github.com/jotuel/minirt/tree/openmp) branch worked out quite nicely. Antialiasing & Monte Carlo Pathtracing are something that could still be experimented with there. As of writing, 27.7.25, only a few non-critical rendering issues are known; normal inside objects and cylinder second t-value make the cap leak light and disappear from view when viewed close enough.
 
-There also is a WIP [wasm](https://github.com/jotuel/minirt/tree/openmp) branch that compiles into wasm and js that runs on Node.js. 
+There also is a WIP [wasm](https://github.com/jotuel/minirt/tree/openmp) branch that compiles into wasm and js that runs on browser.
+<img width="1504" height="935" alt="Screenshot_2025-11-30_23-53-04" src="https://github.com/user-attachments/assets/88478f64-5c44-412e-834c-a41c68ef4007" />
